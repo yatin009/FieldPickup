@@ -44,6 +44,7 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
         holder.mDocketNumber.setText(docket.getDocketNumber());
         holder.mContact.setText(docket.getCustoumerContact());
         holder.mLocation.setText(docket.getCustoumerAddress());
+        holder.mCustomerName.setText(docket.getCustomerName());
         holder.mContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +73,7 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mDocketNumber;
+        public final TextView mCustomerName;
         public final TextView mContact;
         public final ImageButton mContactButton;
         public final TextView mLocation;
@@ -83,6 +85,7 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
             mContact = (TextView) itemView.findViewById(R.id.contact_number);
             mContactButton = (ImageButton) itemView.findViewById(R.id.call_user_button);
             mLocation = (TextView) itemView.findViewById(R.id.docket_location);
+            mCustomerName = (TextView) itemView.findViewById(R.id.customer_name);
         }
     }
 }
