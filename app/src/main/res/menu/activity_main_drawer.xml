@@ -10,6 +10,10 @@
             android:id="@+id/nav_sync"
             android:icon="@drawable/ic_sync_black_24dp"
             android:title="Sync" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_sync_black_24dp"
+            android:title="Log Out" />
 
     </group>
 

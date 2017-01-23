@@ -12,12 +12,14 @@ public class Docket implements Serializable{
     private String custoumerAddress;
     private String custoumerContact;
     private FieldData fieldData;
+    private String customerName;
 
-    public Docket(boolean isPending, String docketNumber, String custoumerAddress, String custoumerContact) {
+    public Docket(boolean isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName) {
         this.isPending = isPending;
         this.docketNumber = docketNumber;
         this.custoumerAddress = custoumerAddress;
         this.custoumerContact = custoumerContact;
+        this.customerName = customerName;
     }
 
     public boolean isPending() {
@@ -58,5 +60,13 @@ public class Docket implements Serializable{
 
     public void setFieldData(FieldData fieldData) {
         this.fieldData = fieldData;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
