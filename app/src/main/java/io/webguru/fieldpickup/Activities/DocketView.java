@@ -1,4 +1,4 @@
-package io.webguru.fieldpickup;
+package io.webguru.fieldpickup.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.POJO.Docket;
+import io.webguru.fieldpickup.R;
 
 public class DocketView extends AppCompatActivity {
 
