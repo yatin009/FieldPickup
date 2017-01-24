@@ -4,16 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.webguru.fieldpickup.Database.DocketDataSource;
+import io.webguru.fieldpickup.DocketDetailsView;
 import io.webguru.fieldpickup.DocketView;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.R;
@@ -26,6 +30,9 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
 
     ArrayList<Docket> dockets;
     Context context;
+
+
+
     public PendingDocketAdapter(ArrayList<Docket> dockets, Context context){
         this.dockets = dockets;
         this.context = context;
@@ -56,13 +63,18 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(docket.isPending()){
-                    Intent intent = new Intent(context, DocketView.class);
-                    intent.putExtra("Docket", docket);
-                    context.startActivity(intent);
-                }
+
+                Intent intent = new Intent(context, DocketDetailsView.class);
+                intent.putExtra("Docket", docket);
+                context.startActivity(intent);
+                DocketDataSource dataSource = new DocketDataSource(context);
+                dataSource.open();
+                Docket docket1 = dataSource.getDocket(docket.getId());
+                Log.i("DOCKET =====>  ", docket1.toString());
+                dataSource.close();
             }
         });
+
     }
 
     @Override

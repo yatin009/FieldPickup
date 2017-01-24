@@ -91,6 +91,8 @@ public class BlankFragment extends Fragment {
         public CharSequence getPageTitle(int position) {
             return tabs.get(position).getTitle();
         }
+
+
     }
 
 }

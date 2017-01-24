@@ -1,6 +1,7 @@
 package io.webguru.fieldpickup.Fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,8 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
 
     ArrayList<Docket> dockets;
 
+    private Context context;
+
     public PendingDocketsFragments() {
         // Required empty public constructor
     }
@@ -50,6 +53,7 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pending_dockets_fragments, container, false);
+        this.context = view.getContext();
         ButterKnife.bind(this, view);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.circlePVRim),
@@ -78,7 +82,7 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
     }
 
     private void getDocketList(final boolean isRefresh){
-        dockets = GlobalFunction.getDocketList(true);
+        dockets = GlobalFunction.getDocketList(1,context);
         loadRecyclerViewElements();
         if (isRefresh) {
             swipeRefreshLayout.setRefreshing(false);

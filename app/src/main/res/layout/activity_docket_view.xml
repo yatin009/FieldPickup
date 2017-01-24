@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="io.webguru.fieldpickup.DocketView">
 
-    //ToolBar
+
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
         android:layout_width="match_parent"
@@ -60,20 +60,23 @@
 
                 <TextView
                     style="@style/InputStyleNoMargin"
-                    android:text="Same product received?" />
+                    android:text="1. Same product received ?" />
 
                 <RadioGroup
+                    android:id="@+id/is_same_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="5dp">
 
                     <RadioButton
+                        android:id="@+id/is_same_product_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/is_same_product_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
@@ -88,9 +91,10 @@
 
             <TextView
                 style="@style/InputStyleNoMargin"
-                android:text="Quantity" />
+                android:text="2. Quantity" />
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/quantity"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp">
@@ -110,21 +114,24 @@
 
                 <TextView
                     style="@style/InputStyleNoMargin"
-                    android:text="All accessories/parts available with brand box?"
+                    android:text="3. All accessories/parts available ?"
                     android:inputType="textMultiLine"/>
 
                 <RadioGroup
+                    android:id="@+id/is_all_parts_available"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="5dp">
 
                     <RadioButton
+                        android:id="@+id/is_all_parts_available_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/is_all_parts_available_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
@@ -140,21 +147,24 @@
 
                 <TextView
                     style="@style/InputStyleNoMargin"
-                    android:text="Issue Category is Correct?"
+                    android:text="4. Issue Category is Correct ?"
                     android:maxLines="2"/>
 
                 <RadioGroup
+                    android:id="@+id/is_correct_issue_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="5dp">
 
                     <RadioButton
+                        android:id="@+id/is_correct_issue_category_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/is_correct_issue_category_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
@@ -170,25 +180,47 @@
 
                 <TextView
                     style="@style/InputStyleNoMargin"
-                    android:text="Product is not dirty/used?"
+                    android:text="5. Product is dirty/used ?"
                     android:maxLines="2"/>
 
                 <RadioGroup
+                    android:id="@+id/is_dirty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_margin="5dp">
 
                     <RadioButton
+                        android:id="@+id/is_dirty_yes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="YES" />
 
                     <RadioButton
+                        android:id="@+id/is_dirty_no"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NO" />
                 </RadioGroup>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
+
+                <TextView
+                    style="@style/InputStyleNoMargin"
+                    android:text="6. Remarks"
+                    android:maxLines="2"/>
+
+                <EditText
+                    android:id="@+id/remarks"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Remarks"
+                    />
 
             </LinearLayout>
 

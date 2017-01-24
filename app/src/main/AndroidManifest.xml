@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".DocketView"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".DocketDetailsView"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
     </application>
 
 </manifest>

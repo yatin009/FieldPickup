@@ -7,26 +7,32 @@ import java.io.Serializable;
  */
 
 public class Docket implements Serializable{
-    private boolean isPending;
+    private long id;
+    private Integer isPending;
     private String docketNumber;
     private String custoumerAddress;
     private String custoumerContact;
     private FieldData fieldData;
     private String customerName;
+    private String description;
 
-    public Docket(boolean isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName) {
+    public Docket(Integer isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName, String description) {
         this.isPending = isPending;
         this.docketNumber = docketNumber;
         this.custoumerAddress = custoumerAddress;
         this.custoumerContact = custoumerContact;
         this.customerName = customerName;
+        this.description = description;
     }
 
-    public boolean isPending() {
+    public Docket() {
+    }
+
+    public Integer isPending() {
         return isPending;
     }
 
-    public void setPending(boolean pending) {
+    public void setPending(Integer pending) {
         isPending = pending;
     }
 
@@ -68,5 +74,35 @@ public class Docket implements Serializable{
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Docket{" +
+                "id=" + id +
+                ", isPending=" + isPending +
+                ", docketNumber='" + docketNumber + '\'' +
+                ", custoumerAddress='" + custoumerAddress + '\'' +
+                ", custoumerContact='" + custoumerContact + '\'' +
+                ", fieldData=" + fieldData +
+                ", customerName='" + customerName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

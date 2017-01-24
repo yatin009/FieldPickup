@@ -7,28 +7,34 @@ import java.io.Serializable;
  */
 
 public class FieldData implements Serializable{
-    private boolean sameProduct;
+    private Long id;
+    private boolean isSameProduct;
     private int quantity;
-    private boolean accessory;
-    private boolean issueCateogary;
-    private boolean productUsed;
-    private String agentRemark;
+    private boolean isAllPartsAvailable;
+    private boolean isIssueCategoryCorrect;
+    private boolean isProductDirty;
+    private String agentRemarks;
+    private Long docketId;
 
-    public FieldData(boolean sameProduct, int quantity, boolean accessory, boolean issueCateogary, boolean productUsed, String agentRemark) {
-        this.sameProduct = sameProduct;
+    public FieldData(boolean isSameProduct, int quantity, boolean isAllPartsAvailable, boolean isIssueCategoryCorrect, boolean isProductDirty, String agentRemarks,Long docketId) {
+        this.isSameProduct = isSameProduct;
         this.quantity = quantity;
-        this.accessory = accessory;
-        this.issueCateogary = issueCateogary;
-        this.productUsed = productUsed;
-        this.agentRemark = agentRemark;
+        this.isAllPartsAvailable = isAllPartsAvailable;
+        this.isIssueCategoryCorrect = isIssueCategoryCorrect;
+        this.isProductDirty = isProductDirty;
+        this.agentRemarks = agentRemarks;
+        this.docketId = docketId;
+    }
+
+    public FieldData() {
     }
 
     public boolean isSameProduct() {
-        return sameProduct;
+        return isSameProduct;
     }
 
     public void setSameProduct(boolean sameProduct) {
-        this.sameProduct = sameProduct;
+        isSameProduct = sameProduct;
     }
 
     public int getQuantity() {
@@ -39,35 +45,65 @@ public class FieldData implements Serializable{
         this.quantity = quantity;
     }
 
-    public boolean isAccessory() {
-        return accessory;
+    public boolean isAllPartsAvailable() {
+        return isAllPartsAvailable;
     }
 
-    public void setAccessory(boolean accessory) {
-        this.accessory = accessory;
+    public void setAllPartsAvailable(boolean allPartsAvailable) {
+        isAllPartsAvailable = allPartsAvailable;
     }
 
-    public boolean issueCateogary() {
-        return issueCateogary;
+    public boolean issueCategoryCorrect() {
+        return isIssueCategoryCorrect;
     }
 
-    public void setIssueCateogary(boolean issueCateogary) {
-        this.issueCateogary = issueCateogary;
+    public void setIssueCategoryCorrect(boolean issueCategoryCorrect) {
+        isIssueCategoryCorrect = issueCategoryCorrect;
     }
 
-    public boolean isProductUsed() {
-        return productUsed;
+    public boolean isProductDirty() {
+        return isProductDirty;
     }
 
-    public void setProductUsed(boolean productUsed) {
-        this.productUsed = productUsed;
+    public void setProductDirty(boolean productDirty) {
+        isProductDirty = productDirty;
     }
 
-    public String getAgentRemark() {
-        return agentRemark;
+    public String getAgentRemarks() {
+        return agentRemarks;
     }
 
-    public void setAgentRemark(String agentRemark) {
-        this.agentRemark = agentRemark;
+    public void setAgentRemarks(String agentRemarks) {
+        this.agentRemarks = agentRemarks;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getDocketId() {
+        return docketId;
+    }
+
+    public void setDocketId(Long docketId) {
+        this.docketId = docketId;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", isSameProduct=" + isSameProduct +
+                ", quantity=" + quantity +
+                ", isAllPartsAvailable=" + isAllPartsAvailable +
+                ", isIssueCategoryCorrect=" + isIssueCategoryCorrect +
+                ", isProductDirty=" + isProductDirty +
+                ", agentRemarks='" + agentRemarks + '\'' +
+                ", docketId=" + docketId +
+                '}';
     }
 }
