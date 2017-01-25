@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import butterknife.OnClick;
 
@@ -67,18 +68,22 @@ public class LoginActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
+
                         onLoginSuccess(user,psw);
                     }
-                }, 3000);
+                }, 2000);
 
     }
     public void onLoginSuccess(String user, String psw){
-        if(user.equals("admin") && psw.equals("admin")){
+        hideProgressDialog();
+//        if(user.equals("admin") && psw.equals("admin")){
             Intent i = new Intent(this, MainActivity.class);
             finish();
-            hideProgressDialog();
             startActivity(i);
-        }
+            Toast.makeText(this, "Login Successful...", Toast.LENGTH_LONG).show();
+//        } else {
+//            Toast.makeText(this, "Invalid Username or password!", Toast.LENGTH_LONG).show();
+//        }
     }
 
     public void showProgressDialog() {
@@ -86,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog.setMessage("Authenticating...");
             mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.show();
         }
 
