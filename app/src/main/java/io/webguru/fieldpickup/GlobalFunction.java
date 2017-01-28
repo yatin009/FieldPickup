@@ -1,8 +1,8 @@
 package io.webguru.fieldpickup;
 
 import android.content.Context;
-import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -86,11 +86,10 @@ public class GlobalFunction {
         return dockets;
     }
 
-    public static FieldData getFieldData(Long docketId, Context context){
+    public static FieldData getFieldData(Long docketId, Context context) throws IOException {
         fieldDataDataSource = new FieldDataDataSource(context);
         fieldDataDataSource.open();
         FieldData fieldData = fieldDataDataSource.getFieldData(docketId);
-        Log.i("==============>>>>>> ",fieldData.toString());
         return fieldData;
     }
 }

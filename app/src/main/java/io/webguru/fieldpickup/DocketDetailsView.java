@@ -1,18 +1,22 @@
 package io.webguru.fieldpickup;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.webguru.fieldpickup.AndroidSlidingTab.SlidingTabLayout;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
-import io.webguru.fieldpickup.Fragments.BlankFragment;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 
@@ -24,8 +28,6 @@ public class DocketDetailsView extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
-
 
     Docket docket;
     TextView customerName;
@@ -39,10 +41,7 @@ public class DocketDetailsView extends AppCompatActivity {
     TextView is_correct_issue_category_details;
     TextView is_dirty_details;
     TextView remarks_details;
-
-
-    SlidingTabLayout slidingTabLayout;
-
+    ImageView imageView;
 
     private LinearLayout updateButtonLayout;
     private LinearLayout capturedDetailsLayout;
@@ -61,6 +60,8 @@ public class DocketDetailsView extends AppCompatActivity {
         }
 
         if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
             customerName = (TextView) findViewById(R.id.customer_name);
             contactNumber = (TextView) findViewById(R.id.contact_number);
             address = (TextView) findViewById(R.id.address);
@@ -78,11 +79,14 @@ public class DocketDetailsView extends AppCompatActivity {
             address.setText(docket.getCustoumerAddress());
             productDescription.setText(docket.getDescription());
 
-            BlankFragment blankFragment = new BlankFragment();
-
             fieldDataDataSource = new FieldDataDataSource(this);
             fieldDataDataSource.open();
-            FieldData fieldData = fieldDataDataSource.getFieldData(docket.getId());
+            FieldData fieldData = null;
+            try {
+                fieldData = fieldDataDataSource.getFieldData(docket.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             fieldDataDataSource.close();
             if(fieldData != null){
                 is_same_product_details = (TextView) findViewById(R.id.is_same_product_details);
@@ -91,15 +95,20 @@ public class DocketDetailsView extends AppCompatActivity {
                 is_correct_issue_category_details = (TextView) findViewById(R.id.is_correct_issue_category_details);
                 is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
                 remarks_details = (TextView) findViewById(R.id.remarks_details);
+                imageView = (ImageView) findViewById(R.id.capturedImageView);
 
-                is_same_product_details.setText(fieldData.isSameProduct() ? "YES" : "NO");
+                is_same_product_details.setText(fieldData.getIsSameProduct());
                 quantity_details.setText(fieldData.getQuantity()+"");
-                is_all_parts_available_details.setText(fieldData.isAllPartsAvailable() ? "YES" : "NO");
-                is_correct_issue_category_details.setText(fieldData.issueCategoryCorrect() ? "YES" : "NO");
-                is_dirty_details.setText(fieldData.isProductDirty() ? "YES" : "NO");
+                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
+                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
+                is_dirty_details.setText(fieldData.getIsProductDirty());
                 remarks_details.setText(fieldData.getAgentRemarks());
+                File f = Environment.getExternalStoragePublicDirectory("Field Pickup/"+docket.getDocketNumber()+".jpeg");
+                Uri uri = Uri.parse(f.getAbsolutePath());
+                imageView.setImageURI(uri);
             }
             getSupportActionBar().setTitle(docket.getDocketNumber());
+
         }
     }
 

@@ -67,11 +67,6 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
                 Intent intent = new Intent(context, DocketDetailsView.class);
                 intent.putExtra("Docket", docket);
                 context.startActivity(intent);
-                DocketDataSource dataSource = new DocketDataSource(context);
-                dataSource.open();
-                Docket docket1 = dataSource.getDocket(docket.getId());
-                Log.i("DOCKET =====>  ", docket1.toString());
-                dataSource.close();
             }
         });
 

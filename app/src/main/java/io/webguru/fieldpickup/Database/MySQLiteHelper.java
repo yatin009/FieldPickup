@@ -36,25 +36,15 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + ");";
 
     public static final String TABLE_FIELD_DATA = "field_data";
-    public static final String COLUMN_IS_SAME_PRODUCT_RECEIVED = "is_same_product_received";
-    public static final String COLUMN_QUANTITY = "quantity";
-    public static final String COLUMN_IS_ALL_PARTS_AVAILABLE = "is_all_parts_available";
-    public static final String COLUMN_IS_ISSUE_CATEGORY_CORRECT = "is_issue_category_correct";
-    public static final String COLUMN_IS_PRODUCT_DIRTY = "is_product_dirty";
-    public static final String COLUMN_AGENT_REMARKS = "agent_remarks";
     public static final String COLUMN_DOCKET_ID = "docket_id";
+    public static final String COLUMN_FIELD_DATA_JSON = "field_data_json";
 
 
     private static final String CREATE_TABLE_FIELD_DATA = "create table "
             + TABLE_FIELD_DATA + "( " + COLUMN_ID
             + " integer primary key autoincrement, "
-            + COLUMN_IS_SAME_PRODUCT_RECEIVED + " inetger,"
-            + COLUMN_QUANTITY + " inetger,"
-            + COLUMN_IS_ALL_PARTS_AVAILABLE + " inetger,"
-            + COLUMN_IS_ISSUE_CATEGORY_CORRECT + " inetger,"
-            + COLUMN_IS_PRODUCT_DIRTY + " inetger,"
-            + COLUMN_AGENT_REMARKS + " text,"
-            + COLUMN_DOCKET_ID + " inetger"
+            + COLUMN_DOCKET_ID + " inetger, "
+            + COLUMN_FIELD_DATA_JSON + " text"
             + ");";
 
     public MySQLiteHelper(Context context) {

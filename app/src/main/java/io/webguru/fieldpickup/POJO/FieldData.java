@@ -6,17 +6,17 @@ import java.io.Serializable;
  * Created by yatin on 21/01/17.
  */
 
-public class FieldData implements Serializable{
+public class FieldData{
     private Long id;
-    private boolean isSameProduct;
+    private String isSameProduct;
     private int quantity;
-    private boolean isAllPartsAvailable;
-    private boolean isIssueCategoryCorrect;
-    private boolean isProductDirty;
+    private String isAllPartsAvailable;
+    private String isIssueCategoryCorrect;
+    private String isProductDirty;
     private String agentRemarks;
     private Long docketId;
 
-    public FieldData(boolean isSameProduct, int quantity, boolean isAllPartsAvailable, boolean isIssueCategoryCorrect, boolean isProductDirty, String agentRemarks,Long docketId) {
+    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductDirty, String agentRemarks,Long docketId) {
         this.isSameProduct = isSameProduct;
         this.quantity = quantity;
         this.isAllPartsAvailable = isAllPartsAvailable;
@@ -29,11 +29,11 @@ public class FieldData implements Serializable{
     public FieldData() {
     }
 
-    public boolean isSameProduct() {
+    public String getIsSameProduct() {
         return isSameProduct;
     }
 
-    public void setSameProduct(boolean sameProduct) {
+    public void setIsSameProduct(String sameProduct) {
         isSameProduct = sameProduct;
     }
 
@@ -45,27 +45,27 @@ public class FieldData implements Serializable{
         this.quantity = quantity;
     }
 
-    public boolean isAllPartsAvailable() {
+    public String getIsAllPartsAvailable() {
         return isAllPartsAvailable;
     }
 
-    public void setAllPartsAvailable(boolean allPartsAvailable) {
+    public void setIsAllPartsAvailable(String allPartsAvailable) {
         isAllPartsAvailable = allPartsAvailable;
     }
 
-    public boolean issueCategoryCorrect() {
+    public String getIsIssueCategoryCorrect() {
         return isIssueCategoryCorrect;
     }
 
-    public void setIssueCategoryCorrect(boolean issueCategoryCorrect) {
+    public void setIsIssueCategoryCorrect(String issueCategoryCorrect) {
         isIssueCategoryCorrect = issueCategoryCorrect;
     }
 
-    public boolean isProductDirty() {
+    public String getIsProductDirty() {
         return isProductDirty;
     }
 
-    public void setProductDirty(boolean productDirty) {
+    public void setIsProductDirty(String productDirty) {
         isProductDirty = productDirty;
     }
 
