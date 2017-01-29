@@ -5,7 +5,7 @@
     android:id="@+id/activity_docket_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="io.webguru.fieldpickup.DocketDetailsView">
+    tools:context="io.webguru.fieldpickup.Activities.DocketDetailsView">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/toolbar_layout"
@@ -132,6 +132,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_margin="10dp">
+
+
 
                     <TextView
                         style="@style/LabelStyleNoMargin"

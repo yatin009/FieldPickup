@@ -9,10 +9,10 @@
         <item
             android:id="@+id/nav_sync"
             android:icon="@drawable/ic_sync_black_24dp"
-            android:title="Sync" />
+            android:title="Sync Updates" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_sync_black_24dp"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="Log Out" />
 
     </group>

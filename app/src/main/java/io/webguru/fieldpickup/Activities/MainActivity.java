@@ -1,6 +1,11 @@
-package io.webguru.fieldpickup;
+package io.webguru.fieldpickup.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -11,12 +16,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import io.webguru.fieldpickup.Fragments.BlankFragment;
+import io.webguru.fieldpickup.R;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +95,39 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.content_main, fragment);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_sync) {
-
+            showProgressDialog();
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    if (mProgressDialog != null) {
+                        mProgressDialog.dismiss();
+                    }
+                    Toast.makeText(MainActivity.this, "Synced Successfully", Toast.LENGTH_LONG).show();
+                }
+            }, 3000);
+        } else if(id == R.id.nav_logout){
+            SharedPreferences sharedPref = (MainActivity.this).getSharedPreferences(getString(R.string.login_status),Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("isLogged", false);
+            editor.apply();
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    public void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Syncing Updates…");
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
 
 }

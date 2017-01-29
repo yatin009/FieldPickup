@@ -1,4 +1,4 @@
-package io.webguru.fieldpickup;
+package io.webguru.fieldpickup.Activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,9 +16,11 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.Activities.DocketView;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.R;
 
 /**
  * Created by mahto on 24/1/17.
@@ -45,6 +47,8 @@ public class DocketDetailsView extends AppCompatActivity {
 
     private LinearLayout updateButtonLayout;
     private LinearLayout capturedDetailsLayout;
+
+    private static final int CONTENT_REQUEST=1337;
 
     private static FieldDataDataSource fieldDataDataSource;
 
@@ -116,7 +120,7 @@ public class DocketDetailsView extends AppCompatActivity {
     public void openUpdateDocket(){
         Intent intent = new Intent(this, DocketView.class);
         intent.putExtra("Docket", docket);
-        startActivity(intent);
+        startActivityForResult(intent,CONTENT_REQUEST);
     }
 
 }

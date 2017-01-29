@@ -1,4 +1,4 @@
-package io.webguru.fieldpickup;
+package io.webguru.fieldpickup.Activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +28,7 @@ import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.R;
 
 public class DocketView extends AppCompatActivity {
 
@@ -149,14 +150,14 @@ public class DocketView extends AppCompatActivity {
                     return;
                 }
 
-                FieldData fielData = new FieldData(isSameProduct,qunt,isAllPartsAvailable,isCorrectIssueCategory,isDirty,remarksByFe,docket.getId());
+                FieldData fieldData = new FieldData(isSameProduct,qunt,isAllPartsAvailable,isCorrectIssueCategory,isDirty,remarksByFe,docket.getId());
 
                 fieldDataDataSource = new FieldDataDataSource(this);
                 fieldDataDataSource.open();
-                fieldDataDataSource.insertFieldData(fielData);
+                fieldDataDataSource.insertFieldData(fieldData);
                 docketDataSource = new DocketDataSource(this);
                 docketDataSource.open();
-                docketDataSource.markDocketDocketAsDone(docket.getId());
+                docketDataSource.markDocketAsDone(docket.getId());
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -170,6 +171,7 @@ public class DocketView extends AppCompatActivity {
         }
         finish();
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("Docket", docket);
         startActivity(intent);
     }
 

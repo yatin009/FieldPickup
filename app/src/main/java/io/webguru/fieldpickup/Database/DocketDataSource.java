@@ -91,7 +91,7 @@ public class DocketDataSource {
         return docket;
     }
 
-    public Docket markDocketDocketAsDone(Long docketId) {
+    public Docket markDocketAsDone(Long docketId) {
 
         Docket docket = null;
         Cursor cursor = database.rawQuery("update dockets set is_pending = 0 where _id = ?", new String[] { docketId+"" });
