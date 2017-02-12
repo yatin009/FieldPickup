@@ -1,12 +1,21 @@
 <resources>
-    <string name="app_name">FieldPickup</string>
+    <string name="app_name">SAP Pickup</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="sync_updates">Sync Updates</string>
+    <string name="fetch_updates">Fetch Updates</string>
 
     <string name="login_status">LOGINSTATUS</string>
+    <string name="JSESSION_ID">JSESSION_ID</string>
+    <string name="HAZELCAST_SESSION_ID">hazelcast.sessionId</string>
+    <string name="CSRF_TOKEN">CSRF-TOKEN</string>
+
+
+    <string name="DISPLAY_USER_NAME">DISPLAY_USER_NAME</string>
+    <string name="DISPLAY_USER_EMAIL">DISPLAY_USER_EMAIL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -24,4 +33,11 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <string-array name="status_array">
+        <item>Tap To Select</item>
+        <item>Ready To Pick</item>
+        <item>Reschedule Pickup</item>
+        <item>Door is Locked</item>
+    </string-array>
 </resources>

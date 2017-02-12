@@ -2,10 +2,12 @@ package io.webguru.fieldpickup.Fragments;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +32,24 @@ public class BlankFragment extends Fragment {
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-    ArrayList<Tab> tabs;
+    static ArrayList<Tab> tabs;
 
     public BlankFragment() {
         // Required empty public constructor
+    }
+
+    public static Tab getTab(String title){
+        Tab tab = null;
+        for(Tab tab1 : tabs){
+            if(tab1.getTitle().equals(title)){
+                tab = tab1;
+            }
+        }
+        return tab;
+    }
+
+    public static ArrayList<Tab> getAllTab(){
+        return tabs;
     }
 
 

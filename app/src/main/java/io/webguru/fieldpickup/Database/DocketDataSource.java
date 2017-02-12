@@ -26,7 +26,8 @@ public class DocketDataSource {
             MySQLiteHelper.COLUMN_CONTACT_NUMBER,
             MySQLiteHelper.COLUMN_ADDRESS,
             MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION,
-            MySQLiteHelper.COLUMN_IS_PENDING
+            MySQLiteHelper.COLUMN_IS_PENDING,
+            MySQLiteHelper.COLUMN_IS_SYNCED
     };
 
     public DocketDataSource(Context context) {
@@ -49,6 +50,7 @@ public class DocketDataSource {
         values.put(MySQLiteHelper.COLUMN_ADDRESS, address);
         values.put(MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION, productDescription);
         values.put(MySQLiteHelper.COLUMN_IS_PENDING, isPending);
+        values.put(MySQLiteHelper.COLUMN_IS_SYNCED, 0);
         long insertId = database.insert(MySQLiteHelper.TABLE_DOCKETS, null,
                 values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_DOCKETS,
@@ -106,6 +108,31 @@ public class DocketDataSource {
         return docket;
     }
 
+    public int markDocketsAsSynced(List<Long> docketIdList) {
+
+        if(docketIdList == null || docketIdList.isEmpty()){
+            return 0;
+        }
+        String str = "";
+        for(Long id : docketIdList){
+            if(!str.equals("")){
+                str += ",";
+            }
+            str +=id;
+        }
+
+        Cursor cursor = database.rawQuery("update dockets set is_synced = 1 where _id in (" + str + ")", null);
+
+        int count = 0;
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            count++;
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return count;
+    }
+
     private Docket cursorToDocket(Cursor cursor) {
         Docket docket = new Docket();
         docket.setId(cursor.getLong(0));
@@ -115,6 +142,7 @@ public class DocketDataSource {
         docket.setCustoumerAddress(cursor.getString(4));
         docket.setDescription(cursor.getString(5));
         docket.setPending(cursor.getInt(6));
+        docket.setIsSynced(cursor.getInt(7));
         return docket;
     }
 

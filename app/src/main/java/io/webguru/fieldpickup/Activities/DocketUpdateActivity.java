@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +34,35 @@ import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
 
-public class DocketView extends AppCompatActivity {
+/**
+ * Created by mahto on 24/1/17.
+ */
+
+public class DocketUpdateActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
     Docket docket;
+    TextView customerName;
+    TextView contactNumber;
+    TextView address;
+    TextView productDescription;
+
+    TextView is_same_product_details;
+    TextView quantity_details;
+    TextView is_all_parts_available_details;
+    TextView is_correct_issue_category_details;
+    TextView is_dirty_details;
+    TextView remarks_details;
+    TextView status;
+    ImageView imageView;
+
+    private LinearLayout qualityCheckLayout;
+    private LinearLayout capturedDetailsLayout;
+
+    private static FieldDataDataSource fieldDataDataSource;
+    private static DocketDataSource docketDataSource;
 
     private static final int CONTENT_REQUEST=1337;
     File output = null;
@@ -51,26 +78,81 @@ public class DocketView extends AppCompatActivity {
     RadioButton isCorrectIssueCategoryRadioButton;
     RadioButton isDirtyRadioButton;
 
-    private static FieldDataDataSource fieldDataDataSource;
-    private static DocketDataSource docketDataSource;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_docket_view);
+        setContentView(R.layout.activity_update_docket);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
             docket = (Docket) bundle.get("Docket");
         }
+
         if(getSupportActionBar()!=null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle(docket.getDocketNumber());
-        }
 
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+            customerName = (TextView) findViewById(R.id.customer_name);
+            contactNumber = (TextView) findViewById(R.id.contact_number);
+            address = (TextView) findViewById(R.id.address);
+            productDescription = (TextView) findViewById(R.id.product_description);
+
+            if(docket.isPending() == 1){
+                capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
+                capturedDetailsLayout.setVisibility(LinearLayout.GONE);
+            } else {
+                qualityCheckLayout = (LinearLayout)this.findViewById(R.id.qc_layout);
+                qualityCheckLayout.setVisibility(LinearLayout.GONE);
+            }
+            customerName.setText(docket.getCustomerName());
+            contactNumber.setText(docket.getCustoumerContact());
+            address.setText(docket.getCustoumerAddress());
+            productDescription.setText(docket.getDescription());
+
+            fieldDataDataSource = new FieldDataDataSource(this);
+            fieldDataDataSource.open();
+            FieldData fieldData = null;
+            try {
+                fieldData = fieldDataDataSource.getFieldData(docket.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            fieldDataDataSource.close();
+            if(fieldData != null){
+                is_same_product_details = (TextView) findViewById(R.id.is_same_product_details);
+                quantity_details = (TextView) findViewById(R.id.quantity_details);
+                is_all_parts_available_details = (TextView) findViewById(R.id.is_all_parts_available_details);
+                is_correct_issue_category_details = (TextView) findViewById(R.id.is_correct_issue_category_details);
+                is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
+                remarks_details = (TextView) findViewById(R.id.remarks_details);
+                status = (TextView) findViewById(R.id.status);
+                imageView = (ImageView) findViewById(R.id.capturedImageView);
+
+                is_same_product_details.setText(fieldData.getIsSameProduct());
+                quantity_details.setText(fieldData.getQuantity()+"");
+                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
+                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
+                is_dirty_details.setText(fieldData.getIsProductDirty());
+                remarks_details.setText(fieldData.getAgentRemarks());
+                status.setText(fieldData.getStatus());
+                File f = Environment.getExternalStoragePublicDirectory("Field Pickup/"+docket.getDocketNumber()+".jpeg");
+                Uri uri = Uri.parse(f.getAbsolutePath());
+                imageView.setImageURI(uri);
+            }
+            getSupportActionBar().setTitle(docket.getDocketNumber());
+
+        }
     }
+
+
 
     @OnClick(R.id.image)
     public void captureImage() {
@@ -88,11 +170,13 @@ public class DocketView extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode,Intent data) {
         if (requestCode == CONTENT_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ImageView imageView = (ImageView) findViewById(R.id.capturedImageView);
+                ImageView imageView = (ImageView) findViewById(R.id.capturedImage);
+                imageView.setImageDrawable(null);
                 Bitmap photo = BitmapFactory.decodeFile(output.getAbsolutePath());
                 photo = Bitmap.createScaledBitmap(photo, 600, 600, true);
                 Bundle bundle = getIntent().getExtras();
@@ -151,7 +235,7 @@ public class DocketView extends AppCompatActivity {
                 }
 
                 FieldData fieldData = new FieldData(isSameProduct,qunt,isAllPartsAvailable,isCorrectIssueCategory,isDirty,remarksByFe,docket.getId());
-
+                fieldData.setStatus("Package Picked");
                 fieldDataDataSource = new FieldDataDataSource(this);
                 fieldDataDataSource.open();
                 fieldDataDataSource.insertFieldData(fieldData);
@@ -170,16 +254,13 @@ public class DocketView extends AppCompatActivity {
             }
         }
         finish();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("Docket", docket);
-        startActivity(intent);
     }
 
     private boolean validateCapturedData(String isSameProduct,int quantity,String isAllPartsAvailable,String isCorrectIssueCategory,
-                                      String isDirty,String remarksByFe){
+                                         String isDirty,String remarksByFe){
         boolean isAnyError = false;
 
-        ImageView imageView = (ImageView) findViewById(R.id.capturedImageView);
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage);
         boolean hasDrawable = (imageView.getDrawable() != null);
 
         if(isSameProduct == null || isSameProduct.equals("")){
@@ -219,5 +300,6 @@ public class DocketView extends AppCompatActivity {
         }
         return path;
     }
+
 
 }

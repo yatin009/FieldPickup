@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,14 +18,30 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.http.Header;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.ApiHandler.ApiRequestHandler;
 import io.webguru.fieldpickup.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,6 +60,12 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.check_remember)
     CheckBox mRememberCheckBox;
 
+    Context context;
+
+
+    private TextView userDisplayNameView;
+    private TextView userDisplayEmailView;
+
     int REQUEST_PERMISSIONS;
 
     private String TAG = "SPLASHSCREEN";
@@ -55,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermissions();
+        context = this;
         Log.d(TAG,"checkLoginStatus() >>>> "+checkLoginStatus());
         if(checkLoginStatus()) {
             redirectToMainActivity();
@@ -119,11 +143,11 @@ public class LoginActivity extends AppCompatActivity {
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUsername;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
+        UserLoginTask(String mUsername, String password) {
+            this.mUsername = mUsername;
             mPassword = password;
         }
 
@@ -133,11 +157,15 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
                 // Simulate network access.
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 return true;
             }
+            if(!mUsername.toLowerCase().equals("test") || !mPassword.toLowerCase().equals("test")){
+                return false;
+            }
 
+            authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
             SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.login_status),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean("isLogged", true);
@@ -151,6 +179,8 @@ public class LoginActivity extends AppCompatActivity {
             hideProgressDialog();
             if (success) {
                 redirectToMainActivity();
+            } else {
+                Toast.makeText(context, "Invalid username or password", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -168,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Loading…");
+            mProgressDialog.setMessage("Authenticating…");
             mProgressDialog.setIndeterminate(true);
         }
 
@@ -200,5 +230,82 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+    public static int authenticateUserOnServer(String username, String password, Context context) {
+
+        SharedPreferences sharedPreferences1 = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+        editor1.putString(context.getString(R.string.DISPLAY_USER_NAME), "Test User");
+        editor1.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "testuser@gmail.com");
+        editor1.commit();
+
+        List<NameValuePair> formData = new ArrayList<NameValuePair>();
+        formData.add(new BasicNameValuePair("j_username", username));
+        formData.add(new BasicNameValuePair("j_password", password));
+        formData.add(new BasicNameValuePair("remember-me", "false"));
+        formData.add(new BasicNameValuePair("submit", "Login"));
+        HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/authentication", formData, null, context);
+        int StatusCode = 401;
+
+        try {
+            String responseMessage;
+            if (httpResponse != null) {
+                StatusCode = httpResponse.getStatusLine().getStatusCode();
+                responseMessage = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+                if(StatusCode == 200){
+                    SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Header[] headers = httpResponse.getHeaders("Set-Cookie");
+
+                    String value = null;
+
+                    for (Header h : headers) {
+                        value = h.getValue().toString();
+                        String[] param = value.split(";");
+                        String[] val = param[0].split("=");
+                        if(val[0].contains("JSESSIONID")){
+                            editor.putString(context.getString(R.string.JSESSION_ID), val[1]);
+                        } else if(val[0].contains("hazelcast.sessionId")){
+                            editor.putString(context.getString(R.string.HAZELCAST_SESSION_ID), val[1]);
+                        } else if(val[0].contains("CSRF-TOKEN")){
+                            editor.putString(context.getString(R.string.CSRF_TOKEN), val[1]);
+                        }
+                    }
+
+                    editor.putString(context.getString(R.string.DISPLAY_USER_NAME), "Test User");
+                    editor.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "testuser@gmail.com");
+                    editor.commit();
+                    HttpResponse httpResponse1 = ApiRequestHandler.makeServiceCall("app/account", null, null, context);
+                    responseMessage = EntityUtils.toString(httpResponse1.getEntity(), "UTF-8");
+                    Log.i("Response------ ",responseMessage);
+                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
+
+                } else if (StatusCode == 401 && (!"".equals(responseMessage))) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseMessage);
+                        if (jsonObject.length() != 0) {
+                            if (jsonObject.has("message")) {
+                                if (jsonObject.getString("message").equalsIgnoreCase("Wrong credentials! Try again."))
+                                    StatusCode = 401;
+                                else if (jsonObject.getString("message").equalsIgnoreCase("User already logged-in. Logout first and try again."))
+                                    StatusCode = 1201;
+                                else if (jsonObject.getString("message").equalsIgnoreCase("User locked! Try after 15 minutes."))
+                                    StatusCode = 1203;
+                                return StatusCode;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            StatusCode = 500;
+            e.printStackTrace();
+        }
+        return StatusCode;
+    }
+
 }
 

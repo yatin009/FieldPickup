@@ -19,6 +19,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ADDRESS = "address";
     public static final String COLUMN_PRODUCT_DESCRIPTION = "description";
     public static final String COLUMN_IS_PENDING = "is_pending";
+    public static final String COLUMN_IS_SYNCED = "is_synced";
 
     private static final String DATABASE_NAME = "field_pickup";
     private static final int DATABASE_VERSION = 1;
@@ -32,7 +33,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_CONTACT_NUMBER + " text not null,"
             + COLUMN_ADDRESS + " text not null,"
             + COLUMN_PRODUCT_DESCRIPTION + " text not null,"
-            + COLUMN_IS_PENDING + " integer not null"
+            + COLUMN_IS_PENDING + " integer not null,"
+            + COLUMN_IS_SYNCED + " integer not null"
             + ");";
 
     public static final String TABLE_FIELD_DATA = "field_data";

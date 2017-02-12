@@ -15,6 +15,8 @@ public class FieldData{
     private String isProductDirty;
     private String agentRemarks;
     private Long docketId;
+    private String rescheduleDate;
+    private String status;
 
     public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductDirty, String agentRemarks,Long docketId) {
         this.isSameProduct = isSameProduct;
@@ -93,17 +95,35 @@ public class FieldData{
         this.docketId = docketId;
     }
 
+    public String getRescheduleDate() {
+        return rescheduleDate;
+    }
+
+    public void setRescheduleDate(String rescheduleDate) {
+        this.rescheduleDate = rescheduleDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "{" +
+        return "FieldData{" +
                 "id=" + id +
-                ", isSameProduct=" + isSameProduct +
+                ", isSameProduct='" + isSameProduct + '\'' +
                 ", quantity=" + quantity +
-                ", isAllPartsAvailable=" + isAllPartsAvailable +
-                ", isIssueCategoryCorrect=" + isIssueCategoryCorrect +
-                ", isProductDirty=" + isProductDirty +
+                ", isAllPartsAvailable='" + isAllPartsAvailable + '\'' +
+                ", isIssueCategoryCorrect='" + isIssueCategoryCorrect + '\'' +
+                ", isProductDirty='" + isProductDirty + '\'' +
                 ", agentRemarks='" + agentRemarks + '\'' +
                 ", docketId=" + docketId +
+                ", rescheduleDate='" + rescheduleDate + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

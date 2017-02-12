@@ -2,6 +2,7 @@ package io.webguru.fieldpickup.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -31,8 +32,10 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
 
     @Bind(R.id.recyler_list)
     RecyclerView mRecyclerView;
+
     @Bind(R.id.progress_dialog)
     ProgressBar mProgressDialog;
+
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -104,5 +107,11 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
                 getDocketList(true);
             }
         }, 2000);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onStart();
     }
 }

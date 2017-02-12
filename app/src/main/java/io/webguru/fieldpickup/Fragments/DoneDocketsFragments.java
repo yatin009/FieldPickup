@@ -5,13 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TabHost;
 
 import java.util.ArrayList;
 
@@ -20,6 +23,7 @@ import butterknife.ButterKnife;
 import io.webguru.fieldpickup.Adapters.PendingDocketAdapter;
 import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
+import io.webguru.fieldpickup.POJO.Tab;
 import io.webguru.fieldpickup.R;
 
 public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -67,7 +71,7 @@ public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout
         return view;
     }
 
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -101,5 +105,11 @@ public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout
             }
         }, 2000);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        onStart();
     }
 }

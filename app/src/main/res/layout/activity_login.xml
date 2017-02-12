@@ -7,29 +7,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     tools:context="io.webguru.fieldpickup.Activities.LoginActivity">
 
     <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:gravity="center">
 
-        <ImageView android:src="@drawable/ic_logo"
-            android:layout_width="wrap_content"
+        <ImageView android:src="@drawable/sap_logo_round"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginBottom="25dp"
             android:layout_gravity="center_horizontal" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/LoginBox"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="center_vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,6 +75,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginLeft="15dp">
 
                 <CheckBox
@@ -88,7 +90,7 @@
                 android:id="@+id/login_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:text="Login"

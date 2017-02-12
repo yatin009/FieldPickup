@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_docket_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.webguru.fieldpickup.Activities.DocketUpdateActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="5dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout"
+        android:background="@color/app_background"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View style="@style/ListDividerStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/DividerTextStyle"
+                    android:text="Docket Details" />
+                <!--<View style="@style/DividerLineStyle" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/LabelStyleNoMargin"
+                    android:layout_weight=".40"
+                    android:text="Customer Name : " />
+
+                <TextView
+                    style="@style/SubLabelStyleNoMargin"
+                    android:id="@+id/customer_name"
+                    android:layout_weight=".60"
+                    android:text="NA" />
+
+            </LinearLayout>
+            <View style="@style/ListDividerStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <TextView
+                    style="@style/LabelStyleNoMargin"
+                    android:layout_weight=".40"
+                    android:text="Contact Number : " />
+                <TextView
+                    style="@style/SubLabelStyleNoMargin"
+                    android:layout_weight=".60"
+                    android:id="@+id/contact_number"
+                    android:text="NA" />
+
+            </LinearLayout>
+            <View style="@style/ListDividerStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <TextView
+                    style="@style/LabelStyleNoMargin"
+                    android:layout_weight=".40"
+                    android:text="Address : " />
+                <TextView
+                    style="@style/SubLabelStyleNoMargin"
+                    android:layout_weight=".60"
+                    android:id="@+id/address"
+                    android:text="NA" />
+
+            </LinearLayout>
+            <View style="@style/ListDividerStyle" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <TextView
+                    style="@style/LabelStyleNoMargin"
+                    android:layout_weight=".40"
+                    android:text="Product Description : " />
+                <TextView
+                    style="@style/SubLabelStyleNoMargin"
+                    android:id="@+id/product_description"
+                    android:layout_weight=".60"
+                    android:text="NA" />
+            </LinearLayout>
+            <View style="@style/ListDividerStyle" />
+
+
+            <LinearLayout
+                android:id="@+id/captured_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DividerTextStyle"
+                        android:text="Details Captured by Field Executive" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="1. Same product received ?" />
+                    <TextView
+                        android:id="@+id/is_same_product_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="2. Picked quantity" />
+                    <TextView
+                        android:id="@+id/quantity_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="3. All accessories/parts available ?" />
+                    <TextView
+                        android:id="@+id/is_all_parts_available_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="4. Issue Category is Correct ?" />
+                    <TextView
+                        android:id="@+id/is_correct_issue_category_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="5. Product is dirty/used ?" />
+                    <TextView
+                        android:id="@+id/is_dirty_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:layout_weight=".30"
+                        android:text="6. Status" />
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_weight=".70"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:layout_weight=".30"
+                        android:text="7. Remarks" />
+                    <TextView
+                        android:id="@+id/remarks_details"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:layout_weight=".70"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:layout_weight=".30"
+                        android:text="8. Image" />
+
+                    <ImageView
+                        android:id="@+id/capturedImageView"
+                        android:layout_weight=".70"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/qc_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DividerTextStyle"
+                        android:text="Quality Check Questions" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="1. Same product received ?" />
+
+                    <RadioGroup
+                        android:id="@+id/is_same_product"
+                        style="@style/RadioGroupStyle">
+
+                        <RadioButton
+                            android:id="@+id/is_same_product_yes"
+                            style="@style/RadioButtonStyle"
+                            android:text="YES" />
+
+                        <RadioButton
+                            android:id="@+id/is_same_product_no"
+                            style="@style/RadioButtonStyle"
+                            android:text="NO" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="2. Quantity" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/quantity"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/product_quantity"
+                            style="@style/InputStyle"
+                            android:inputType="number" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="3. All accessories/parts available ?"/>
+
+                    <RadioGroup
+                        android:id="@+id/is_all_parts_available"
+                        style="@style/RadioGroupStyle">
+
+                        <RadioButton
+                            android:id="@+id/is_all_parts_available_yes"
+                            style="@style/RadioButtonStyle"
+                            android:text="YES" />
+
+                        <RadioButton
+                            android:id="@+id/is_all_parts_available_no"
+                            style="@style/RadioButtonStyle"
+                            android:text="NO" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="4. Issue Category is Correct ?"/>
+
+                    <RadioGroup
+                        android:id="@+id/is_correct_issue_category"
+                        style="@style/RadioGroupStyle">
+
+                        <RadioButton
+                            android:id="@+id/is_correct_issue_category_yes"
+                            style="@style/RadioButtonStyle"
+                            android:text="YES" />
+
+                        <RadioButton
+                            android:id="@+id/is_correct_issue_category_no"
+                            style="@style/RadioButtonStyle"
+                            android:text="NO" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="5. Product is dirty/used ?"/>
+
+                    <RadioGroup
+                        android:id="@+id/is_dirty"
+                        style="@style/RadioGroupStyle">
+
+                        <RadioButton
+                            android:id="@+id/is_dirty_yes"
+                            style="@style/RadioButtonStyle"
+                            android:text="YES" />
+
+                        <RadioButton
+                            android:id="@+id/is_dirty_no"
+                            style="@style/RadioButtonStyle"
+                            android:text="NO" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="6. Remarks"/>
+
+                    <EditText
+                        android:id="@+id/remarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginLeft="30dp"/>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="7. Image"
+                        android:maxLines="2"/>
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/image"
+                        style="@style/ImageButtonStyle"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Capture Image" />
+
+                    <ImageView
+                        android:id="@+id/capturedImage"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/update_docket"
+                    style="@style/NewButtonStyle"
+                    android:layout_marginTop="15dp"
+                    android:text="Update" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
+

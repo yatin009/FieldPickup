@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorTeal">#008080</color>
 
 
     <color name="bgBackSideColor">#f4f0ff</color>
@@ -28,12 +29,14 @@
     <color name="white">#FFFFFF</color>
     <color name="milky_white">#FEFCFF</color>
     <color name="orange">#FFA500</color>
+    <color name="app_background">#F2F2F2</color>
 
     <color name="cpb_grey">#ffdedede</color>
     <color name="cpb_blue">#ff0099cc</color>
     <color name="cpb_blue_dark">#ff00719b</color>
     <color name="cpb_blue_extra_dark">#ec465376</color>
     <color name="cpb_red">#ffff4444</color>
+    <color name="cpb_red_alert">#faeaea</color>
     <color name="cpb_red_dark">#ffcd3a3a</color>
     <color name="cpb_green">#ff99cc00</color>
     <color name="cpb_green_dark">#ff6d9b00</color>

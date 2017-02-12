@@ -7,6 +7,11 @@
             android:icon="@drawable/ic_inbox_black_24dp"
             android:title="Docket Inbox" />
         <item
+            android:id="@+id/nav_fetch"
+            android:icon="@drawable/ic_sync_black_24dp"
+            android:title="Fetch Updates" />
+
+        <item
             android:id="@+id/nav_sync"
             android:icon="@drawable/ic_sync_black_24dp"
             android:title="Sync Updates" />

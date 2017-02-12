@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Docket implements Serializable{
     private long id;
     private Integer isPending;
+    private Integer isSynced;
     private String docketNumber;
     private String custoumerAddress;
     private String custoumerContact;
@@ -16,13 +17,14 @@ public class Docket implements Serializable{
     private String customerName;
     private String description;
 
-    public Docket(Integer isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName, String description) {
+    public Docket(Integer isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName, String description,Integer isSynced) {
         this.isPending = isPending;
         this.docketNumber = docketNumber;
         this.custoumerAddress = custoumerAddress;
         this.custoumerContact = custoumerContact;
         this.customerName = customerName;
         this.description = description;
+        this.isSynced = isSynced;
     }
 
     public Docket() {
@@ -92,11 +94,20 @@ public class Docket implements Serializable{
         this.description = description;
     }
 
+    public Integer getIsSynced() {
+        return isSynced;
+    }
+
+    public void setIsSynced(Integer isSynced) {
+        this.isSynced = isSynced;
+    }
+
     @Override
     public String toString() {
         return "Docket{" +
                 "id=" + id +
                 ", isPending=" + isPending +
+                ", isSynced=" + isSynced +
                 ", docketNumber='" + docketNumber + '\'' +
                 ", custoumerAddress='" + custoumerAddress + '\'' +
                 ", custoumerContact='" + custoumerContact + '\'' +
