@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by yatin on 21/01/17.
  */
 
-public class FieldData{
+public class FieldData implements Serializable{
     private Long id;
     private String isSameProduct;
     private int quantity;

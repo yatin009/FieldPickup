@@ -18,10 +18,9 @@ import java.util.Map;
 import io.webguru.fieldpickup.Activities.MainActivity;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
-import io.webguru.fieldpickup.Fragments.BlankFragment;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
-import io.webguru.fieldpickup.POJO.Tab;
+import io.webguru.fieldpickup.POJO.Question;
 
 /**
  * Created by yatin on 21/01/17.
@@ -55,6 +54,26 @@ public class GlobalFunction {
             "D 7/9 SF Exclusive Floors DLF City Phase V, DLF City Phase V, Gurgaon Haryana",
             "Duplex Bungalow No 7 Type VI M.A.M.C Campus, -, New Delhi Delhi",
             "IEX LtD 4th Floor TDI Tower Jasola District Center, Near Apolo Hospital, New Delhi Delhi"};
+
+
+    private static Question question1 = new Question("Same product received ?","RADIO",null,null);
+    private static Question question2 = new Question("Picked quantity","NUMBER_DROPDOWN",null,null);
+    private static Question question3 = new Question("All accessories/parts available ?","RADIO",null,null);
+    private static Question question4 = new Question("Issue Category is Correct ?","RADIO",null,null);
+    private static Question question5 = new Question("Product is dirty/used ?","RADIO",null,null);
+    private static Question question6 = new Question("Remarks","TEXT",null,null);
+
+    private static List<Question> questionList = new ArrayList<>();
+
+    public static List<Question> getQuestionList(){
+        questionList.add(question1);
+        questionList.add(question2);
+        questionList.add(question3);
+        questionList.add(question4);
+        questionList.add(question5);
+        questionList.add(question6);
+        return questionList;
+    }
 
 
     public static ArrayList<Docket> getDocketList(Integer isPending, Context context) {

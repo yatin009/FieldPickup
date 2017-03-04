@@ -222,36 +222,26 @@ public class DocketUpdateActivity extends AppCompatActivity {
         }
 
         if(docket != null) {
-            try {
-                String isSameProduct = isSameProductRadioButton != null ? isSameProductRadioButton.getText().toString() : null;
-                int qunt = isSameProductRadioButton != null && !quantity.getText().toString().equals("")? Integer.parseInt(quantity.getText().toString()) : 0;
-                String isAllPartsAvailable = isAllPartsAvailableRadioButton != null ? isAllPartsAvailableRadioButton.getText().toString() : null;
-                String isCorrectIssueCategory = isCorrectIssueCategoryRadioButton != null ? isCorrectIssueCategoryRadioButton.getText().toString() : null;
-                String isDirty = isDirtyRadioButton != null ? isDirtyRadioButton.getText().toString() : null;
-                String remarksByFe = remarks != null ? remarks.getText().toString() : null;
-                boolean isAnyError = validateCapturedData(isSameProduct,qunt,isAllPartsAvailable,isCorrectIssueCategory,isDirty,remarksByFe);
-                if(isAnyError){
-                    return;
-                }
 
-                FieldData fieldData = new FieldData(isSameProduct,qunt,isAllPartsAvailable,isCorrectIssueCategory,isDirty,remarksByFe,docket.getId());
-                fieldData.setStatus("Package Picked");
-                fieldDataDataSource = new FieldDataDataSource(this);
-                fieldDataDataSource.open();
-                fieldDataDataSource.insertFieldData(fieldData);
-                docketDataSource = new DocketDataSource(this);
-                docketDataSource.open();
-                docketDataSource.markDocketAsDone(docket.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if(docketDataSource != null) {
-                    docketDataSource.close();
-                }
-                if(docketDataSource != null) {
-                    fieldDataDataSource.close();
-                }
+            String isSameProduct = isSameProductRadioButton != null ? isSameProductRadioButton.getText().toString() : null;
+            int qunt = isSameProductRadioButton != null && !quantity.getText().toString().equals("") ? Integer.parseInt(quantity.getText().toString()) : 0;
+            String isAllPartsAvailable = isAllPartsAvailableRadioButton != null ? isAllPartsAvailableRadioButton.getText().toString() : null;
+            String isCorrectIssueCategory = isCorrectIssueCategoryRadioButton != null ? isCorrectIssueCategoryRadioButton.getText().toString() : null;
+            String isDirty = isDirtyRadioButton != null ? isDirtyRadioButton.getText().toString() : null;
+            String remarksByFe = remarks != null ? remarks.getText().toString() : null;
+            boolean isAnyError = validateCapturedData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe);
+            if (isAnyError) {
+                return;
             }
+            FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId());
+            fieldData.setStatus("Package Picked");
+
+            Intent intent = new Intent(this, ReviewActivity.class);
+            intent.putExtra("Docket", docket);
+            intent.putExtra("FieldData", fieldData);
+            startActivity(intent);
+
+
         }
         finish();
     }

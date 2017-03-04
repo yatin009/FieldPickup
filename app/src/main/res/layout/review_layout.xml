@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_docket_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="io.webguru.fieldpickup.Activities.DocketUpdateActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="5dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_layout"
+        android:background="@color/app_background"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/details_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View style="@style/ListDividerStyle" />
+
+            <LinearLayout
+                android:id="@+id/captured_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/DividerTextStyle"
+                        android:text="Review Captured Data" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="1. Same product received ?" />
+                    <TextView
+                        android:id="@+id/is_same_product_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="2. Picked quantity" />
+                    <TextView
+                        android:id="@+id/quantity_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="3. All accessories/parts available ?" />
+                    <TextView
+                        android:id="@+id/is_all_parts_available_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="4. Issue Category is Correct ?" />
+                    <TextView
+                        android:id="@+id/is_correct_issue_category_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="5. Product is dirty/used ?" />
+                    <TextView
+                        android:id="@+id/is_dirty_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:layout_weight=".30"
+                        android:text="6. Remarks" />
+                    <TextView
+                        android:id="@+id/remarks_details"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:layout_weight=".70"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/update_docket"
+                    style="@style/NewButtonStyle"
+                    android:layout_margin="15dp"
+                    android:text="Submit" />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
+
+

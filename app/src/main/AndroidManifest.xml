@@ -33,6 +33,11 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.DocketUpdateActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".Activities.ReviewActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".Activities.EditValueActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.StatusActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>

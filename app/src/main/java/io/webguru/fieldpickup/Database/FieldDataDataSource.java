@@ -74,6 +74,9 @@ public class FieldDataDataSource {
     }
 
     public FieldData insertFieldData(FieldData fieldData) throws IOException {
+        if(fieldData == null){
+            return null;
+        }
         ContentValues values = new ContentValues();
         ObjectMapper objectMapper = new ObjectMapper();
         String fieldDataJson = objectMapper.writeValueAsString(fieldData);

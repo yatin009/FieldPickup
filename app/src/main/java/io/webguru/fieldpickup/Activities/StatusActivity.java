@@ -146,7 +146,10 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             fieldData = new FieldData();
             fieldData.setDocketId(docket.getId());
             remarks = (EditText) findViewById(R.id.fail_remarks);
-            if (remarks != null) {
+            if (remarks == null || remarks.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter Remarks", Toast.LENGTH_LONG).show();
+                return;
+            } else {
                 fieldData.setAgentRemarks(remarks.getText().toString());
             }
             if (selectedStatus.equals("Reschedule Pickup")) {

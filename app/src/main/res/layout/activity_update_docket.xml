@@ -451,7 +451,7 @@
                         android:layout_marginLeft="30dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
-                        android:text="Capture Image" />
+                        android:text="Capture Image 1" />
 
                     <ImageView
                         android:id="@+id/capturedImage"
@@ -468,7 +468,7 @@
                     android:id="@+id/update_docket"
                     style="@style/NewButtonStyle"
                     android:layout_marginTop="15dp"
-                    android:text="Update" />
+                    android:text="Submit" />
             </LinearLayout>
 
 
