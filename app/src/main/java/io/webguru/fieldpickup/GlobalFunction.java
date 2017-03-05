@@ -4,10 +4,21 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.text.InputType;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.webguru.fieldpickup.Activities.DocketUpdateActivity;
 import io.webguru.fieldpickup.Activities.MainActivity;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
@@ -145,6 +157,69 @@ public class GlobalFunction {
                 (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+//    public static LinearLayout getRadioLayout(Context context, int index, String label, int id){
+//
+//
+//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.template_linear_layout, null);
+//        linearLayout.setOrientation(LinearLayout.VERTICAL);
+//        linearLayout.setBackgroundColor(Color.WHITE);
+////        ViewGroup.LayoutParams params = linearLayout.getLayoutParams();
+////        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+////        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+//
+//        TextView textView = (TextView) inflater.inflate(R.layout.template_text_view, null);
+//        textView.setText(index + ". " +label);
+//        linearLayout.addView(textView);
+//
+//        RadioGroup radioGroup = (RadioGroup) inflater.inflate(R.layout.template_radio_group, null);
+//        radioGroup.setOrientation(RadioGroup.HORIZONTAL);
+//        RadioButton radioButtonYes = (RadioButton) inflater.inflate(R.layout.template_radio_button, null);
+//        radioButtonYes.setText("YES");
+//        RadioButton radioButtonNo = (RadioButton) inflater.inflate(R.layout.template_radio_button, null);
+//        radioButtonNo.setText("NO");
+//        radioGroup.addView(radioButtonYes);
+//        radioGroup.addView(radioButtonNo);
+//        linearLayout.addView(radioGroup);
+//        linearLayout.setId(id);
+//        return linearLayout;
+//    }
+
+
+    public static View getRadioLayout(ViewGroup viewGroup, Context context, int index, String label, int id){
+
+        View linearLayoutViewGroup =  viewGroup.getChildAt(0);
+        View textViewGroup = ((ViewGroup) linearLayoutViewGroup).getChildAt(0);
+        TextView textView = (TextView) textViewGroup;
+        textView.setText(label);
+        View radioGroupViewGroup = ((ViewGroup) linearLayoutViewGroup).getChildAt(1);
+        View radioButtonYesView = ((ViewGroup) radioGroupViewGroup).getChildAt(0);
+        View radioButtonNoView = ((ViewGroup) radioGroupViewGroup).getChildAt(1);
+        RadioButton radioButtonYes = (RadioButton) radioButtonYesView;
+        RadioButton radioButtonNo = (RadioButton) radioButtonNoView;
+        radioButtonYes.setText("YES");
+        radioButtonNo.setText("NO");
+        return viewGroup;
+    }
+
+
+    public static LinearLayout getTextLayout(Context context, int index, String text, int id, String type){
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.template_linear_layout, null);
+        TextView textView = (TextView) inflater.inflate(R.layout.template_text_view, null);
+        textView.setText(index + ". " +text);
+        linearLayout.addView(textView);
+        EditText editText = (EditText) inflater.inflate(R.layout.template_edit_text, null);
+        if(type.equals("NUMBER")) {
+            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+        } else {
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+        linearLayout.addView(editText);
+        linearLayout.setId(id);
+        return linearLayout;
     }
 
 }

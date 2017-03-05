@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/radio_lay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/QCLayoutStyle">
+
+        <TextView
+            style="@style/InputStyleNoMargin"
+            android:text="Hello Chut Ki Raanii" />
+
+        <RadioGroup
+            style="@style/RadioGroupStyle">
+
+            <RadioButton
+                style="@style/RadioButtonStyle"
+                android:text="YES" />
+
+            <RadioButton
+                style="@style/RadioButtonStyle"
+                android:text="NO" />
+        </RadioGroup>
+
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+
+</LinearLayout>

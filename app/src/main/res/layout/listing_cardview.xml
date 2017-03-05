@@ -71,7 +71,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
-                                android:text="Not Synced"
+                                android:text="Not Synced Yet"
                                 android:textColor="@color/cpb_red_dark"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />

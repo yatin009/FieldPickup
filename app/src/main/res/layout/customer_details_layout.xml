@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/DividerTextStyle"
+            android:text="Docket Details" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".40"
+            android:text="Customer Name : " />
+
+        <TextView
+            style="@style/SubLabelStyleNoMargin"
+            android:id="@+id/customer_name"
+            android:layout_weight=".60"
+            android:text="NA" />
+
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".40"
+            android:text="Contact Number : " />
+        <TextView
+            style="@style/SubLabelStyleNoMargin"
+            android:layout_weight=".60"
+            android:id="@+id/contact_number"
+            android:text="NA" />
+
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".40"
+            android:text="Address : " />
+        <TextView
+            style="@style/SubLabelStyleNoMargin"
+            android:layout_weight=".60"
+            android:id="@+id/address"
+            android:text="NA" />
+
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".40"
+            android:text="Product Description : " />
+        <TextView
+            style="@style/SubLabelStyleNoMargin"
+            android:id="@+id/product_description"
+            android:layout_weight=".60"
+            android:text="NA" />
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+
+</LinearLayout>

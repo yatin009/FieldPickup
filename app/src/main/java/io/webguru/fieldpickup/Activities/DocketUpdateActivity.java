@@ -1,5 +1,6 @@
 package io.webguru.fieldpickup.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,13 +11,16 @@ import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,14 +28,19 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.POJO.Question;
 import io.webguru.fieldpickup.R;
 
 /**
@@ -42,6 +51,10 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+
+    @Bind(R.id.details_layout)
+    LinearLayout mLinearLayout;
 
     Docket docket;
     TextView customerName;
@@ -78,11 +91,42 @@ public class DocketUpdateActivity extends AppCompatActivity {
     RadioButton isCorrectIssueCategoryRadioButton;
     RadioButton isDirtyRadioButton;
 
+
+    Map<Integer, Integer> idMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_docket);
         ButterKnife.bind(this);
+
+
+
+        getIdMap();
+
+        LinearLayout questionLayout = (LinearLayout) findViewById(R.id.qc_layout);
+        int index = 1;
+//            LinearLayout linearLayout = new LinearLayout(this);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        ViewGroup viewGroup = null;
+        for(Question question : GlobalFunction.getQuestionList()){
+            View linearLayout = null;
+            if(question.getType().equals("RADIO")) {
+                viewGroup = (ViewGroup)inflater.inflate(R.layout.radio_type_layout,null);
+                linearLayout = GlobalFunction.getRadioLayout(viewGroup, this, index, question.getQuestion(), idMap.get(index++));
+            } else if(question.getType().equals("TEXT")) {
+//                linearLayout = GlobalFunction.getTextLayout(this, index, question.getQuestion(), idMap.get(index++),"TEXT");
+            } else if(question.getType().equals("NUMBER_DROPDOWN")) {
+//                linearLayout = GlobalFunction.getTextLayout(this, index, question.getQuestion(), idMap.get(index++),"NUMBER");
+            }
+
+//            View childLayout = inflater.inflate(R.layout.radio_type_layout,(ViewGroup) findViewById(R.id.radio_lay));
+            questionLayout.removeAllViews();
+            questionLayout.addView(viewGroup);
+        }
+
+
+
         setSupportActionBar(mToolbar);
         Bundle bundle = getIntent().getExtras();
         if (bundle!=null){
@@ -116,6 +160,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
             contactNumber.setText(docket.getCustoumerContact());
             address.setText(docket.getCustoumerAddress());
             productDescription.setText(docket.getDescription());
+
+
 
             fieldDataDataSource = new FieldDataDataSource(this);
             fieldDataDataSource.open();
@@ -153,6 +199,24 @@ public class DocketUpdateActivity extends AppCompatActivity {
     }
 
 
+    private void getIdMap(){
+        idMap = new HashMap<>();
+        idMap.put(1,R.id.id_1);
+        idMap.put(2,R.id.id_2);
+        idMap.put(3,R.id.id_3);
+        idMap.put(4,R.id.id_4);
+        idMap.put(5,R.id.id_5);
+        idMap.put(6,R.id.id_6);
+        idMap.put(7,R.id.id_7);
+        idMap.put(8,R.id.id_8);
+        idMap.put(9,R.id.id_9);
+        idMap.put(10,R.id.id_10);
+        idMap.put(11,R.id.id_11);
+        idMap.put(12,R.id.id_12);
+        idMap.put(13,R.id.id_13);
+        idMap.put(14,R.id.id_14);
+        idMap.put(15,R.id.id_15);
+    }
 
     @OnClick(R.id.image)
     public void captureImage() {
