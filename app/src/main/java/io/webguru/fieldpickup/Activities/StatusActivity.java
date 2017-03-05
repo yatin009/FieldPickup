@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
@@ -24,8 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
-import io.webguru.fieldpickup.Fragments.BlankFragment;
-import io.webguru.fieldpickup.Fragments.PendingDocketsFragments;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
@@ -57,10 +53,11 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
         setContentView(R.layout.status_activity);
         ButterKnife.bind(this);
         Bundle bundle = getIntent().getExtras();
+
         if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
         }
-        this.setTitle(docket.getDocketNumber());
+        this.setTitle("STATUS - " +docket.getAwbNumber());
         this.setFinishOnTouchOutside(false);
         rescheduledDateLayout = (LinearLayout) this.findViewById(R.id.reschedule_date_layout);
         rescheduledDateLayout.setVisibility(LinearLayout.GONE);
@@ -138,7 +135,7 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
         EditText remarks;
         TextView date;
         if (selectedStatus != null && selectedStatus.equals("Ready To Pick")) {
-            Intent intent = new Intent(this, DocketUpdateActivity.class);
+            Intent intent = new Intent(this, DocketDetailsActivity.class);
             intent.putExtra("Docket", docket);
             startActivity(intent);
             finish();
@@ -155,14 +152,17 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             if (selectedStatus.equals("Reschedule Pickup")) {
                 date = (TextView) findViewById(R.id.reschedule_date);
                 fieldData.setStatus("Rescheduled to " + date.getText().toString());
+            } else if (selectedStatus.equals("Cancelled")) {
+                fieldData.setStatus("Pickup Cancelled");
+                fieldData.setRescheduleDate("NA");
             } else {
                 fieldData.setRescheduleDate("NA");
-                String status = selectedStatus.equals("Door is Locked") ? "Door Is Locked" : "NA";
+                String status = selectedStatus.equals("Customer Not Available") ? "Customer Not Available" : "NA";
                 fieldData.setStatus(status);
             }
             fieldData.setIsAllPartsAvailable("NA");
             fieldData.setIsIssueCategoryCorrect("NA");
-            fieldData.setIsProductDirty("NA");
+            fieldData.setIsProductClean("NA");
             fieldData.setIsSameProduct("NA");
             fieldData.setQuantity(0);
             try {

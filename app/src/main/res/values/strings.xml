@@ -38,6 +38,7 @@
         <item>Tap To Select</item>
         <item>Ready To Pick</item>
         <item>Reschedule Pickup</item>
-        <item>Door is Locked</item>
+        <item>Customer Not Available</item>
+        <item>Cancelled</item>
     </string-array>
 </resources>

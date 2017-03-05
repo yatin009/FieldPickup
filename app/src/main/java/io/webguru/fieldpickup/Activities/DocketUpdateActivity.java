@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -23,52 +22,34 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.webguru.fieldpickup.Database.DocketDataSource;
-import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
 
 /**
- * Created by mahto on 24/1/17.
+ * Created by mahto on 5/3/17.
  */
 
 public class DocketUpdateActivity extends AppCompatActivity {
 
+
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    Docket docket;
-    TextView customerName;
-    TextView contactNumber;
-    TextView address;
-    TextView productDescription;
+    private Docket docket;
 
-    TextView is_same_product_details;
-    TextView quantity_details;
-    TextView is_all_parts_available_details;
-    TextView is_correct_issue_category_details;
-    TextView is_dirty_details;
-    TextView remarks_details;
-    TextView status;
-    ImageView imageView;
+    private String imageId;
 
-    private LinearLayout qualityCheckLayout;
-    private LinearLayout capturedDetailsLayout;
-
-    private static FieldDataDataSource fieldDataDataSource;
-    private static DocketDataSource docketDataSource;
-
-    private static final int CONTENT_REQUEST=1337;
+    private static final int CONTENT_REQUEST = 1337;
     File output = null;
 
     RadioGroup isSameProduct;
-    TextView quantity;
     EditText remarks;
     RadioGroup isAllPartsAvailable;
     RadioGroup isCorrectIssueCategory;
@@ -78,18 +59,44 @@ public class DocketUpdateActivity extends AppCompatActivity {
     RadioButton isCorrectIssueCategoryRadioButton;
     RadioButton isDirtyRadioButton;
 
+    TextView prodDesc;
+    TextView actualQuantity;
+    TextView actualReason;
+
+    private Spinner spinner;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_docket);
+        setContentView(R.layout.activity_docket_update);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
+        if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
+
+            List<String> quantityList = new ArrayList<>();
+            quantityList.add("Select Quantity");
+            for(int i=0; i<docket.getQuantity(); i++){
+                quantityList.add((i+1)+"");
+            }
+            spinner = (Spinner) findViewById(R.id.quantity);
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item, quantityList);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(dataAdapter);
+
+            prodDesc = (TextView) findViewById(R.id.prod_desc);
+            actualQuantity = (TextView) findViewById(R.id.actual_quantity);
+            actualReason = (TextView) findViewById(R.id.actual_reason);
+
+            prodDesc.setText(docket.getDescription());
+            actualQuantity.setText("Quantity to be picked : " + docket.getQuantity()+"");
+            actualReason.setText("Reason : " + docket.getReason());
         }
 
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -100,96 +107,118 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 }
             });
 
-            customerName = (TextView) findViewById(R.id.customer_name);
-            contactNumber = (TextView) findViewById(R.id.contact_number);
-            address = (TextView) findViewById(R.id.address);
-            productDescription = (TextView) findViewById(R.id.product_description);
-
-            if(docket.isPending() == 1){
-                capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
-                capturedDetailsLayout.setVisibility(LinearLayout.GONE);
-            } else {
-                qualityCheckLayout = (LinearLayout)this.findViewById(R.id.qc_layout);
-                qualityCheckLayout.setVisibility(LinearLayout.GONE);
-            }
-            customerName.setText(docket.getCustomerName());
-            contactNumber.setText(docket.getCustoumerContact());
-            address.setText(docket.getCustoumerAddress());
-            productDescription.setText(docket.getDescription());
-
-            fieldDataDataSource = new FieldDataDataSource(this);
-            fieldDataDataSource.open();
-            FieldData fieldData = null;
-            try {
-                fieldData = fieldDataDataSource.getFieldData(docket.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            fieldDataDataSource.close();
-            if(fieldData != null){
-                is_same_product_details = (TextView) findViewById(R.id.is_same_product_details);
-                quantity_details = (TextView) findViewById(R.id.quantity_details);
-                is_all_parts_available_details = (TextView) findViewById(R.id.is_all_parts_available_details);
-                is_correct_issue_category_details = (TextView) findViewById(R.id.is_correct_issue_category_details);
-                is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
-                remarks_details = (TextView) findViewById(R.id.remarks_details);
-                status = (TextView) findViewById(R.id.status);
-                imageView = (ImageView) findViewById(R.id.capturedImageView);
-
-                is_same_product_details.setText(fieldData.getIsSameProduct());
-                quantity_details.setText(fieldData.getQuantity()+"");
-                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
-                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-                is_dirty_details.setText(fieldData.getIsProductDirty());
-                remarks_details.setText(fieldData.getAgentRemarks());
-                status.setText(fieldData.getStatus());
-                File f = Environment.getExternalStoragePublicDirectory("Field Pickup/"+docket.getDocketNumber()+".jpeg");
-                Uri uri = Uri.parse(f.getAbsolutePath());
-                imageView.setImageURI(uri);
-            }
-            getSupportActionBar().setTitle(docket.getDocketNumber());
-
         }
+        getSupportActionBar().setTitle(docket.getAwbNumber());
+
     }
 
 
 
-    @OnClick(R.id.image)
-    public void captureImage() {
+    @OnClick(R.id.capturedImage1)
+    public void openImage1() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage1);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("1");
+    }
+
+    @OnClick(R.id.capturedImage2)
+    public void openImage2() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage2);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("2");
+    }
+
+    @OnClick(R.id.capturedImage3)
+    public void openImage3() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage3);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("3");
+    }
+
+
+    private void openImage(String id){
+
+        Intent intent = new Intent(this, ImageViewActivity.class);
+        intent.putExtra("imageName", docket.getAwbNumber()+ "_" + id + ".jpeg");
+        intent.putExtra("awbNumber", docket.getAwbNumber());
+        intent.putExtra("imageNumber", id);
+        intent.putExtra("source", "UPDATE");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.image1)
+    public void captureImage1() {
+        imageId = "1";
+        capture("1");
+    }
+
+    @OnClick(R.id.image2)
+    public void captureImage2() {
+        imageId = "2";
+        capture("2");
+    }
+
+    @OnClick(R.id.image3)
+    public void captureImage3() {
+        imageId = "3";
+        capture("3");
+    }
+
+
+    public void capture(String imageId) {
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
+        if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
             String path = checkForImageLocation();
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File dir = Environment.getExternalStoragePublicDirectory(path);
-            output=new File(dir, docket.getDocketNumber()+".jpeg");
+            output = new File(dir, docket.getAwbNumber() + "_" + imageId + ".jpeg");
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
             cameraIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Uri.fromFile(output));
-            startActivityForResult(cameraIntent,CONTENT_REQUEST);
+            startActivityForResult(cameraIntent, CONTENT_REQUEST);
 
         }
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CONTENT_REQUEST) {
             if (resultCode == RESULT_OK) {
-                ImageView imageView = (ImageView) findViewById(R.id.capturedImage);
+                String id;
+                ImageView imageView;
+                if (imageId.equals("1")) {
+                    id = "1";
+                    imageView = (ImageView) findViewById(R.id.capturedImage1);
+                } else if (imageId.equals("2")) {
+                    id = "2";
+                    imageView = (ImageView) findViewById(R.id.capturedImage2);
+                } else if (imageId.equals("3")) {
+                    id = "3";
+                    imageView = (ImageView) findViewById(R.id.capturedImage3);
+                } else {
+                    return;
+                }
                 imageView.setImageDrawable(null);
                 Bitmap photo = BitmapFactory.decodeFile(output.getAbsolutePath());
                 photo = Bitmap.createScaledBitmap(photo, 600, 600, true);
                 Bundle bundle = getIntent().getExtras();
-                if (bundle!=null) {
+                if (bundle != null) {
                     docket = (Docket) bundle.get("Docket");
-                    File f = Environment.getExternalStoragePublicDirectory(checkForImageLocation()+"/"+docket.getDocketNumber()+".jpeg");
+                    File f = Environment.getExternalStoragePublicDirectory(checkForImageLocation() + "/" + docket.getAwbNumber() + "_" + id +".jpeg");
                     FileOutputStream fo = null;
                     try {
                         f.createNewFile();
                         fo = new FileOutputStream(f);
                         photo.compress(Bitmap.CompressFormat.JPEG, 70, fo);
                         fo.close();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     Uri uri = Uri.parse(f.getAbsolutePath());
@@ -202,11 +231,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
     @OnClick(R.id.update_docket)
     public void updateDocket() {
         isSameProduct = (RadioGroup) findViewById(R.id.is_same_product);
-        quantity = (TextInputEditText) findViewById(R.id.product_quantity);
+//        String quantity = ((Spinner) findViewById(R.id.quantity)).get;
+        String quantity = String.valueOf(((Spinner) findViewById(R.id.quantity)).getSelectedItem());
         remarks = (EditText) findViewById(R.id.remarks);
         isAllPartsAvailable = (RadioGroup) findViewById(R.id.is_all_parts_available);
         isCorrectIssueCategory = (RadioGroup) findViewById(R.id.is_correct_issue_category);
-        isDirty = (RadioGroup) findViewById(R.id.is_dirty);
+        isDirty = (RadioGroup) findViewById(R.id.is_product_clean);
 
         isSameProductRadioButton = (RadioButton) findViewById(isSameProduct.getCheckedRadioButtonId());
 
@@ -217,14 +247,14 @@ public class DocketUpdateActivity extends AppCompatActivity {
         isDirtyRadioButton = (RadioButton) findViewById(isDirty.getCheckedRadioButtonId());
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle!=null){
+        if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
         }
 
-        if(docket != null) {
+        if (docket != null) {
 
             String isSameProduct = isSameProductRadioButton != null ? isSameProductRadioButton.getText().toString() : null;
-            int qunt = isSameProductRadioButton != null && !quantity.getText().toString().equals("") ? Integer.parseInt(quantity.getText().toString()) : 0;
+            int qunt = !quantity.equals("Select Quantity") ? Integer.parseInt(quantity) : 0;
             String isAllPartsAvailable = isAllPartsAvailableRadioButton != null ? isAllPartsAvailableRadioButton.getText().toString() : null;
             String isCorrectIssueCategory = isCorrectIssueCategoryRadioButton != null ? isCorrectIssueCategoryRadioButton.getText().toString() : null;
             String isDirty = isDirtyRadioButton != null ? isDirtyRadioButton.getText().toString() : null;
@@ -233,6 +263,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
             if (isAnyError) {
                 return;
             }
+
             FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId());
             fieldData.setStatus("Package Picked");
 
@@ -246,49 +277,82 @@ public class DocketUpdateActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean validateCapturedData(String isSameProduct,int quantity,String isAllPartsAvailable,String isCorrectIssueCategory,
-                                         String isDirty,String remarksByFe){
+    private boolean validateCapturedData(String isSameProduct, int quantity, String isAllPartsAvailable, String isCorrectIssueCategory,
+                                         String isDirty, String remarksByFe) {
         boolean isAnyError = false;
 
-        ImageView imageView = (ImageView) findViewById(R.id.capturedImage);
-        boolean hasDrawable = (imageView.getDrawable() != null);
+        ImageView imageView1 = (ImageView) findViewById(R.id.capturedImage1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.capturedImage2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.capturedImage3);
+        boolean isImage1Captured = (imageView1.getDrawable() != null);
+        boolean isImage2Captured = (imageView2.getDrawable() != null);
+        boolean isImage3Captured = (imageView3.getDrawable() != null);
 
-        if(isSameProduct == null || isSameProduct.equals("")){
+
+        if (isSameProduct == null || isSameProduct.equals("")) {
             Toast.makeText(this, "Set value for  \"1. Same product received ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(quantity == 0){
+        } else if (quantity == 0) {
             Toast.makeText(this, "Set value for  \"2. Quantity\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(isAllPartsAvailable == null || isAllPartsAvailable.equals("")){
+        } else if (isAllPartsAvailable == null || isAllPartsAvailable.equals("")) {
             Toast.makeText(this, "Set value for  \"3. All accessories/parts available ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(isCorrectIssueCategory == null || isCorrectIssueCategory.equals("")){
+        } else if (isCorrectIssueCategory == null || isCorrectIssueCategory.equals("")) {
             Toast.makeText(this, "Set value for  \"4. Issue Category is Correct ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(isDirty == null || isDirty.equals("")){
+        } else if (isDirty == null || isDirty.equals("")) {
             Toast.makeText(this, "Set value for  \"5. Product is dirty/used ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(remarksByFe == null || remarksByFe.equals("")){
+        } else if (remarksByFe == null || remarksByFe.equals("")) {
             Toast.makeText(this, "Set value for  \"6. Remarks\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
-        } else if(!hasDrawable) {
-            Toast.makeText(this, "Capture Image", Toast.LENGTH_LONG).show();
+        } else if (!isImage1Captured) {
+            Toast.makeText(this, "Capture Image 1", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        } else if (!isImage2Captured) {
+            Toast.makeText(this, "Capture Image 2", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        } else if (!isImage3Captured) {
+            Toast.makeText(this, "Capture Image 3", Toast.LENGTH_LONG).show();
             isAnyError = true;
         }
         return isAnyError;
     }
 
-    private String checkForImageLocation(){
+    public static String checkForImageLocation() {
 
         String path = "Field Pickup";
-        File dir = new File(path) ;
+        File dir = new File(path);
         if (!dir.exists()) {
-            try{
+            try {
                 dir.mkdir();
-            }catch(SecurityException e){
+            } catch (SecurityException e) {
+                e.printStackTrace();
             }
         }
-        return path;
+
+//        path = "Field Pickup/Picked";
+//        dir = new File(path);
+//        if (!dir.exists()) {
+//            try {
+//                dir.mkdir();
+//            } catch (SecurityException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+
+        String path2 = "Field Pickup/Temp";
+        File dir2 = new File(path2);
+        if (!dir2.exists()) {
+            try {
+                dir2.mkdir();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+        return path2;
     }
 
 

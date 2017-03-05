@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".Activities.DocketDetailsActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.DocketUpdateActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.ReviewActivity"
@@ -39,6 +41,9 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.StatusActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".Activities.ImageViewActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
     </application>

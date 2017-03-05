@@ -2,6 +2,7 @@ package io.webguru.fieldpickup.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,7 +28,11 @@ public class DocketDataSource {
             MySQLiteHelper.COLUMN_ADDRESS,
             MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION,
             MySQLiteHelper.COLUMN_IS_PENDING,
-            MySQLiteHelper.COLUMN_IS_SYNCED
+            MySQLiteHelper.COLUMN_REASON,
+            MySQLiteHelper.COLUMN_PINCODE,
+            MySQLiteHelper.COLUMN_QUANTITY,
+            MySQLiteHelper.COLUMN_ORDER_NUMBER,
+            MySQLiteHelper.COLUMN_IS_SYNCED,
     };
 
     public DocketDataSource(Context context) {
@@ -42,7 +47,9 @@ public class DocketDataSource {
         dbHelper.close();
     }
 
-    public Docket createDocket(String docketNumber, String customerName, String contact_number, String address, String productDescription,Integer isPending) {
+    public Docket createDocket(String docketNumber, String customerName, String contact_number, String address,
+                               String productDescription, Integer isPending, String reason, String pincode,
+                               Integer quantity, String orderNumber) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DOCKET_NUMBER, docketNumber);
         values.put(MySQLiteHelper.COLUMN_CUSTOMER_NAME, customerName);
@@ -50,7 +57,12 @@ public class DocketDataSource {
         values.put(MySQLiteHelper.COLUMN_ADDRESS, address);
         values.put(MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION, productDescription);
         values.put(MySQLiteHelper.COLUMN_IS_PENDING, isPending);
+        values.put(MySQLiteHelper.COLUMN_REASON, reason);
+        values.put(MySQLiteHelper.COLUMN_PINCODE, pincode);
+        values.put(MySQLiteHelper.COLUMN_QUANTITY, quantity);
+        values.put(MySQLiteHelper.COLUMN_ORDER_NUMBER, orderNumber);
         values.put(MySQLiteHelper.COLUMN_IS_SYNCED, 0);
+
         long insertId = database.insert(MySQLiteHelper.TABLE_DOCKETS, null,
                 values);
         Cursor cursor = database.query(MySQLiteHelper.TABLE_DOCKETS,
@@ -136,13 +148,17 @@ public class DocketDataSource {
     private Docket cursorToDocket(Cursor cursor) {
         Docket docket = new Docket();
         docket.setId(cursor.getLong(0));
-        docket.setDocketNumber(cursor.getString(1));
+        docket.setAwbNumber(cursor.getString(1));
         docket.setCustomerName(cursor.getString(2));
-        docket.setCustoumerContact(cursor.getString(3));
-        docket.setCustoumerAddress(cursor.getString(4));
+        docket.setCustomerContact(cursor.getString(3));
+        docket.setCustomerAddress(cursor.getString(4));
         docket.setDescription(cursor.getString(5));
         docket.setPending(cursor.getInt(6));
-        docket.setIsSynced(cursor.getInt(7));
+        docket.setReason(cursor.getString(7));
+        docket.setPincode(cursor.getString(8));
+        docket.setQuantity(cursor.getInt(9));
+        docket.setOrderNumber(cursor.getString(10));
+        docket.setIsSynced(cursor.getInt(11));
         return docket;
     }
 

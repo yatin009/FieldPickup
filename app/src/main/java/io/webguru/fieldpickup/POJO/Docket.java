@@ -10,21 +10,32 @@ public class Docket implements Serializable{
     private long id;
     private Integer isPending;
     private Integer isSynced;
-    private String docketNumber;
-    private String custoumerAddress;
-    private String custoumerContact;
+    private String awbNumber;
+    private String customerAddress;
+    private String customerContact;
     private FieldData fieldData;
     private String customerName;
     private String description;
+    private String reason;
+    private String pincode;
+    private Integer quantity;
+    private String orderNumber;
 
-    public Docket(Integer isPending, String docketNumber, String custoumerAddress, String custoumerContact,String customerName, String description,Integer isSynced) {
+
+    public Docket(Integer isPending, String awbNumber, String customerAddress, String customerContact,
+                  String customerName, String description, String reason, String pincode, Integer isSynced,
+                  Integer quantity, String orderNumber) {
         this.isPending = isPending;
-        this.docketNumber = docketNumber;
-        this.custoumerAddress = custoumerAddress;
-        this.custoumerContact = custoumerContact;
+        this.awbNumber = awbNumber;
+        this.customerAddress = customerAddress;
+        this.customerContact = customerContact;
         this.customerName = customerName;
         this.description = description;
         this.isSynced = isSynced;
+        this.reason = reason;
+        this.pincode = pincode;
+        this.quantity = quantity;
+        this.orderNumber = orderNumber;
     }
 
     public Docket() {
@@ -38,28 +49,28 @@ public class Docket implements Serializable{
         isPending = pending;
     }
 
-    public String getDocketNumber() {
-        return docketNumber;
+    public String getAwbNumber() {
+        return awbNumber;
     }
 
-    public void setDocketNumber(String docketNumber) {
-        this.docketNumber = docketNumber;
+    public void setAwbNumber(String awbNumber) {
+        this.awbNumber = awbNumber;
     }
 
-    public String getCustoumerAddress() {
-        return custoumerAddress;
+    public String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public void setCustoumerAddress(String custoumerAddress) {
-        this.custoumerAddress = custoumerAddress;
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
-    public String getCustoumerContact() {
-        return custoumerContact;
+    public String getCustomerContact() {
+        return customerContact;
     }
 
-    public void setCustoumerContact(String custoumerContact) {
-        this.custoumerContact = custoumerContact;
+    public void setCustomerContact(String customerContact) {
+        this.customerContact = customerContact;
     }
 
     public FieldData getFieldData() {
@@ -102,18 +113,54 @@ public class Docket implements Serializable{
         this.isSynced = isSynced;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
     @Override
     public String toString() {
-        return "Docket{" +
+        return "{" +
                 "id=" + id +
                 ", isPending=" + isPending +
                 ", isSynced=" + isSynced +
-                ", docketNumber='" + docketNumber + '\'' +
-                ", custoumerAddress='" + custoumerAddress + '\'' +
-                ", custoumerContact='" + custoumerContact + '\'' +
+                ", awbNumber='" + awbNumber + '\'' +
+                ", customerAddress='" + customerAddress + '\'' +
+                ", customerContact='" + customerContact + '\'' +
                 ", fieldData=" + fieldData +
                 ", customerName='" + customerName + '\'' +
                 ", description='" + description + '\'' +
+                ", reason='" + reason + '\'' +
+                ", pincode='" + pincode + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
                 '}';
     }
 }

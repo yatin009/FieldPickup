@@ -12,18 +12,18 @@ public class FieldData implements Serializable{
     private int quantity;
     private String isAllPartsAvailable;
     private String isIssueCategoryCorrect;
-    private String isProductDirty;
+    private String isProductClean;
     private String agentRemarks;
     private Long docketId;
     private String rescheduleDate;
     private String status;
 
-    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductDirty, String agentRemarks,Long docketId) {
+    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductClean, String agentRemarks, Long docketId) {
         this.isSameProduct = isSameProduct;
         this.quantity = quantity;
         this.isAllPartsAvailable = isAllPartsAvailable;
         this.isIssueCategoryCorrect = isIssueCategoryCorrect;
-        this.isProductDirty = isProductDirty;
+        this.isProductClean = isProductClean;
         this.agentRemarks = agentRemarks;
         this.docketId = docketId;
     }
@@ -63,12 +63,12 @@ public class FieldData implements Serializable{
         isIssueCategoryCorrect = issueCategoryCorrect;
     }
 
-    public String getIsProductDirty() {
-        return isProductDirty;
+    public String getIsProductClean() {
+        return isProductClean;
     }
 
-    public void setIsProductDirty(String productDirty) {
-        isProductDirty = productDirty;
+    public void setIsProductClean(String productDirty) {
+        isProductClean = productDirty;
     }
 
     public String getAgentRemarks() {
@@ -113,13 +113,13 @@ public class FieldData implements Serializable{
 
     @Override
     public String toString() {
-        return "FieldData{" +
+        return "{" +
                 "id=" + id +
                 ", isSameProduct='" + isSameProduct + '\'' +
                 ", quantity=" + quantity +
                 ", isAllPartsAvailable='" + isAllPartsAvailable + '\'' +
                 ", isIssueCategoryCorrect='" + isIssueCategoryCorrect + '\'' +
-                ", isProductDirty='" + isProductDirty + '\'' +
+                ", isProductClean='" + isProductClean + '\'' +
                 ", agentRemarks='" + agentRemarks + '\'' +
                 ", docketId=" + docketId +
                 ", rescheduleDate='" + rescheduleDate + '\'' +

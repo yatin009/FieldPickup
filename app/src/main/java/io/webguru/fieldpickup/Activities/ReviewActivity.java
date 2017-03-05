@@ -1,13 +1,20 @@
 package io.webguru.fieldpickup.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import butterknife.Bind;
@@ -32,6 +39,10 @@ public class ReviewActivity extends AppCompatActivity {
 
     FieldData fieldData;
 
+    private String imageId;
+
+    File output = null;
+
     private static FieldDataDataSource fieldDataDataSource;
     private static DocketDataSource docketDataSource;
 
@@ -48,6 +59,7 @@ public class ReviewActivity extends AppCompatActivity {
 
 
     private static final int CONTENT_REQUEST = 1221;
+    private static final int CAMERA_REQUEST = 1222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +84,11 @@ public class ReviewActivity extends AppCompatActivity {
             quantity_details.setText(fieldData.getQuantity() + "");
             is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
             is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-            is_dirty_details.setText(fieldData.getIsProductDirty());
+            is_dirty_details.setText(fieldData.getIsProductClean());
             remarks_details.setText(fieldData.getAgentRemarks());
+            setCapturedImage("1","DETAILS");
+            setCapturedImage("2","DETAILS");
+            setCapturedImage("3","DETAILS");
 
         }
 
@@ -92,38 +107,38 @@ public class ReviewActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.is_same_product_details)
+    @OnClick(R.id.edit_prod_desc)
     public void updateIsSameProduct() {
         query = "Same Product";
         openUpdateWindow("Same product received ?", fieldData.getIsSameProduct(), "RADIO");
     }
 
-    @OnClick(R.id.quantity_details)
+    @OnClick(R.id.edit_quantity)
     public void updateQuantity() {
         query = "Quantity";
-        openUpdateWindow("Picked Quantity", fieldData.getQuantity() + "", "NUMBER");
+        openUpdateWindow("What are the number of item picked up ?", fieldData.getQuantity() + "", "NUMBER");
     }
 
-    @OnClick(R.id.is_all_parts_available_details)
+    @OnClick(R.id.edit_all_parts_available)
     public void updateIsAllParts() {
         query = "All Parts";
-        openUpdateWindow("All accessories/parts available ?", fieldData.getIsAllPartsAvailable(), "RADIO");
+        openUpdateWindow("Are all accessories/parts available with brand box ?", fieldData.getIsAllPartsAvailable(), "RADIO");
     }
 
 
-    @OnClick(R.id.is_correct_issue_category_details)
-    public void updateIsCategory() {
+    @OnClick(R.id.edit_reason)
+    public void updateReason() {
         query = "Category Issue";
-        openUpdateWindow("Issue Category is Correct ?", fieldData.getIsIssueCategoryCorrect(), "RADIO");
+        openUpdateWindow("Is the reason of return varified ?", fieldData.getIsIssueCategoryCorrect(), "RADIO");
     }
 
-    @OnClick(R.id.is_dirty_details)
-    public void updateIsDirty() {
+    @OnClick(R.id.edit_is_clean)
+    public void updateIsClean() {
         query = "Dirty Product";
-        openUpdateWindow("Product is dirty/used ?", fieldData.getIsProductDirty(), "RADIO");
+        openUpdateWindow("Is the product clean/not used ?", fieldData.getIsProductClean(), "RADIO");
     }
 
-    @OnClick(R.id.remarks_details)
+    @OnClick(R.id.edit_remarks)
     public void updateRemarks() {
         query = "Remarks";
         openUpdateWindow("Remarks", fieldData.getAgentRemarks(), "STRING");
@@ -136,6 +151,7 @@ public class ReviewActivity extends AppCompatActivity {
         intent.putExtra("Question", question);
         intent.putExtra("Type", type);
         intent.putExtra("Answer", answer);
+        intent.putExtra("ActualQuantity", docket.getQuantity());
         startActivityForResult(intent, CONTENT_REQUEST);
     }
 
@@ -144,7 +160,7 @@ public class ReviewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CONTENT_REQUEST) {
             String updatedValue = null;
-            if(data == null){
+            if (data == null) {
                 return;
             }
             updatedValue = data.getStringExtra("UpdatedValue");
@@ -163,12 +179,14 @@ public class ReviewActivity extends AppCompatActivity {
                 fieldData.setIsIssueCategoryCorrect(updatedValue);
                 is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
             } else if (query.equals("Dirty Product")) {
-                fieldData.setIsProductDirty(updatedValue);
-                is_dirty_details.setText(fieldData.getIsProductDirty());
+                fieldData.setIsProductClean(updatedValue);
+                is_dirty_details.setText(fieldData.getIsProductClean());
             } else if (query.equals("Remarks")) {
                 fieldData.setAgentRemarks(updatedValue);
                 remarks_details.setText(fieldData.getAgentRemarks());
             }
+        } else if (requestCode == CAMERA_REQUEST) {
+            setCapturedImage(imageId,"CAMERA");
         }
 
     }
@@ -182,6 +200,7 @@ public class ReviewActivity extends AppCompatActivity {
             docketDataSource = new DocketDataSource(this);
             docketDataSource.open();
             docketDataSource.markDocketAsDone(docket.getId());
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -192,7 +211,157 @@ public class ReviewActivity extends AppCompatActivity {
                 fieldDataDataSource.close();
             }
         }
+
+
+        String path = "Field Pickup/Picked";
+        File dir = new File(path);
+        if (!dir.exists()) {
+            try {
+                dir.mkdir();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try{
+            File image1 = new File("Field Pickup/Temp/" + docket.getAwbNumber() + "_1.jpeg");
+            image1.renameTo(new File("Field Pickup/Picked/" + docket.getAwbNumber() + "_1.jpeg"));
+            File image2 = new File("Field Pickup/Temp/" + docket.getAwbNumber() + "_2.jpeg");
+            image2.renameTo(new File("Field Pickup/Picked/" + docket.getAwbNumber() + "_2.jpeg"));
+            File image3 = new File("Field Pickup/Temp/" + docket.getAwbNumber() + "_3.jpeg");
+            image3.renameTo(new File("Field Pickup/Picked/" + docket.getAwbNumber() + "_3.jpeg"));
+        } catch (Exception e){
+
+        }
+
+        String dirPath = "Field Pickup/Temp";
+        dir = new File(dirPath);
+        try {
+            dir.delete();
+        } catch (SecurityException ex) {
+        }
+
         finish();
+    }
+
+
+    @OnClick(R.id.capturedImage1)
+    public void openImage1() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage1);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("1");
+    }
+
+    @OnClick(R.id.capturedImage2)
+    public void openImage2() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage2);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("2");
+    }
+
+    @OnClick(R.id.capturedImage3)
+    public void openImage3() {
+        ImageView imageView = (ImageView) findViewById(R.id.capturedImage3);
+        if (imageView.getDrawable() == null){
+            return;
+        }
+        openImage("3");
+    }
+
+    private void openImage(String id) {
+        Intent intent = new Intent(this, ImageViewActivity.class);
+        intent.putExtra("imageName", docket.getAwbNumber() + "_" + id + ".jpeg");
+        intent.putExtra("awbNumber", docket.getAwbNumber());
+        intent.putExtra("imageNumber", id);
+        intent.putExtra("source", "REVIEW");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.image1)
+    public void captureImage1() {
+        imageId = "1";
+        capture("1");
+    }
+
+    @OnClick(R.id.image2)
+    public void captureImage2() {
+        imageId = "2";
+        capture("2");
+    }
+
+    @OnClick(R.id.image3)
+    public void captureImage3() {
+        imageId = "3";
+        capture("3");
+    }
+
+
+    public void capture(String imageId) {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            docket = (Docket) bundle.get("Docket");
+            String path = DocketUpdateActivity.checkForImageLocation();
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            File dir = Environment.getExternalStoragePublicDirectory(path);
+            output = new File(dir, docket.getAwbNumber() + "_" + imageId + ".jpeg");
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
+            cameraIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Uri.fromFile(output));
+            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+        }
+    }
+
+
+    protected void setCapturedImage(String imageId, String source) {
+        String id;
+        ImageView imageView;
+        if (imageId.equals("1")) {
+            id = "1";
+            imageView = (ImageView) findViewById(R.id.capturedImage1);
+        } else if (imageId.equals("2")) {
+            id = "2";
+            imageView = (ImageView) findViewById(R.id.capturedImage2);
+        } else if (imageId.equals("3")) {
+            id = "3";
+            imageView = (ImageView) findViewById(R.id.capturedImage3);
+        } else {
+            return;
+        }
+        imageView.setImageDrawable(null);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            docket = (Docket) bundle.get("Docket");
+            if(source.equals("CAMERA")) {
+                imageView.setImageURI(getImageUri(docket.getAwbNumber() + "_" + id + ".jpeg"));
+            } else {
+                File f = Environment.getExternalStoragePublicDirectory(DocketUpdateActivity.checkForImageLocation() + "/" + docket.getAwbNumber() + "_" + id + ".jpeg");
+                imageView.setImageURI(Uri.parse(f.getAbsolutePath()));
+            }
+        }
+    }
+
+    private Uri getImageUri(String imageName) {
+        String path = DocketUpdateActivity.checkForImageLocation();
+        File dir = Environment.getExternalStoragePublicDirectory(path);
+        output = new File(dir, imageName);
+        Bitmap photo = BitmapFactory.decodeFile(output.getAbsolutePath());
+        photo = Bitmap.createScaledBitmap(photo, 600, 600, true);
+
+        File f = Environment.getExternalStoragePublicDirectory(DocketUpdateActivity.checkForImageLocation() + "/" + imageName);
+        FileOutputStream fo = null;
+        try {
+            f.createNewFile();
+            fo = new FileOutputStream(f);
+            photo.compress(Bitmap.CompressFormat.JPEG, 70, fo);
+            fo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Uri.parse(f.getAbsolutePath());
     }
 
 }

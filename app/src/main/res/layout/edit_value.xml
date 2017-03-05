@@ -57,16 +57,12 @@
                     android:id="@+id/selectedNumberTypeQuestion"
                     android:text="Select Question" />
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/selectedNumberAnswer"
-                        style="@style/InputStyle"
-                        android:inputType="number" />
-                </android.support.design.widget.TextInputLayout>
+                <Spinner
+                    android:id="@+id/selectedNumberAnswer"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="30dp"/>
 
             </LinearLayout>
 

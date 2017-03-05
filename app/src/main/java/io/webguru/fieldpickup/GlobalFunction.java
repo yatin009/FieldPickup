@@ -33,10 +33,14 @@ public class GlobalFunction {
 
 
     private static String[] docketNumberList = {"RP-415221", "RP-415255", "RP-415223", "RP-415276", "RP-415288", "RP-415232", "RP-415333", "RP-415365", "RP-415612", "RP-415543"};
+    private static String[] orderNumberList = {"886475", "874322", "998382", "445733", "654432", "784132", "834526", "934287", "869076", "188734"};
 
     private static String[] customerNameList = {"Yogesh sharma", "Dr. Ashwani Kumar Gupta", "MANU SHARMA", "Abhishek pal", "puneet vashistha", "Neeraj Joshi", "Dr. Gautam Bhattacharya", "Shweta Verma", "manish dhar", "sunil kr sharma"};
 
     private static String[] contactNumberList = {"+91-9012547691", "7042067740", "9769555880", "8953903078", "9717394845", "9810214312", "9899154267", "8287356604", "9810345061", "9775555430"};
+    private static String[] pincodeList = {"110020", "110092", "110045", "110056", "110023", "201301", "110054", "110020", "201301", "110023"};
+    private static String[] reasonList = {"Wrong Size", "Quality", "Wrong Item Delivered", "Wrong Style", "Wrong Color", "Wrong Quantity", "Manufacturer Defect", "Wrong Item Delivered", "Can't Make It Work", "Parts are Missing"};
+    private static Integer[] quantityList = {1, 2, 1, 3, 2, 4, 1, 2, 1, 3};
 
 
     private static String[] productDescriptionList = {"Intex Fun Swimming Pool - 6 Feet", "Shiv Shakti Brown Classic Wall Clock", "Kitchen pro 42 pcs Dinner Set With Serving Spoons",
@@ -85,7 +89,7 @@ public class GlobalFunction {
         List<Docket> docketList = docketDataSource.getAllDockets();
         if (docketList != null && !docketList.isEmpty()) {
             for (Docket docket1 : docketList) {
-                insertedDocketNumberMap.put(docket1.getDocketNumber(), docket1);
+                insertedDocketNumberMap.put(docket1.getAwbNumber(), docket1);
             }
         }
         for (int i = 0; i < docketNumberList.length; i++) {
@@ -94,7 +98,9 @@ public class GlobalFunction {
                     dockets.add(insertedDocketNumberMap.get(docketNumberList[i]));
                 }
             } else {
-                docket = docketDataSource.createDocket(docketNumberList[i], customerNameList[i], contactNumberList[i], addressList[i], productDescriptionList[i], 1);
+                docket = docketDataSource.createDocket(docketNumberList[i], customerNameList[i],
+                        contactNumberList[i], addressList[i], productDescriptionList[i], 1,
+                        reasonList[i],pincodeList[i],quantityList[i], orderNumberList[i]);
                 dockets.add(docket);
             }
         }

@@ -1,6 +1,5 @@
 package io.webguru.fieldpickup.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import io.webguru.fieldpickup.Activities.DocketUpdateActivity;
+import io.webguru.fieldpickup.Activities.DocketDetailsActivity;
 import io.webguru.fieldpickup.Activities.StatusActivity;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.R;
@@ -49,15 +48,15 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
         } else {
             holder.mIsSynced.setVisibility(View.GONE);
         }
-        holder.mDocketNumber.setText(docket.getDocketNumber());
-        holder.mContact.setText(docket.getCustoumerContact());
-        holder.mLocation.setText(docket.getCustoumerAddress());
+        holder.mDocketNumber.setText(docket.getAwbNumber());
+        holder.mContact.setText(docket.getCustomerContact());
+        holder.mLocation.setText(docket.getCustomerAddress());
         holder.mCustomerName.setText(docket.getCustomerName());
         holder.mContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:" + docket.getCustoumerContact()));
+                intent.setData(Uri.parse("tel:" + docket.getCustomerContact()));
                 context.startActivity(intent);
             }
         });
@@ -68,7 +67,7 @@ public class PendingDocketAdapter extends RecyclerView.Adapter<PendingDocketAdap
                 if(docket.isPending() == 1) {
                     intent = new Intent(context, StatusActivity.class);
                 } else {
-                    intent = new Intent(context, DocketUpdateActivity.class);
+                    intent = new Intent(context, DocketDetailsActivity.class);
                 }
                 intent.putExtra("Docket", docket);
                 context.startActivity(intent);

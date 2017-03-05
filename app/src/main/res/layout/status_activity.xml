@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
-
+                android:layout_marginRight="15dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -38,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/contentDividerLine"/>
 
             <LinearLayout
@@ -46,6 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -63,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/contentDividerLine"/>
 
 
@@ -72,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
@@ -90,6 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:background="@color/contentDividerLine"/>
 
 
@@ -102,6 +107,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
                 android:text="Proceed" />
         </LinearLayout>
     </ScrollView>
