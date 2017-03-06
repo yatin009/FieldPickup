@@ -17,8 +17,10 @@ public class FieldData implements Serializable{
     private Long docketId;
     private String rescheduleDate;
     private String status;
+    private String isDamaged;
+    private Integer isQcCleared;
 
-    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductClean, String agentRemarks, Long docketId) {
+    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductClean, String agentRemarks, Long docketId, String isDamaged, Integer isQcCleared) {
         this.isSameProduct = isSameProduct;
         this.quantity = quantity;
         this.isAllPartsAvailable = isAllPartsAvailable;
@@ -26,6 +28,8 @@ public class FieldData implements Serializable{
         this.isProductClean = isProductClean;
         this.agentRemarks = agentRemarks;
         this.docketId = docketId;
+        this.isDamaged = isDamaged;
+        this.isQcCleared = isQcCleared;
     }
 
     public FieldData() {
@@ -111,6 +115,22 @@ public class FieldData implements Serializable{
         this.status = status;
     }
 
+    public String getIsDamaged() {
+        return isDamaged;
+    }
+
+    public void setIsDamaged(String isDamaged) {
+        this.isDamaged = isDamaged;
+    }
+
+    public Integer getIsQcCleared() {
+        return isQcCleared;
+    }
+
+    public void setIsQcCleared(Integer isQcCleared) {
+        this.isQcCleared = isQcCleared;
+    }
+
     @Override
     public String toString() {
         return "{" +
@@ -124,6 +144,8 @@ public class FieldData implements Serializable{
                 ", docketId=" + docketId +
                 ", rescheduleDate='" + rescheduleDate + '\'' +
                 ", status='" + status + '\'' +
+                ", isDamaged='" + isDamaged + '\'' +
+                ", isQcCleared='" + isQcCleared + '\'' +
                 '}';
     }
 }

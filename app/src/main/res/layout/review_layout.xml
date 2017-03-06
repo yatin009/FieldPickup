@@ -64,7 +64,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/edit_prod_desc_ques"
                         style="@style/ReviewLabelStyle"
+                        android:layout_marginBottom="10dp"
                         android:text="1. Same product received ?" />
                     <TextView
                         android:id="@+id/is_same_product_details"
@@ -90,6 +92,8 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/edit_quantity_ques"
+                        android:layout_marginBottom="10dp"
                         style="@style/ReviewLabelStyle"
                         android:text="2. What are the number of item picked up ?" />
                     <TextView
@@ -124,6 +128,7 @@
                         android:text="NA" />
 
                     <ImageView
+                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_width="5dp"
                         android:layout_height="17dp"
@@ -140,8 +145,10 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/edit_reason_ques"
                         style="@style/ReviewLabelStyle"
-                        android:text="4. Is the reason of return varified ?" />
+                        android:layout_marginBottom="10dp"
+                        android:text="4. Is the reason of return verified ?" />
                     <TextView
                         android:id="@+id/is_correct_issue_category_details"
                         style="@style/ReviewValueStyle"
@@ -184,6 +191,31 @@
                 </LinearLayout>
                 <View style="@style/ListDividerStyle" />
 
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:id="@+id/edit_is_damaged"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ReviewLabelStyle"
+                        android:text="6. Is the product damaged ?" />
+                    <TextView
+                        android:id="@+id/is_damaged_details"
+                        style="@style/ReviewValueStyle"
+                        android:text="NA" />
+
+                    <ImageView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="5dp"
+                        android:layout_height="17dp"
+                        android:layout_weight=".08"
+                        android:src="@drawable/edit_icon"/>
+
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
 
                 <LinearLayout
                     android:id="@+id/edit_remarks"
@@ -193,7 +225,7 @@
                     <TextView
                         style="@style/ReviewLabelStyle"
                         android:layout_weight=".30"
-                        android:text="6. Remarks" />
+                        android:text="7. Remarks" />
                     <TextView
                         android:id="@+id/remarks_details"
                         android:gravity="right"
@@ -219,7 +251,7 @@
                         style="@style/InputStyleNoMargin"
                         android:textSize="16sp"
                         android:textStyle="normal"
-                        android:text="7. Image"/>
+                        android:text="8. Image"/>
 
                     <LinearLayout
                         android:layout_height="wrap_content"

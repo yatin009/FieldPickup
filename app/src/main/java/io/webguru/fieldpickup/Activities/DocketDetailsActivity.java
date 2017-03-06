@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
@@ -55,6 +56,8 @@ public class DocketDetailsActivity extends AppCompatActivity {
     TextView is_dirty_details;
     TextView remarks_details;
     TextView status;
+    TextView is_damaged_details;
+    TextView is_qc_cleared_details;
 
     private LinearLayout capturedDetailsLayout;
 
@@ -102,7 +105,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
             address.setText(docket.getCustomerAddress());
             productDescription.setText(docket.getDescription());
             pincode.setText(docket.getPincode());
-            reason.setText(docket.getReason());
+            reason.setText(GlobalFunction.getReasonCodeMap().get(docket.getReason()));
             actualQuantity.setText(docket.getQuantity()+"");
             orderNumber.setText(docket.getOrderNumber());
 
@@ -123,6 +126,8 @@ public class DocketDetailsActivity extends AppCompatActivity {
                 is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
                 remarks_details = (TextView) findViewById(R.id.remarks_details);
                 status = (TextView) findViewById(R.id.status);
+                is_damaged_details = (TextView) findViewById(R.id.is_damaged_details);
+                is_qc_cleared_details = (TextView) findViewById(R.id.is_qc_cleared_details);
 
                 is_same_product_details.setText(fieldData.getIsSameProduct());
                 quantity_details.setText(fieldData.getQuantity()+"");
@@ -131,6 +136,16 @@ public class DocketDetailsActivity extends AppCompatActivity {
                 is_dirty_details.setText(fieldData.getIsProductClean());
                 remarks_details.setText(fieldData.getAgentRemarks());
                 status.setText(fieldData.getStatus());
+                is_damaged_details.setText(fieldData.getIsDamaged() == null ? "NA" : fieldData.getIsDamaged());
+                String qc = "NA";
+                if(fieldData.getIsQcCleared() == null){
+                    qc = "NA";
+                } else if(fieldData.getIsQcCleared() == 1){
+                    qc = "YES";
+                } else if(fieldData.getIsQcCleared() == 0){
+                    qc = "NO";
+                }
+                is_qc_cleared_details.setText(qc);
                 setCapturedImage("1");
                 setCapturedImage("2");
                 setCapturedImage("3");
@@ -146,6 +161,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DocketUpdateActivity.class);
         intent.putExtra("Docket", docket);
         startActivity(intent);
+        finish();
     }
 
     private Uri getImageUri(String imageName) {

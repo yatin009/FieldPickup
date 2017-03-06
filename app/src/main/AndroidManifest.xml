@@ -31,6 +31,8 @@
         </activity>
         <activity android:name=".Activities.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
+        <activity android:name=".Activities.QcResultActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.DocketDetailsActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"></activity>
         <activity android:name=".Activities.DocketUpdateActivity"

@@ -31,7 +31,6 @@ public class GlobalFunction {
     private static DocketDataSource docketDataSource;
     private static FieldDataDataSource fieldDataDataSource;
 
-
     private static String[] docketNumberList = {"RP-415221", "RP-415255", "RP-415223", "RP-415276", "RP-415288", "RP-415232", "RP-415333", "RP-415365", "RP-415612", "RP-415543"};
     private static String[] orderNumberList = {"886475", "874322", "998382", "445733", "654432", "784132", "834526", "934287", "869076", "188734"};
 
@@ -39,7 +38,8 @@ public class GlobalFunction {
 
     private static String[] contactNumberList = {"+91-9012547691", "7042067740", "9769555880", "8953903078", "9717394845", "9810214312", "9899154267", "8287356604", "9810345061", "9775555430"};
     private static String[] pincodeList = {"110020", "110092", "110045", "110056", "110023", "201301", "110054", "110020", "201301", "110023"};
-    private static String[] reasonList = {"Wrong Size", "Quality", "Wrong Item Delivered", "Wrong Style", "Wrong Color", "Wrong Quantity", "Manufacturer Defect", "Wrong Item Delivered", "Can't Make It Work", "Parts are Missing"};
+    private static String[] reasonList = {"103", "105", "102", "106", "105", "104", "113", "109", "110", "114"};
+
     private static Integer[] quantityList = {1, 2, 1, 3, 2, 4, 1, 2, 1, 3};
 
 
@@ -151,6 +151,172 @@ public class GlobalFunction {
                 (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    public static Map<String, String> getReasonCodeMap(){
+        Map<String,String> reasonCodeMap = new HashMap<>();
+        reasonCodeMap.put("101","Can't Make It Work");
+        reasonCodeMap.put("102","Manufacturer Defect");
+        reasonCodeMap.put("103","Wrong Size");
+        reasonCodeMap.put("104","Wrong Item Delivered");
+        reasonCodeMap.put("105","Quality");
+        reasonCodeMap.put("106","Parts are missing");
+        reasonCodeMap.put("107","Wrong Style");
+        reasonCodeMap.put("108","Wrong Item Ordered");
+        reasonCodeMap.put("109","Only Product is damaged");
+        reasonCodeMap.put("110","Package and product both are damaged");
+        reasonCodeMap.put("111","Passed Expiry /Warranty Date");
+        reasonCodeMap.put("112","Authenticity");
+        reasonCodeMap.put("113","Wrong Color");
+        reasonCodeMap.put("114","Wrong Quantity");
+        reasonCodeMap.put("115","Null");
+        return reasonCodeMap;
+    }
+
+    public static Map<Integer,Map<String,String>> getQcMatrix(){
+        Map<Integer,Map<String,String>> qcMatrix = new HashMap<>();
+        Map<String, String> valueMap = null;
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(101,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","NO");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(102,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(103,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","NO");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(104,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","NO");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(105,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(106,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(107,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(108,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","NO");
+        qcMatrix.put(109,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","NO");
+        qcMatrix.put(110,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(111,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(112,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","NO");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(113,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","NO");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","YES");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(114,valueMap);
+
+        valueMap = new HashMap<>();
+        valueMap.put("Product Description","YES");
+        valueMap.put("Quantity","YES");
+        valueMap.put("Accessories in brand box","YES");
+        valueMap.put("Reason","NO");
+        valueMap.put("Clean/Not Used","YES");
+        valueMap.put("Is Damaged","YES");
+        qcMatrix.put(115,valueMap);
+
+        return qcMatrix;
+    };
+
+    public boolean qualityCheck(){
+
+        return true;
     }
 
 }

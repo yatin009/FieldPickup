@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:fitsSystemWindows="true"
+    tools:context="io.webguru.fieldpickup.Activities.QcResultActivity">
+
+    <RelativeLayout
+        android:id="@+id/qc_passed"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView android:src="@drawable/qc_pass"
+            android:layout_marginTop="120dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/qc_failed"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageView android:src="@drawable/qc_fail"
+            android:layout_marginTop="120dp"
+            android:layout_marginBottom="20dp"
+
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView android:src="@drawable/qc_fail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Review Submitted"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView android:src="@drawable/qc_fail"
+            android:id="@+id/qc_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/LoginBox"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:gravity="bottom"
+        android:layout_gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/proceed"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:text="Proceed"
+                style="@style/NewButtonStyle"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

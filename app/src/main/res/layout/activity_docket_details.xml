@@ -300,6 +300,22 @@
                 </LinearLayout>
                 <View style="@style/ListDividerStyle" />
 
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:text="5. Is the product damaged ?" />
+                    <TextView
+                        android:id="@+id/is_damaged_details"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
 
                 <LinearLayout
                     style="@style/QCLayoutStyle"
@@ -307,13 +323,9 @@
 
                     <TextView
                         style="@style/LabelStyleNoMargin"
-                        android:layout_weight=".30"
-                        android:text="6. Status" />
+                        android:text="6. Is QC cleared ?" />
                     <TextView
-                        android:id="@+id/status"
-                        android:layout_weight=".70"
-                        android:gravity="right"
-                        android:layout_marginRight="10dp"
+                        android:id="@+id/is_qc_cleared_details"
                         style="@style/SubLabelStyleNoMargin"
                         android:text="NA" />
 
@@ -327,7 +339,27 @@
                     <TextView
                         style="@style/LabelStyleNoMargin"
                         android:layout_weight=".30"
-                        android:text="7. Remarks" />
+                        android:text="7. Status" />
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_weight=".70"
+                        android:gravity="right"
+                        android:layout_marginRight="10dp"
+                        style="@style/SubLabelStyleNoMargin"
+                        android:text="NA" />
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/LabelStyleNoMargin"
+                        android:layout_weight=".30"
+                        android:text="8. Remarks" />
                     <TextView
                         android:id="@+id/remarks_details"
                         android:gravity="right"
@@ -344,7 +376,7 @@
 
                     <TextView
                         style="@style/InputStyleNoMargin"
-                        android:text="8. Image"
+                        android:text="9. Image"
                         android:textSize="16sp"
                         android:textStyle="normal"
                         android:maxLines="2"/>

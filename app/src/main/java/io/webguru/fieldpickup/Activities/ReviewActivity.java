@@ -16,12 +16,14 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
@@ -48,12 +50,15 @@ public class ReviewActivity extends AppCompatActivity {
 
 
     TextView is_same_product_details;
+    TextView edit_prod_desc_ques;
+    TextView edit_reason_ques;
+    TextView edit_quantity_ques;
     TextView quantity_details;
     TextView is_all_parts_available_details;
     TextView is_correct_issue_category_details;
     TextView is_dirty_details;
     TextView remarks_details;
-    TextView status;
+    TextView is_damaged_details;
 
     String query = "";
 
@@ -73,19 +78,26 @@ public class ReviewActivity extends AppCompatActivity {
             fieldData = (FieldData) bundle.get("FieldData");
 
             is_same_product_details = (TextView) findViewById(R.id.is_same_product_details);
+            edit_prod_desc_ques = (TextView) findViewById(R.id.edit_prod_desc_ques);
+            edit_quantity_ques = (TextView) findViewById(R.id.edit_quantity_ques);
+            edit_reason_ques = (TextView) findViewById(R.id.edit_reason_ques);
             quantity_details = (TextView) findViewById(R.id.quantity_details);
             is_all_parts_available_details = (TextView) findViewById(R.id.is_all_parts_available_details);
             is_correct_issue_category_details = (TextView) findViewById(R.id.is_correct_issue_category_details);
             is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
             remarks_details = (TextView) findViewById(R.id.remarks_details);
-            status = (TextView) findViewById(R.id.status);
+            is_damaged_details = (TextView) findViewById(R.id.is_damaged_details);
 
             is_same_product_details.setText(fieldData.getIsSameProduct());
+            edit_prod_desc_ques.setText("1. Same product received ?\n\n   (" + docket.getDescription() + ")");
+            edit_quantity_ques.setText("2. What are the number of item picked up ?\n\n   (Quantity to be Picked : " + docket.getQuantity() + ")");
+            edit_reason_ques.setText("4. Is the reason of return verified ?\n\n   (" + GlobalFunction.getReasonCodeMap().get(docket.getReason()) + ")");
             quantity_details.setText(fieldData.getQuantity() + "");
             is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
             is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
             is_dirty_details.setText(fieldData.getIsProductClean());
             remarks_details.setText(fieldData.getAgentRemarks());
+            is_damaged_details.setText(fieldData.getIsDamaged());
             setCapturedImage("1","DETAILS");
             setCapturedImage("2","DETAILS");
             setCapturedImage("3","DETAILS");
@@ -134,8 +146,14 @@ public class ReviewActivity extends AppCompatActivity {
 
     @OnClick(R.id.edit_is_clean)
     public void updateIsClean() {
-        query = "Dirty Product";
+        query = "Is Clean";
         openUpdateWindow("Is the product clean/not used ?", fieldData.getIsProductClean(), "RADIO");
+    }
+
+    @OnClick(R.id.edit_is_damaged)
+    public void updateIsDamaged() {
+        query = "Is Damaged";
+        openUpdateWindow("Is the product damaged ?", fieldData.getIsDamaged(), "RADIO");
     }
 
     @OnClick(R.id.edit_remarks)
@@ -178,9 +196,12 @@ public class ReviewActivity extends AppCompatActivity {
             } else if (query.equals("Category Issue")) {
                 fieldData.setIsIssueCategoryCorrect(updatedValue);
                 is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-            } else if (query.equals("Dirty Product")) {
+            } else if (query.equals("Is Clean")) {
                 fieldData.setIsProductClean(updatedValue);
                 is_dirty_details.setText(fieldData.getIsProductClean());
+            }  else if (query.equals("Is Damaged")) {
+                fieldData.setIsDamaged(updatedValue);
+                is_damaged_details.setText(fieldData.getIsDamaged());
             } else if (query.equals("Remarks")) {
                 fieldData.setAgentRemarks(updatedValue);
                 remarks_details.setText(fieldData.getAgentRemarks());
@@ -193,6 +214,18 @@ public class ReviewActivity extends AppCompatActivity {
 
     @OnClick(R.id.update_docket)
     public void updateDocket() {
+
+        Integer reasonCode = Integer.parseInt(docket.getReason());
+        boolean isQCPassed = getQcResult(reasonCode, docket, fieldData);
+
+
+        if(isQCPassed){
+            fieldData.setIsQcCleared(1);
+        } else {
+            fieldData.setIsQcCleared(0);
+        }
+
+
         try {
             fieldDataDataSource = new FieldDataDataSource(this);
             fieldDataDataSource.open();
@@ -207,7 +240,7 @@ public class ReviewActivity extends AppCompatActivity {
             if (docketDataSource != null) {
                 docketDataSource.close();
             }
-            if (docketDataSource != null) {
+            if (fieldDataDataSource != null) {
                 fieldDataDataSource.close();
             }
         }
@@ -241,8 +274,54 @@ public class ReviewActivity extends AppCompatActivity {
         } catch (SecurityException ex) {
         }
 
+        Intent intent = new Intent(this, QcResultActivity.class);
+        intent.putExtra("Docket", docket);
+        intent.putExtra("FieldData", fieldData);
+        intent.putExtra("isQCPassed", isQCPassed);
+        startActivity(intent);
         finish();
     }
+
+    private boolean getQcResult(Integer reasonCode, Docket docket, FieldData fieldData){
+        Map<Integer,Map<String,String>> qcMatrix = GlobalFunction.getQcMatrix();
+        if(qcMatrix.containsKey(reasonCode)){
+            Map<String,String> valueMap = qcMatrix.get(reasonCode);
+
+            if(valueMap.get("Product Description").equals("YES")){
+                if(fieldData.getIsSameProduct().equals("NO")){
+                    return false;
+                }
+            }
+            if(valueMap.get("Quantity").equals("YES")){
+                if(!docket.getQuantity().equals(fieldData.getQuantity())){
+                    return false;
+                }
+            }
+            if(valueMap.get("Accessories in brand box").equals("YES")){
+                if(fieldData.getIsAllPartsAvailable().equals("NO")){
+                    return false;
+                }
+            }
+            if(valueMap.get("Reason").equals("YES")){
+                if(fieldData.getIsIssueCategoryCorrect().equals("NO")){
+                    return false;
+                }
+            }
+            if(valueMap.get("Clean/Not Used").equals("YES")){
+                if(fieldData.getIsProductClean().equals("NO")){
+                    return false;
+                }
+            }
+            if(valueMap.get("Is Damaged").equals("YES")){
+                if(fieldData.getIsDamaged().equals("YES")){
+                    return false;
+                }
+            }
+
+        }
+        return true;
+    }
+
 
 
     @OnClick(R.id.capturedImage1)

@@ -28,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
 import io.webguru.fieldpickup.R;
@@ -54,10 +55,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
     RadioGroup isAllPartsAvailable;
     RadioGroup isCorrectIssueCategory;
     RadioGroup isDirty;
+    RadioGroup isDamaged;
     RadioButton isSameProductRadioButton;
     RadioButton isAllPartsAvailableRadioButton;
     RadioButton isCorrectIssueCategoryRadioButton;
     RadioButton isDirtyRadioButton;
+    RadioButton isDamagedRadioButton;
 
     TextView prodDesc;
     TextView actualQuantity;
@@ -93,7 +96,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
             prodDesc.setText(docket.getDescription());
             actualQuantity.setText("Quantity to be picked : " + docket.getQuantity()+"");
-            actualReason.setText("Reason : " + docket.getReason());
+            actualReason.setText("Reason : " + GlobalFunction.getReasonCodeMap().get(docket.getReason()));
         }
 
         if (getSupportActionBar() != null) {
@@ -231,12 +234,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
     @OnClick(R.id.update_docket)
     public void updateDocket() {
         isSameProduct = (RadioGroup) findViewById(R.id.is_same_product);
-//        String quantity = ((Spinner) findViewById(R.id.quantity)).get;
         String quantity = String.valueOf(((Spinner) findViewById(R.id.quantity)).getSelectedItem());
         remarks = (EditText) findViewById(R.id.remarks);
         isAllPartsAvailable = (RadioGroup) findViewById(R.id.is_all_parts_available);
         isCorrectIssueCategory = (RadioGroup) findViewById(R.id.is_correct_issue_category);
         isDirty = (RadioGroup) findViewById(R.id.is_product_clean);
+        isDamaged = (RadioGroup) findViewById(R.id.is_product_damaged);
 
         isSameProductRadioButton = (RadioButton) findViewById(isSameProduct.getCheckedRadioButtonId());
 
@@ -245,6 +248,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
         isCorrectIssueCategoryRadioButton = (RadioButton) findViewById(isCorrectIssueCategory.getCheckedRadioButtonId());
 
         isDirtyRadioButton = (RadioButton) findViewById(isDirty.getCheckedRadioButtonId());
+        isDamagedRadioButton = (RadioButton) findViewById(isDamaged.getCheckedRadioButtonId());
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -258,13 +262,14 @@ public class DocketUpdateActivity extends AppCompatActivity {
             String isAllPartsAvailable = isAllPartsAvailableRadioButton != null ? isAllPartsAvailableRadioButton.getText().toString() : null;
             String isCorrectIssueCategory = isCorrectIssueCategoryRadioButton != null ? isCorrectIssueCategoryRadioButton.getText().toString() : null;
             String isDirty = isDirtyRadioButton != null ? isDirtyRadioButton.getText().toString() : null;
+            String isDamaged = isDamagedRadioButton != null ? isDamagedRadioButton.getText().toString() : null;
             String remarksByFe = remarks != null ? remarks.getText().toString() : null;
-            boolean isAnyError = validateCapturedData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe);
+            boolean isAnyError = validateCapturedData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, isDamaged);
             if (isAnyError) {
                 return;
             }
 
-            FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId());
+            FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId(),isDamaged, null);
             fieldData.setStatus("Package Picked");
 
             Intent intent = new Intent(this, ReviewActivity.class);
@@ -278,7 +283,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
     }
 
     private boolean validateCapturedData(String isSameProduct, int quantity, String isAllPartsAvailable, String isCorrectIssueCategory,
-                                         String isDirty, String remarksByFe) {
+                                         String isDirty, String remarksByFe, String isDamaged) {
         boolean isAnyError = false;
 
         ImageView imageView1 = (ImageView) findViewById(R.id.capturedImage1);
@@ -293,19 +298,22 @@ public class DocketUpdateActivity extends AppCompatActivity {
             Toast.makeText(this, "Set value for  \"1. Same product received ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (quantity == 0) {
-            Toast.makeText(this, "Set value for  \"2. Quantity\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Set value for  \"2. What are the number of item picked up ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (isAllPartsAvailable == null || isAllPartsAvailable.equals("")) {
-            Toast.makeText(this, "Set value for  \"3. All accessories/parts available ?\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Set value for  \"3. Are all accessories/parts available with brand box ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (isCorrectIssueCategory == null || isCorrectIssueCategory.equals("")) {
-            Toast.makeText(this, "Set value for  \"4. Issue Category is Correct ?\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Set value for  \"4. Is the reason of return varified ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (isDirty == null || isDirty.equals("")) {
-            Toast.makeText(this, "Set value for  \"5. Product is dirty/used ?\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Set value for  \"5. Is the product clean/not used ?\"", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        } else if (isDamaged == null || isDamaged.equals("")) {
+            Toast.makeText(this, "Set value for  \"6. Is the product damaged ?\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (remarksByFe == null || remarksByFe.equals("")) {
-            Toast.makeText(this, "Set value for  \"6. Remarks\"", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Set value for  \"7. Remarks\"", Toast.LENGTH_LONG).show();
             isAnyError = true;
         } else if (!isImage1Captured) {
             Toast.makeText(this, "Capture Image 1", Toast.LENGTH_LONG).show();

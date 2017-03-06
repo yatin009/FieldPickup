@@ -1,0 +1,17 @@
+QC Issue Reason Code
+
+101 - Can't Make It Work
+102 - Manufacturer Defect
+103 - Wrong Size
+104 - Wrong Item Delivered
+105 - Quality
+106 - Parts are missing
+107 - Wrong Style
+108 - Wrong Item Ordered
+109 - Only Product is damaged
+110 - Package and product both are damaged
+111 - Passed Expiry /Warranty Date
+112 - Authenticity
+113 - Wrong Color
+114 - Wrong Quantity
+115 - Null

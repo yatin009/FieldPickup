@@ -74,12 +74,10 @@
                         style="@style/RadioGroupStyle">
 
                         <RadioButton
-                            android:id="@+id/is_same_product_yes"
                             style="@style/RadioButtonStyle"
                             android:text="YES" />
 
                         <RadioButton
-                            android:id="@+id/is_same_product_no"
                             style="@style/RadioButtonStyle"
                             android:text="NO" />
                     </RadioGroup>
@@ -109,17 +107,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="30dp"/>
 
-                    <!--<android.support.design.widget.TextInputLayout-->
-                        <!--android:id="@+id/quantity"-->
-                        <!--android:layout_width="150dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="30dp">-->
-
-                        <!--<android.support.design.widget.TextInputEditText-->
-                            <!--android:id="@+id/product_quantity"-->
-                            <!--style="@style/InputStyle"-->
-                            <!--android:inputType="number" />-->
-                    <!--</android.support.design.widget.TextInputLayout>-->
                 </LinearLayout>
                 <View style="@style/ListDividerStyle" />
 
@@ -135,12 +122,10 @@
                         style="@style/RadioGroupStyle">
 
                         <RadioButton
-                            android:id="@+id/is_all_parts_available_yes"
                             style="@style/RadioButtonStyle"
                             android:text="YES" />
 
                         <RadioButton
-                            android:id="@+id/is_all_parts_available_no"
                             style="@style/RadioButtonStyle"
                             android:text="NO" />
                     </RadioGroup>
@@ -153,7 +138,7 @@
 
                     <TextView
                         style="@style/InputStyleNoMargin"
-                        android:text="4. Varify the reason of returned ?"/>
+                        android:text="4. Is the reason of return varified ?"/>
 
                     <TextView
                         style="@style/InputStyleNoMargin"
@@ -168,12 +153,10 @@
                         style="@style/RadioGroupStyle">
 
                         <RadioButton
-                            android:id="@+id/is_correct_issue_category_yes"
                             style="@style/RadioButtonStyle"
                             android:text="YES" />
 
                         <RadioButton
-                            android:id="@+id/is_correct_issue_category_no"
                             style="@style/RadioButtonStyle"
                             android:text="NO" />
                     </RadioGroup>
@@ -193,12 +176,10 @@
                         style="@style/RadioGroupStyle">
 
                         <RadioButton
-                            android:id="@+id/is_product_clean_yes"
                             style="@style/RadioButtonStyle"
                             android:text="YES" />
 
                         <RadioButton
-                            android:id="@+id/is_product_clean_no"
                             style="@style/RadioButtonStyle"
                             android:text="NO" />
                     </RadioGroup>
@@ -211,7 +192,30 @@
 
                     <TextView
                         style="@style/InputStyleNoMargin"
-                        android:text="6. Remarks"/>
+                        android:text="6. Is the product damaged ?"/>
+
+                    <RadioGroup
+                        android:id="@+id/is_product_damaged"
+                        style="@style/RadioGroupStyle">
+
+                        <RadioButton
+                            style="@style/RadioButtonStyle"
+                            android:text="YES" />
+
+                        <RadioButton
+                            style="@style/RadioButtonStyle"
+                            android:text="NO" />
+                    </RadioGroup>
+
+                </LinearLayout>
+                <View style="@style/ListDividerStyle" />
+
+                <LinearLayout
+                    style="@style/QCLayoutStyle">
+
+                    <TextView
+                        style="@style/InputStyleNoMargin"
+                        android:text="7. Remarks"/>
 
                     <EditText
                         android:id="@+id/remarks"
@@ -228,7 +232,7 @@
 
                     <TextView
                         style="@style/InputStyleNoMargin"
-                        android:text="7. Image"
+                        android:text="8. Image"
                         android:maxLines="2"/>
 
                     <LinearLayout
