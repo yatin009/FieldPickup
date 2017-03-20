@@ -9,17 +9,21 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import io.webguru.fieldpickup.Activities.MainActivity;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.POJO.Product;
 import io.webguru.fieldpickup.POJO.Question;
 
 /**
@@ -99,12 +103,30 @@ public class GlobalFunction {
                 }
             } else {
                 docket = docketDataSource.createDocket(docketNumberList[i], customerNameList[i],
-                        contactNumberList[i], addressList[i], productDescriptionList[i], 1,
-                        reasonList[i],pincodeList[i],quantityList[i], orderNumberList[i]);
+                        contactNumberList[i], addressList[i], getProductsString(i), 1
+                        ,pincodeList[i], orderNumberList[i]);
                 dockets.add(docket);
             }
         }
         return dockets;
+    }
+
+    public static String getProductsString(int counter){
+        ArrayList<Product> products = new ArrayList<>();
+        if((counter^2) == 0){
+            products.add(new Product(getProductId(), null, productDescriptionList[counter], reasonList[counter], quantityList[counter]));
+            products.add(new Product(getProductId(), null, productDescriptionList[counter+1], reasonList[counter+1], quantityList[counter+1]));
+        }else{
+            products.add(new Product(getProductId(), null, productDescriptionList[counter], reasonList[counter], quantityList[counter]));
+        }
+        return new Gson().toJson(products);
+    }
+
+    static int getProductId(){
+        Random r = new Random();
+        int Low = 1;
+        int High = 1000;
+        return r.nextInt(High-Low) + Low;
     }
 
     public static ArrayList<Docket> getDoneDocketList() {

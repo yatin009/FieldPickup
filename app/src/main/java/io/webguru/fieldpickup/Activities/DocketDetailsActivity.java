@@ -1,5 +1,6 @@
 package io.webguru.fieldpickup.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.zip.Inflater;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +31,7 @@ import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.POJO.Product;
 import io.webguru.fieldpickup.R;
 
 /**
@@ -38,16 +42,16 @@ public class DocketDetailsActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.products_layout)
+    LinearLayout productsParentLayout;
 
     Docket docket;
     TextView customerName;
     TextView contactNumber;
     TextView address;
-    TextView productDescription;
     TextView pincode;
-    TextView reason;
     TextView orderNumber;
-    TextView actualQuantity;
+
 
     TextView is_same_product_details;
     TextView quantity_details;
@@ -88,11 +92,9 @@ public class DocketDetailsActivity extends AppCompatActivity {
             customerName = (TextView) findViewById(R.id.customer_name);
             contactNumber = (TextView) findViewById(R.id.contact_number);
             address = (TextView) findViewById(R.id.address);
-            productDescription = (TextView) findViewById(R.id.product_description);
             pincode = (TextView) findViewById(R.id.pincode);
-            reason = (TextView) findViewById(R.id.reason);
+
             orderNumber = (TextView) findViewById(R.id.order_number);
-            actualQuantity = (TextView) findViewById(R.id.actual_quantity);
 
             if(docket.isPending() == 1){
                 capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
@@ -103,10 +105,11 @@ public class DocketDetailsActivity extends AppCompatActivity {
             customerName.setText(docket.getCustomerName());
             contactNumber.setText(docket.getCustomerContact());
             address.setText(docket.getCustomerAddress());
-            productDescription.setText(docket.getDescription());
             pincode.setText(docket.getPincode());
-            reason.setText(GlobalFunction.getReasonCodeMap().get(docket.getReason()));
-            actualQuantity.setText(docket.getQuantity()+"");
+            inflateProductLayoutInfo();
+//            productDescription.setText(docket.getDescription());
+//            reason.setText(GlobalFunction.getReasonCodeMap().get(docket.getReason()));
+//            actualQuantity.setText(docket.getQuantity()+"");
             orderNumber.setText(docket.getOrderNumber());
 
             fieldDataDataSource = new FieldDataDataSource(this);
@@ -155,11 +158,27 @@ public class DocketDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private void inflateProductLayoutInfo(){
+        for(Product product : docket.getProducts()){
+            LayoutInflater inflater = (LayoutInflater)getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.prodcut_info_layout, productsParentLayout, false);
+            TextView productDescription = (TextView) view.findViewById(R.id.product_description);
+            TextView reason = (TextView) view.findViewById(R.id.reason);
+            TextView actualQuantity = (TextView) view.findViewById(R.id.actual_quantity);
+            productDescription.setText(product.getDescription());
+            reason.setText(GlobalFunction.getReasonCodeMap().get(product.getReason()));
+            actualQuantity.setText(product.getQuantity()+"");
+            productsParentLayout.addView(view);
+        }
+    }
 
     @OnClick(R.id.update_docket)
     public void updateDocket() {
         Intent intent = new Intent(this, DocketUpdateActivity.class);
         intent.putExtra("Docket", docket);
+        intent.putExtra("Product", docket.getProducts().get(0));
+        intent.putExtra("Step", "1");
         startActivity(intent);
         finish();
     }

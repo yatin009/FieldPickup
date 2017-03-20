@@ -26,11 +26,9 @@ public class DocketDataSource {
             MySQLiteHelper.COLUMN_CUSTOMER_NAME,
             MySQLiteHelper.COLUMN_CONTACT_NUMBER,
             MySQLiteHelper.COLUMN_ADDRESS,
-            MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION,
+            MySQLiteHelper.COLUMN_PRODUCTS,
             MySQLiteHelper.COLUMN_IS_PENDING,
-            MySQLiteHelper.COLUMN_REASON,
             MySQLiteHelper.COLUMN_PINCODE,
-            MySQLiteHelper.COLUMN_QUANTITY,
             MySQLiteHelper.COLUMN_ORDER_NUMBER,
             MySQLiteHelper.COLUMN_IS_SYNCED,
     };
@@ -48,18 +46,15 @@ public class DocketDataSource {
     }
 
     public Docket createDocket(String docketNumber, String customerName, String contact_number, String address,
-                               String productDescription, Integer isPending, String reason, String pincode,
-                               Integer quantity, String orderNumber) {
+                               String products, Integer isPending, String pincode, String orderNumber) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DOCKET_NUMBER, docketNumber);
         values.put(MySQLiteHelper.COLUMN_CUSTOMER_NAME, customerName);
         values.put(MySQLiteHelper.COLUMN_CONTACT_NUMBER, contact_number);
         values.put(MySQLiteHelper.COLUMN_ADDRESS, address);
-        values.put(MySQLiteHelper.COLUMN_PRODUCT_DESCRIPTION, productDescription);
+        values.put(MySQLiteHelper.COLUMN_PRODUCTS, products);
         values.put(MySQLiteHelper.COLUMN_IS_PENDING, isPending);
-        values.put(MySQLiteHelper.COLUMN_REASON, reason);
         values.put(MySQLiteHelper.COLUMN_PINCODE, pincode);
-        values.put(MySQLiteHelper.COLUMN_QUANTITY, quantity);
         values.put(MySQLiteHelper.COLUMN_ORDER_NUMBER, orderNumber);
         values.put(MySQLiteHelper.COLUMN_IS_SYNCED, 0);
 
@@ -152,13 +147,11 @@ public class DocketDataSource {
         docket.setCustomerName(cursor.getString(2));
         docket.setCustomerContact(cursor.getString(3));
         docket.setCustomerAddress(cursor.getString(4));
-        docket.setDescription(cursor.getString(5));
+        docket.setProducts(cursor.getString(5));
         docket.setPending(cursor.getInt(6));
-        docket.setReason(cursor.getString(7));
-        docket.setPincode(cursor.getString(8));
-        docket.setQuantity(cursor.getInt(9));
-        docket.setOrderNumber(cursor.getString(10));
-        docket.setIsSynced(cursor.getInt(11));
+        docket.setPincode(cursor.getString(7));
+        docket.setOrderNumber(cursor.getString(8));
+        docket.setIsSynced(cursor.getInt(9));
         return docket;
     }
 

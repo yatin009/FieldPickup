@@ -87,11 +87,11 @@ public class ReviewActivity extends AppCompatActivity {
             is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
             remarks_details = (TextView) findViewById(R.id.remarks_details);
             is_damaged_details = (TextView) findViewById(R.id.is_damaged_details);
-
             is_same_product_details.setText(fieldData.getIsSameProduct());
-            edit_prod_desc_ques.setText("1. Same product received ?\n\n   (" + docket.getDescription() + ")");
-            edit_quantity_ques.setText("2. What are the number of item picked up ?\n\n   (Quantity to be Picked : " + docket.getQuantity() + ")");
-            edit_reason_ques.setText("4. Is the reason of return verified ?\n\n   (" + GlobalFunction.getReasonCodeMap().get(docket.getReason()) + ")");
+//            TODO ADD MULTIPLE PRODUCT LOGIC
+//            edit_prod_desc_ques.setText("1. Same product received ?\n\n   (" + docket.getDescription() + ")");
+//            edit_quantity_ques.setText("2. What are the number of item picked up ?\n\n   (Quantity to be Picked : " + docket.getQuantity() + ")");
+//            edit_reason_ques.setText("4. Is the reason of return verified ?\n\n   (" + GlobalFunction.getReasonCodeMap().get(docket.getReason()) + ")");
             quantity_details.setText(fieldData.getQuantity() + "");
             is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
             is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
@@ -137,7 +137,6 @@ public class ReviewActivity extends AppCompatActivity {
         openUpdateWindow("Are all accessories/parts available with brand box ?", fieldData.getIsAllPartsAvailable(), "RADIO");
     }
 
-
     @OnClick(R.id.edit_reason)
     public void updateReason() {
         query = "Category Issue";
@@ -169,10 +168,10 @@ public class ReviewActivity extends AppCompatActivity {
         intent.putExtra("Question", question);
         intent.putExtra("Type", type);
         intent.putExtra("Answer", answer);
-        intent.putExtra("ActualQuantity", docket.getQuantity());
+//          TODO ADD MULTIPLE PRODUCT LOGIC
+//        intent.putExtra("ActualQuantity", docket.getQuantity());
         startActivityForResult(intent, CONTENT_REQUEST);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,15 +214,16 @@ public class ReviewActivity extends AppCompatActivity {
     @OnClick(R.id.update_docket)
     public void updateDocket() {
 
-        Integer reasonCode = Integer.parseInt(docket.getReason());
-        boolean isQCPassed = getQcResult(reasonCode, docket, fieldData);
-
-
-        if(isQCPassed){
-            fieldData.setIsQcCleared(1);
-        } else {
-            fieldData.setIsQcCleared(0);
-        }
+        //          TODO ADD MULTIPLE PRODUCT LOGIC
+//        Integer reasonCode = Integer.parseInt(docket.getReason());
+//        boolean isQCPassed = getQcResult(reasonCode, docket, fieldData);
+//
+//
+//        if(isQCPassed){
+//            fieldData.setIsQcCleared(1);
+//        } else {
+//            fieldData.setIsQcCleared(0);
+//        }
 
 
         try {
@@ -277,7 +277,8 @@ public class ReviewActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QcResultActivity.class);
         intent.putExtra("Docket", docket);
         intent.putExtra("FieldData", fieldData);
-        intent.putExtra("isQCPassed", isQCPassed);
+        //          TODO ADD MULTIPLE PRODUCT LOGIC
+//        intent.putExtra("isQCPassed", isQCPassed);
         startActivity(intent);
         finish();
     }
@@ -293,9 +294,10 @@ public class ReviewActivity extends AppCompatActivity {
                 }
             }
             if(valueMap.get("Quantity").equals("YES")){
-                if(!docket.getQuantity().equals(fieldData.getQuantity())){
-                    return false;
-                }
+                //          TODO ADD MULTIPLE PRODUCT LOGIC
+//                if(!docket.getQuantity().equals(fieldData.getQuantity())){
+//                    return false;
+//                }
             }
             if(valueMap.get("Accessories in brand box").equals("YES")){
                 if(fieldData.getIsAllPartsAvailable().equals("NO")){
@@ -321,8 +323,6 @@ public class ReviewActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
 
     @OnClick(R.id.capturedImage1)
     public void openImage1() {
@@ -378,7 +378,6 @@ public class ReviewActivity extends AppCompatActivity {
         capture("3");
     }
 
-
     public void capture(String imageId) {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -393,7 +392,6 @@ public class ReviewActivity extends AppCompatActivity {
 
         }
     }
-
 
     protected void setCapturedImage(String imageId, String source) {
         String id;

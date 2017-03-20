@@ -17,16 +17,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CUSTOMER_NAME = "customer_name";
     public static final String COLUMN_CONTACT_NUMBER = "contact_number";
     public static final String COLUMN_ADDRESS = "address";
-    public static final String COLUMN_PRODUCT_DESCRIPTION = "description";
+    public static final String COLUMN_PRODUCTS = "products";
     public static final String COLUMN_IS_PENDING = "is_pending";
     public static final String COLUMN_IS_SYNCED = "is_synced";
-    public static final String COLUMN_REASON = "reason";
     public static final String COLUMN_PINCODE = "pincode";
-    public static final String COLUMN_QUANTITY = "quantity";
     public static final String COLUMN_ORDER_NUMBER= "order_number";
 
     private static final String DATABASE_NAME = "field_pickup";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 6;
 
     // Database creation sql statement
     private static final String CREATE_TABLE_DOCKET = "create table "
@@ -36,17 +34,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_CUSTOMER_NAME + " text not null,"
             + COLUMN_CONTACT_NUMBER + " text not null,"
             + COLUMN_ADDRESS + " text not null,"
-            + COLUMN_PRODUCT_DESCRIPTION + " text not null,"
+            + COLUMN_PRODUCTS + " text not null,"
             + COLUMN_IS_PENDING + " integer not null,"
-            + COLUMN_REASON + " text not null,"
             + COLUMN_PINCODE + " text,"
-            + COLUMN_QUANTITY + " integer not null,"
             + COLUMN_ORDER_NUMBER + " text not null,"
             + COLUMN_IS_SYNCED + " integer not null"
             + ");";
 
     public static final String TABLE_FIELD_DATA = "field_data";
     public static final String COLUMN_DOCKET_ID = "docket_id";
+    public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_FIELD_DATA_JSON = "field_data_json";
 
 
@@ -54,6 +51,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + TABLE_FIELD_DATA + "( " + COLUMN_ID
             + " integer primary key autoincrement, "
             + COLUMN_DOCKET_ID + " inetger, "
+            + COLUMN_PRODUCT_ID + " inetger, "
             + COLUMN_FIELD_DATA_JSON + " text"
             + ");";
 

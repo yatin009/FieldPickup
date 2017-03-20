@@ -1,0 +1,7 @@
+
+wsquid:S1450"]Remove the "mLayoutManager" field and declare it as a local variable in the relevant methods.(Ø„îÛøÿÿÿÿ
+qsquid:S1450"WRemove the "mAdapter" field and declare it as a local variable in the relevant methods.(î×îúÿÿÿÿ
+rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(Ä‹ãûşÿÿÿÿ
+Xsquid:UselessImportCheck"1Remove this unused import 'android.widget.Toast'.(©›ïÍúÿÿÿÿ
+Tsquid:UselessImportCheck"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ
+Tsquid:S1161":Add the "@Override" annotation above this method signature(µ‚µõıÿÿÿÿ

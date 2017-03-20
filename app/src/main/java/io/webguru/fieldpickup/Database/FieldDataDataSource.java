@@ -27,6 +27,7 @@ public class FieldDataDataSource {
     private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_DOCKET_ID,
+            MySQLiteHelper.COLUMN_PRODUCT_ID,
             MySQLiteHelper.COLUMN_FIELD_DATA_JSON,
     };
 
@@ -42,26 +43,25 @@ public class FieldDataDataSource {
         dbHelper.close();
     }
 
-//    public FieldData createFieldData(FieldData fieldData) {
-//        ContentValues values = new ContentValues();
-//        values.put(MySQLiteHelper.COLUMN_DOCKET_ID, fieldData.getId());
-//        values.put(MySQLiteHelper.COLUMN_DOCKET_ID, fieldData.getId());
-//
-//        long insertId = database.insert(MySQLiteHelper.TABLE_FIELD_DATA, null,
-//                values);
-//        Cursor cursor = database.query(MySQLiteHelper.TABLE_FIELD_DATA,
-//                allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-//                null, null, null);
-//        cursor.moveToFirst();
-//        FieldData newFieldData = cursorToFieldData(cursor);
-//        cursor.close();
-//        return newFieldData;
-//    }
-
     public FieldData getFieldData(Long docketId) throws IOException {
         List<FieldData> fieldDatas = new ArrayList<>();
 
         Cursor cursor = database.rawQuery("select * from field_data where docket_id = ?", new String[] { docketId+"" });
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            FieldData fieldData = cursorToFieldData(cursor);
+            fieldDatas.add(fieldData);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return null;//fieldDatas == null || fieldDatas.isEmpty() ? null : fieldDatas.get(0);
+    }
+
+    public FieldData getFieldData(Long docketId, int productId) throws IOException {
+        List<FieldData> fieldDatas = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("select * from field_data where docket_id = ? and product_id = ?", new String[] { docketId+"", productId+"" });
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -81,6 +81,7 @@ public class FieldDataDataSource {
         ObjectMapper objectMapper = new ObjectMapper();
         String fieldDataJson = objectMapper.writeValueAsString(fieldData);
         values.put(MySQLiteHelper.COLUMN_DOCKET_ID, fieldData.getDocketId());
+        values.put(MySQLiteHelper.COLUMN_PRODUCT_ID, fieldData.getProductId());
         values.put(MySQLiteHelper.COLUMN_FIELD_DATA_JSON, fieldDataJson);
         long insertId = database.insert(MySQLiteHelper.TABLE_FIELD_DATA, null,values);
         fieldData.setId(insertId);
@@ -90,7 +91,7 @@ public class FieldDataDataSource {
     private FieldData cursorToFieldData(Cursor cursor) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Long id = cursor.getLong(0);
-        String fieldDataJson = cursor.getString(2);
+        String fieldDataJson = cursor.getString(3);
         FieldData fieldData = objectMapper.readValue(fieldDataJson,FieldData.class);
         fieldData.setId(id);
         return fieldData;

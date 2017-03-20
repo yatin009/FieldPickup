@@ -15,12 +15,15 @@ public class FieldData implements Serializable{
     private String isProductClean;
     private String agentRemarks;
     private Long docketId;
+    private int productId;
     private String rescheduleDate;
     private String status;
     private String isDamaged;
     private Integer isQcCleared;
 
-    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect, String isProductClean, String agentRemarks, Long docketId, String isDamaged, Integer isQcCleared) {
+    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect,
+                     String isProductClean, String agentRemarks, Long docketId, String isDamaged,
+                     Integer isQcCleared, int productId) {
         this.isSameProduct = isSameProduct;
         this.quantity = quantity;
         this.isAllPartsAvailable = isAllPartsAvailable;
@@ -30,6 +33,7 @@ public class FieldData implements Serializable{
         this.docketId = docketId;
         this.isDamaged = isDamaged;
         this.isQcCleared = isQcCleared;
+        this.productId = productId;
     }
 
     public FieldData() {
@@ -129,6 +133,14 @@ public class FieldData implements Serializable{
 
     public void setIsQcCleared(Integer isQcCleared) {
         this.isQcCleared = isQcCleared;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     @Override

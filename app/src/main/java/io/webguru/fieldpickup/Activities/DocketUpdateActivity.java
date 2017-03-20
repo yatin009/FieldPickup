@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,7 @@ import butterknife.OnClick;
 import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.POJO.Product;
 import io.webguru.fieldpickup.R;
 
 /**
@@ -42,8 +44,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+    @Bind(R.id.update_docket)
+    AppCompatButton udpateButton;
 
     private Docket docket;
+    private Product product;
+    private String step = "";
 
     private String imageId;
 
@@ -78,10 +84,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
+            product = (Product) bundle.get("Product");
+            step = bundle.getString("Step");
 
             List<String> quantityList = new ArrayList<>();
             quantityList.add("Select Quantity");
-            for(int i=0; i<docket.getQuantity(); i++){
+            for(int i=0; i<product.getQuantity(); i++){
                 quantityList.add((i+1)+"");
             }
             spinner = (Spinner) findViewById(R.id.quantity);
@@ -93,10 +101,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
             prodDesc = (TextView) findViewById(R.id.prod_desc);
             actualQuantity = (TextView) findViewById(R.id.actual_quantity);
             actualReason = (TextView) findViewById(R.id.actual_reason);
-
-            prodDesc.setText(docket.getDescription());
-            actualQuantity.setText("Quantity to be picked : " + docket.getQuantity()+"");
-            actualReason.setText("Reason : " + GlobalFunction.getReasonCodeMap().get(docket.getReason()));
+            prodDesc.setText(product.getDescription());
+            actualQuantity.setText("Quantity to be picked : " + product.getQuantity()+"");
+            actualReason.setText("Reason : " + GlobalFunction.getReasonCodeMap().get(product.getReason()));
         }
 
         if (getSupportActionBar() != null) {
@@ -111,11 +118,10 @@ public class DocketUpdateActivity extends AppCompatActivity {
             });
 
         }
-        getSupportActionBar().setTitle(docket.getAwbNumber());
+        getSupportActionBar().setTitle(docket.getAwbNumber() + "-"+product.getDescription());
+        udpateButton.setText("Step "+step +" of "+docket.getProducts().size());
 
     }
-
-
 
     @OnClick(R.id.capturedImage1)
     public void openImage1() {
@@ -269,13 +275,25 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 return;
             }
 
-            FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId(),isDamaged, null);
+            FieldData fieldData = new FieldData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, docket.getId(),isDamaged, null, product.getId());
             fieldData.setStatus("Package Picked");
 
-            Intent intent = new Intent(this, ReviewActivity.class);
-            intent.putExtra("Docket", docket);
-            intent.putExtra("FieldData", fieldData);
-            startActivity(intent);
+            product.setFieldData(fieldData);
+            docket.getProducts().set(Integer.parseInt(step)-1, product);
+
+            if(Integer.parseInt(step) == docket.getProducts().size()){ //final Product
+                //TODO add products field data in DB
+            }else{
+                Intent intent = new Intent(this, DocketUpdateActivity.class);
+                intent.putExtra("Docket", docket);
+                intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
+                intent.putExtra("Step", (Integer.parseInt(step)+1)+"");
+                startActivity(intent);
+            }
+//            Intent intent = new Intent(this, ReviewActivity.class);
+//            intent.putExtra("Docket", docket);
+//            intent.putExtra("FieldData", fieldData);
+//            startActivity(intent);
 
 
         }
