@@ -23,12 +23,15 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.Database.DocketDataSource;
+import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
@@ -74,6 +77,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     private Spinner spinner;
 
+    private DocketDataSource docketDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -283,6 +287,18 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
             if(Integer.parseInt(step) == docket.getProducts().size()){ //final Product
                 //TODO add products field data in DB
+                try {
+                    docketDataSource = new DocketDataSource(this);
+                    docketDataSource.open();
+                    docketDataSource.updateDocket(docket);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (docketDataSource != null) {
+                        docketDataSource.close();
+                    }
+                }
             }else{
                 Intent intent = new Intent(this, DocketUpdateActivity.class);
                 intent.putExtra("Docket", docket);

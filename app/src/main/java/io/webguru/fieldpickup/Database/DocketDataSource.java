@@ -115,6 +115,13 @@ public class DocketDataSource {
         return docket;
     }
 
+    public void updateDocket(Docket docket){
+        ContentValues cv = new ContentValues();
+        cv.put(MySQLiteHelper.COLUMN_PRODUCTS, docket.getProductsStringJson());
+        cv.put(MySQLiteHelper.COLUMN_IS_PENDING, 0);
+        database.update(MySQLiteHelper.TABLE_DOCKETS, cv, MySQLiteHelper.COLUMN_ID + "= ?", new String[] {docket.getId()+""});
+    }
+
     public int markDocketsAsSynced(List<Long> docketIdList) {
 
         if(docketIdList == null || docketIdList.isEmpty()){

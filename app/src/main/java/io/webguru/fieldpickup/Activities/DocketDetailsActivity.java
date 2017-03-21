@@ -44,6 +44,8 @@ public class DocketDetailsActivity extends AppCompatActivity {
     Toolbar mToolbar;
     @Bind(R.id.products_layout)
     LinearLayout productsParentLayout;
+    @Bind(R.id.captured_details_layout)
+    LinearLayout fieldDataParentLayout;
 
     Docket docket;
     TextView customerName;
@@ -53,15 +55,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
     TextView orderNumber;
 
 
-    TextView is_same_product_details;
-    TextView quantity_details;
-    TextView is_all_parts_available_details;
-    TextView is_correct_issue_category_details;
-    TextView is_dirty_details;
-    TextView remarks_details;
-    TextView status;
-    TextView is_damaged_details;
-    TextView is_qc_cleared_details;
+
 
     private LinearLayout capturedDetailsLayout;
 
@@ -107,61 +101,18 @@ public class DocketDetailsActivity extends AppCompatActivity {
             address.setText(docket.getCustomerAddress());
             pincode.setText(docket.getPincode());
             inflateProductLayoutInfo();
-//            productDescription.setText(docket.getDescription());
-//            reason.setText(GlobalFunction.getReasonCodeMap().get(docket.getReason()));
-//            actualQuantity.setText(docket.getQuantity()+"");
             orderNumber.setText(docket.getOrderNumber());
 
-            fieldDataDataSource = new FieldDataDataSource(this);
-            fieldDataDataSource.open();
-            FieldData fieldData = null;
-            try {
-                fieldData = fieldDataDataSource.getFieldData(docket.getId());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            fieldDataDataSource.close();
-            if(fieldData != null){
-                is_same_product_details = (TextView) findViewById(R.id.is_same_product_details);
-                quantity_details = (TextView) findViewById(R.id.quantity_details);
-                is_all_parts_available_details = (TextView) findViewById(R.id.is_all_parts_available_details);
-                is_correct_issue_category_details = (TextView) findViewById(R.id.is_correct_issue_category_details);
-                is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
-                remarks_details = (TextView) findViewById(R.id.remarks_details);
-                status = (TextView) findViewById(R.id.status);
-                is_damaged_details = (TextView) findViewById(R.id.is_damaged_details);
-                is_qc_cleared_details = (TextView) findViewById(R.id.is_qc_cleared_details);
-
-                is_same_product_details.setText(fieldData.getIsSameProduct());
-                quantity_details.setText(fieldData.getQuantity()+"");
-                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
-                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-                is_dirty_details.setText(fieldData.getIsProductClean());
-                remarks_details.setText(fieldData.getAgentRemarks());
-                status.setText(fieldData.getStatus());
-                is_damaged_details.setText(fieldData.getIsDamaged() == null ? "NA" : fieldData.getIsDamaged());
-                String qc = "NA";
-                if(fieldData.getIsQcCleared() == null){
-                    qc = "NA";
-                } else if(fieldData.getIsQcCleared() == 1){
-                    qc = "YES";
-                } else if(fieldData.getIsQcCleared() == 0){
-                    qc = "NO";
-                }
-                is_qc_cleared_details.setText(qc);
-                setCapturedImage("1");
-                setCapturedImage("2");
-                setCapturedImage("3");
-            }
+            inflateFieldData();
             getSupportActionBar().setTitle(docket.getAwbNumber());
 
         }
     }
 
     private void inflateProductLayoutInfo(){
+        LayoutInflater inflater = (LayoutInflater)getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
         for(Product product : docket.getProducts()){
-            LayoutInflater inflater = (LayoutInflater)getSystemService
-                    (Context.LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.prodcut_info_layout, productsParentLayout, false);
             TextView productDescription = (TextView) view.findViewById(R.id.product_description);
             TextView reason = (TextView) view.findViewById(R.id.reason);
@@ -170,6 +121,51 @@ public class DocketDetailsActivity extends AppCompatActivity {
             reason.setText(GlobalFunction.getReasonCodeMap().get(product.getReason()));
             actualQuantity.setText(product.getQuantity()+"");
             productsParentLayout.addView(view);
+        }
+    }
+
+    private void inflateFieldData(){
+        if(docket.getProducts().get(0).getFieldData()==null){
+            return;
+        }
+        LayoutInflater inflater = (LayoutInflater)getSystemService
+                (Context.LAYOUT_INFLATER_SERVICE);
+        for(Product product : docket.getProducts()) {
+            FieldData fieldData = product.getFieldData();
+            if (fieldData != null) {
+                View view = inflater.inflate(R.layout.fielddata_info_layout, fieldDataParentLayout, false);
+                TextView is_same_product_details = (TextView) view.findViewById(R.id.is_same_product_details);
+                TextView quantity_details = (TextView) view.findViewById(R.id.quantity_details);
+                TextView is_all_parts_available_details = (TextView) view.findViewById(R.id.is_all_parts_available_details);
+                TextView is_correct_issue_category_details = (TextView) view.findViewById(R.id.is_correct_issue_category_details);
+                TextView is_dirty_details = (TextView) view.findViewById(R.id.is_dirty_details);
+                TextView remarks_details = (TextView) view.findViewById(R.id.remarks_details);
+                TextView status = (TextView) view.findViewById(R.id.status);
+                TextView is_damaged_details = (TextView) view.findViewById(R.id.is_damaged_details);
+                TextView is_qc_cleared_details = (TextView) view.findViewById(R.id.is_qc_cleared_details);
+
+                is_same_product_details.setText(fieldData.getIsSameProduct());
+                quantity_details.setText(fieldData.getQuantity() + "");
+                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
+                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
+                is_dirty_details.setText(fieldData.getIsProductClean());
+                remarks_details.setText(fieldData.getAgentRemarks());
+                status.setText(fieldData.getStatus());
+                is_damaged_details.setText(fieldData.getIsDamaged() == null ? "NA" : fieldData.getIsDamaged());
+                String qc = "NA";
+                if (fieldData.getIsQcCleared() == null) {
+                    qc = "NA";
+                } else if (fieldData.getIsQcCleared() == 1) {
+                    qc = "YES";
+                } else if (fieldData.getIsQcCleared() == 0) {
+                    qc = "NO";
+                }
+                is_qc_cleared_details.setText(qc);
+                fieldDataParentLayout.addView(view);
+//                setCapturedImage("1");
+//                setCapturedImage("2");
+//                setCapturedImage("3");
+            }
         }
     }
 
@@ -212,20 +208,20 @@ public class DocketDetailsActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.capturedImage1)
-    public void openImage1() {
-        openImage("1");
-    }
-
-    @OnClick(R.id.capturedImage2)
-    public void openImage2() {
-        openImage("2");
-    }
-
-    @OnClick(R.id.capturedImage3)
-    public void openImage3() {
-        openImage("3");
-    }
+//    @OnClick(R.id.capturedImage1)
+//    public void openImage1() {
+//        openImage("1");
+//    }
+//
+//    @OnClick(R.id.capturedImage2)
+//    public void openImage2() {
+//        openImage("2");
+//    }
+//
+//    @OnClick(R.id.capturedImage3)
+//    public void openImage3() {
+//        openImage("3");
+//    }
 
 
     private void openImage(String id){

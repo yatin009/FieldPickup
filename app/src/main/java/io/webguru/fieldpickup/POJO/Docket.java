@@ -125,6 +125,10 @@ public class Docket implements Serializable {
         return products;
     }
 
+    public String getProductsStringJson(){
+        return new Gson().toJson(products);
+    }
+
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
     }

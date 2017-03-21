@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/product_title"
+            style="@style/DividerTextStyle"
+            android:text="Product Name - Data"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="1. Same product received ?" />
+
+        <TextView
+            android:id="@+id/is_same_product_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="2. Picked quantity" />
+
+        <TextView
+            android:id="@+id/quantity_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="3. Are all accessories/parts available with brand box ?" />
+
+        <TextView
+            android:id="@+id/is_all_parts_available_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="4. Is the reason of return varified ?" />
+
+        <TextView
+            android:id="@+id/is_correct_issue_category_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="5. Is the product clean/not used ?" />
+
+        <TextView
+            android:id="@+id/is_dirty_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="5. Is the product damaged ?" />
+
+        <TextView
+            android:id="@+id/is_damaged_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="6. Is QC cleared ?" />
+
+        <TextView
+            android:id="@+id/is_qc_cleared_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".30"
+            android:text="7. Status" />
+
+        <TextView
+            android:id="@+id/status"
+            style="@style/SubLabelStyleNoMargin"
+            android:layout_marginRight="10dp"
+            android:layout_weight=".70"
+            android:gravity="right"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:layout_weight=".30"
+            android:text="8. Remarks" />
+
+        <TextView
+            android:id="@+id/remarks_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:layout_marginRight="10dp"
+            android:layout_weight=".70"
+            android:gravity="right"
+            android:text="NA" />
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+
+    <LinearLayout style="@style/QCLayoutStyle">
+
+        <TextView
+            style="@style/InputStyleNoMargin"
+            android:maxLines="2"
+            android:text="9. Image"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/capturedImage1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <ImageView
+                android:id="@+id/capturedImage2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp" />
+
+            <ImageView
+                android:id="@+id/capturedImage3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View style="@style/ListDividerStyle" />
+</LinearLayout>

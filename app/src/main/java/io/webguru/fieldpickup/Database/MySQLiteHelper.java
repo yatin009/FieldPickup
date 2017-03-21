@@ -24,7 +24,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ORDER_NUMBER= "order_number";
 
     private static final String DATABASE_NAME = "field_pickup";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     // Database creation sql statement
     private static final String CREATE_TABLE_DOCKET = "create table "
