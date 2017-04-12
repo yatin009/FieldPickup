@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -42,6 +44,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.webguru.fieldpickup.ApiHandler.ApiRequestHandler;
+import io.webguru.fieldpickup.POJO.User;
 import io.webguru.fieldpickup.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -148,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserLoginTask(String mUsername, String password) {
             this.mUsername = mUsername;
-            mPassword = password;
+            this.mPassword = password;
         }
 
         @Override
@@ -162,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
             }
             if(!mUsername.toLowerCase().equals("test") || !mPassword.toLowerCase().equals("test")){
-                return false;
+//                return false;
             }
 
             authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
@@ -233,12 +236,6 @@ public class LoginActivity extends AppCompatActivity {
 
     public static int authenticateUserOnServer(String username, String password, Context context) {
 
-        SharedPreferences sharedPreferences1 = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
-        editor1.putString(context.getString(R.string.DISPLAY_USER_NAME), "Test User");
-        editor1.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "testuser@gmail.com");
-        editor1.commit();
-
         List<NameValuePair> formData = new ArrayList<NameValuePair>();
         formData.add(new BasicNameValuePair("j_username", username));
         formData.add(new BasicNameValuePair("j_password", password));
@@ -278,7 +275,14 @@ public class LoginActivity extends AppCompatActivity {
                     HttpResponse httpResponse1 = ApiRequestHandler.makeServiceCall("app/account", null, null, context);
                     responseMessage = EntityUtils.toString(httpResponse1.getEntity(), "UTF-8");
                     Log.i("Response------ ",responseMessage);
-                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    User user = objectMapper.readValue(responseMessage, User.class);
+                    SharedPreferences sharedPreferences1 = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+                    editor1.putString(context.getString(R.string.DISPLAY_USER_NAME), user.getFirstName() + " " + user.getLastName());
+                    editor1.putString(context.getString(R.string.DISPLAY_USER_EMAIL), user.getEmail());
+                    editor1.commit();
+//                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
 
                 } else if (StatusCode == 401 && (!"".equals(responseMessage))) {
                     try {
