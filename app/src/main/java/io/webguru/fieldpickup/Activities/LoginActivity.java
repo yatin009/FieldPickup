@@ -37,13 +37,16 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.ApiHandler.ApiHandler;
 import io.webguru.fieldpickup.ApiHandler.ApiRequestHandler;
+import io.webguru.fieldpickup.ApiHandler.dto.LoginDataDTO;
 import io.webguru.fieldpickup.POJO.User;
 import io.webguru.fieldpickup.R;
 
@@ -157,24 +160,20 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            boolean isLoginSuccessFull = false;
 
-            try {
-                // Simulate network access.
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                return true;
-            }
-            if(!mUsername.toLowerCase().equals("test") || !mPassword.toLowerCase().equals("test")){
-//                return false;
-            }
+            Integer statusCode = authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
 
-            authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
-            SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.login_status),Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("isLogged", true);
-            editor.apply();
+            if(statusCode.equals(200)) {
+                SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.login_status), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("isLogged", true);
+                editor.apply();
+                isLoginSuccessFull = true;
+                ApiHandler.getLoginData(LoginActivity.this);
+            }
             // TODO: register the new account here.
-            return true;
+            return isLoginSuccessFull;
         }
 
         @Override
@@ -242,8 +241,8 @@ public class LoginActivity extends AppCompatActivity {
         formData.add(new BasicNameValuePair("remember-me", "false"));
         formData.add(new BasicNameValuePair("submit", "Login"));
         HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/authentication", formData, null, context);
+//        HttpResponse httpResponse = null;
         int StatusCode = 401;
-
         try {
             String responseMessage;
             if (httpResponse != null) {
@@ -269,8 +268,8 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
 
-                    editor.putString(context.getString(R.string.DISPLAY_USER_NAME), "Test User");
-                    editor.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "testuser@gmail.com");
+                    editor.putString(context.getString(R.string.DISPLAY_USER_NAME), "Default User");
+                    editor.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "default@saptransport.net");
                     editor.commit();
                     HttpResponse httpResponse1 = ApiRequestHandler.makeServiceCall("app/account", null, null, context);
                     responseMessage = EntityUtils.toString(httpResponse1.getEntity(), "UTF-8");
@@ -282,6 +281,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor1.putString(context.getString(R.string.DISPLAY_USER_NAME), user.getFirstName() + " " + user.getLastName());
                     editor1.putString(context.getString(R.string.DISPLAY_USER_EMAIL), user.getEmail());
                     editor1.commit();
+//                    ApiHandler.getLoginData(context);
+
+                    return StatusCode;
 //                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
 
                 } else if (StatusCode == 401 && (!"".equals(responseMessage))) {

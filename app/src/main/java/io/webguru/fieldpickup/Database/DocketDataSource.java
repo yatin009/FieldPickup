@@ -69,8 +69,8 @@ public class DocketDataSource {
         return newDocket;
     }
 
-    public List<Docket> getAllDockets() {
-        List<Docket> dockets = new ArrayList<>();
+    public ArrayList<Docket> getAllDockets() {
+        ArrayList<Docket> dockets = new ArrayList<>();
 
         Cursor cursor = database.query(MySQLiteHelper.TABLE_DOCKETS,
                 allColumns, null, null, null, null, null);

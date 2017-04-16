@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import io.webguru.fieldpickup.ApiHandler.dto.DeviceDataDTO;
+
 /**
  * Created by yatin on 21/01/17.
  */
@@ -38,6 +40,18 @@ public class Docket implements Serializable {
     }
 
     public Docket() {
+    }
+
+    public Docket(DeviceDataDTO deviceDataDTO) {
+        this.isPending = 1;
+        this.isSynced = 0;
+        this.awbNumber = deviceDataDTO.getDocketNumber();
+        this.customerAddress = deviceDataDTO.getAddress();
+        this.customerContact = deviceDataDTO.getContactNumber();
+        this.customerName = deviceDataDTO.getCustomerName();
+        this.pincode = deviceDataDTO.getPinCode();
+        this.orderNumber = null;
+        this.products = deviceDataDTO.getProducts();
     }
 
     public Integer isPending() {
