@@ -87,17 +87,17 @@ public class ReviewActivity extends AppCompatActivity {
             is_dirty_details = (TextView) findViewById(R.id.is_dirty_details);
             remarks_details = (TextView) findViewById(R.id.remarks_details);
             is_damaged_details = (TextView) findViewById(R.id.is_damaged_details);
-            is_same_product_details.setText(fieldData.getIsSameProduct());
+//            is_same_product_details.setText(fieldData.getIsSameProduct());
 //            TODO ADD MULTIPLE PRODUCT LOGIC
 //            edit_prod_desc_ques.setText("1. Same product received ?\n\n   (" + docket.getDescription() + ")");
 //            edit_quantity_ques.setText("2. What are the number of item picked up ?\n\n   (Quantity to be Picked : " + docket.getQuantity() + ")");
 //            edit_reason_ques.setText("4. Is the reason of return verified ?\n\n   (" + GlobalFunction.getReasonCodeMap().get(docket.getReason()) + ")");
-            quantity_details.setText(fieldData.getQuantity() + "");
-            is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
-            is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-            is_dirty_details.setText(fieldData.getIsProductClean());
-            remarks_details.setText(fieldData.getAgentRemarks());
-            is_damaged_details.setText(fieldData.getIsDamaged());
+//            quantity_details.setText(fieldData.getQuantity() + "");
+//            is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
+//            is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
+//            is_dirty_details.setText(fieldData.getIsProductClean());
+//            remarks_details.setText(fieldData.getAgentRemarks());
+//            is_damaged_details.setText(fieldData.getIsDamaged());
             setCapturedImage("1","DETAILS");
             setCapturedImage("2","DETAILS");
             setCapturedImage("3","DETAILS");
@@ -122,37 +122,37 @@ public class ReviewActivity extends AppCompatActivity {
     @OnClick(R.id.edit_prod_desc)
     public void updateIsSameProduct() {
         query = "Same Product";
-        openUpdateWindow("Same product received ?", fieldData.getIsSameProduct(), "RADIO");
+//        openUpdateWindow("Same product received ?", fieldData.getIsSameProduct(), "RADIO");
     }
 
     @OnClick(R.id.edit_quantity)
     public void updateQuantity() {
         query = "Quantity";
-        openUpdateWindow("What are the number of item picked up ?", fieldData.getQuantity() + "", "NUMBER");
+//        openUpdateWindow("What are the number of item picked up ?", fieldData.getQuantity() + "", "NUMBER");
     }
 
     @OnClick(R.id.edit_all_parts_available)
     public void updateIsAllParts() {
         query = "All Parts";
-        openUpdateWindow("Are all accessories/parts available with brand box ?", fieldData.getIsAllPartsAvailable(), "RADIO");
+//        openUpdateWindow("Are all accessories/parts available with brand box ?", fieldData.getIsAllPartsAvailable(), "RADIO");
     }
 
     @OnClick(R.id.edit_reason)
     public void updateReason() {
         query = "Category Issue";
-        openUpdateWindow("Is the reason of return varified ?", fieldData.getIsIssueCategoryCorrect(), "RADIO");
+//        openUpdateWindow("Is the reason of return varified ?", fieldData.getIsIssueCategoryCorrect(), "RADIO");
     }
 
     @OnClick(R.id.edit_is_clean)
     public void updateIsClean() {
         query = "Is Clean";
-        openUpdateWindow("Is the product clean/not used ?", fieldData.getIsProductClean(), "RADIO");
+//        openUpdateWindow("Is the product clean/not used ?", fieldData.getIsProductClean(), "RADIO");
     }
 
     @OnClick(R.id.edit_is_damaged)
     public void updateIsDamaged() {
         query = "Is Damaged";
-        openUpdateWindow("Is the product damaged ?", fieldData.getIsDamaged(), "RADIO");
+//        openUpdateWindow("Is the product damaged ?", fieldData.getIsDamaged(), "RADIO");
     }
 
     @OnClick(R.id.edit_remarks)
@@ -182,29 +182,29 @@ public class ReviewActivity extends AppCompatActivity {
             }
             updatedValue = data.getStringExtra("UpdatedValue");
 
-            if (query.equals("Same Product")) {
-                fieldData.setIsSameProduct(updatedValue);
-                is_same_product_details.setText(fieldData.getIsSameProduct());
-            } else if (query.equals("Quantity")) {
-                Integer value = Integer.parseInt(updatedValue);
-                fieldData.setQuantity(value);
-                quantity_details.setText(fieldData.getQuantity() + "");
-            } else if (query.equals("All Parts")) {
-                fieldData.setIsAllPartsAvailable(updatedValue);
-                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
-            } else if (query.equals("Category Issue")) {
-                fieldData.setIsIssueCategoryCorrect(updatedValue);
-                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-            } else if (query.equals("Is Clean")) {
-                fieldData.setIsProductClean(updatedValue);
-                is_dirty_details.setText(fieldData.getIsProductClean());
-            }  else if (query.equals("Is Damaged")) {
-                fieldData.setIsDamaged(updatedValue);
-                is_damaged_details.setText(fieldData.getIsDamaged());
-            } else if (query.equals("Remarks")) {
-                fieldData.setAgentRemarks(updatedValue);
-                remarks_details.setText(fieldData.getAgentRemarks());
-            }
+//            if (query.equals("Same Product")) {
+//                fieldData.setIsSameProduct(updatedValue);
+//                is_same_product_details.setText(fieldData.getIsSameProduct());
+//            } else if (query.equals("Quantity")) {
+//                Integer value = Integer.parseInt(updatedValue);
+//                fieldData.setQuantity(value);
+//                quantity_details.setText(fieldData.getQuantity() + "");
+//            } else if (query.equals("All Parts")) {
+//                fieldData.setIsAllPartsAvailable(updatedValue);
+//                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
+//            } else if (query.equals("Category Issue")) {
+//                fieldData.setIsIssueCategoryCorrect(updatedValue);
+//                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
+//            } else if (query.equals("Is Clean")) {
+//                fieldData.setIsProductClean(updatedValue);
+//                is_dirty_details.setText(fieldData.getIsProductClean());
+//            }  else if (query.equals("Is Damaged")) {
+//                fieldData.setIsDamaged(updatedValue);
+//                is_damaged_details.setText(fieldData.getIsDamaged());
+//            } else if (query.equals("Remarks")) {
+//                fieldData.setAgentRemarks(updatedValue);
+//                remarks_details.setText(fieldData.getAgentRemarks());
+//            }
         } else if (requestCode == CAMERA_REQUEST) {
             setCapturedImage(imageId,"CAMERA");
         }
@@ -289,9 +289,9 @@ public class ReviewActivity extends AppCompatActivity {
             Map<String,String> valueMap = qcMatrix.get(reasonCode);
 
             if(valueMap.get("Product Description").equals("YES")){
-                if(fieldData.getIsSameProduct().equals("NO")){
-                    return false;
-                }
+//                if(fieldData.getIsSameProduct().equals("NO")){
+//                    return false;
+//                }
             }
             if(valueMap.get("Quantity").equals("YES")){
                 //          TODO ADD MULTIPLE PRODUCT LOGIC
@@ -300,24 +300,24 @@ public class ReviewActivity extends AppCompatActivity {
 //                }
             }
             if(valueMap.get("Accessories in brand box").equals("YES")){
-                if(fieldData.getIsAllPartsAvailable().equals("NO")){
-                    return false;
-                }
+//                if(fieldData.getIsAllPartsAvailable().equals("NO")){
+//                    return false;
+//                }
             }
             if(valueMap.get("Reason").equals("YES")){
-                if(fieldData.getIsIssueCategoryCorrect().equals("NO")){
-                    return false;
-                }
+//                if(fieldData.getIsIssueCategoryCorrect().equals("NO")){
+//                    return false;
+//                }
             }
             if(valueMap.get("Clean/Not Used").equals("YES")){
-                if(fieldData.getIsProductClean().equals("NO")){
-                    return false;
-                }
+//                if(fieldData.getIsProductClean().equals("NO")){
+//                    return false;
+//                }
             }
             if(valueMap.get("Is Damaged").equals("YES")){
-                if(fieldData.getIsDamaged().equals("YES")){
-                    return false;
-                }
+//                if(fieldData.getIsDamaged().equals("YES")){
+//                    return false;
+//                }
             }
 
         }

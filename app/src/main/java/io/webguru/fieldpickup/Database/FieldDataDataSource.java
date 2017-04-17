@@ -14,7 +14,7 @@ import java.util.List;
 
 import io.webguru.fieldpickup.POJO.FieldData;
 
-import static io.webguru.fieldpickup.R.id.quantity;
+//import static io.webguru.fieldpickup.R.id.quantity;
 
 /**
  * Created by mahto on 24/1/17.

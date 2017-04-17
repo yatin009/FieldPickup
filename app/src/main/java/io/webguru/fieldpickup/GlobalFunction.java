@@ -87,16 +87,7 @@ public class GlobalFunction {
         return docketArrayList;
     }
 
-//    public static String getProductsString(int counter){
-//        ArrayList<Product> products = new ArrayList<>();
-//        if((counter^2) == 0){
-//            products.add(new Product(getProductId(), null, productDescriptionList[counter], reasonList[counter], quantityList[counter], null, null));
-//            products.add(new Product(getProductId(), null, productDescriptionList[counter+1], reasonList[counter+1], quantityList[counter+1], null, null));
-//        }else{
-//            products.add(new Product(getProductId(), null, productDescriptionList[counter], reasonList[counter], quantityList[counter], null, null));
-//        }
-//        return new Gson().toJson(products);
-//    }
+
 
     static int getProductId(){
         Random r = new Random();

@@ -54,185 +54,185 @@
                         android:text="Quality Check Questions" />
                 </LinearLayout>
 
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="1. Same product received ?" />-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:id="@+id/prod_desc"-->
+                        <!--android:textStyle="normal"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:text="" />-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/is_same_product"-->
+                        <!--style="@style/RadioGroupStyle">-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="YES" />-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="NO" />-->
+                    <!--</RadioGroup>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="2. What are the number of item picked up ?" />-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:id="@+id/actual_quantity"-->
+                        <!--android:textStyle="normal"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:text="" />-->
+                    <!--<Spinner-->
+                        <!--android:id="@+id/quantity"-->
+                        <!--android:layout_width="200dp"-->
+                        <!--android:layout_height="40dp"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:layout_marginLeft="30dp"/>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="3. Are all accessories/parts available with brand box ?"/>-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/is_all_parts_available"-->
+                        <!--style="@style/RadioGroupStyle">-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="YES" />-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="NO" />-->
+                    <!--</RadioGroup>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="4. Is the reason of return varified ?"/>-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:id="@+id/actual_reason"-->
+                        <!--android:textStyle="normal"-->
+                        <!--android:textSize="16sp"-->
+                        <!--android:layout_marginLeft="30dp"-->
+                        <!--android:text="" />-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/is_correct_issue_category"-->
+                        <!--style="@style/RadioGroupStyle">-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="YES" />-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="NO" />-->
+                    <!--</RadioGroup>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="5. Is the product clean/not used ?"/>-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/is_product_clean"-->
+                        <!--style="@style/RadioGroupStyle">-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="YES" />-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="NO" />-->
+                    <!--</RadioGroup>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="6. Is the product damaged ?"/>-->
+
+                    <!--<RadioGroup-->
+                        <!--android:id="@+id/is_product_damaged"-->
+                        <!--style="@style/RadioGroupStyle">-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="YES" />-->
+
+                        <!--<RadioButton-->
+                            <!--style="@style/RadioButtonStyle"-->
+                            <!--android:text="NO" />-->
+                    <!--</RadioGroup>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
+                <!--<LinearLayout-->
+                    <!--style="@style/QCLayoutStyle">-->
+
+                    <!--<TextView-->
+                        <!--style="@style/InputStyleNoMargin"-->
+                        <!--android:text="7. Remarks"/>-->
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/remarks"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="15dp"-->
+                        <!--android:layout_marginLeft="30dp"/>-->
+
+                <!--</LinearLayout>-->
+                <!--<View style="@style/ListDividerStyle" />-->
+
                 <LinearLayout
                     style="@style/QCLayoutStyle">
 
                     <TextView
                         style="@style/InputStyleNoMargin"
-                        android:text="1. Same product received ?" />
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:id="@+id/prod_desc"
-                        android:textStyle="normal"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="30dp"
-                        android:text="" />
-
-                    <RadioGroup
-                        android:id="@+id/is_same_product"
-                        style="@style/RadioGroupStyle">
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="YES" />
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="NO" />
-                    </RadioGroup>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="2. What are the number of item picked up ?" />
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:id="@+id/actual_quantity"
-                        android:textStyle="normal"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="30dp"
-                        android:text="" />
-                    <Spinner
-                        android:id="@+id/quantity"
-                        android:layout_width="200dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="30dp"/>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="3. Are all accessories/parts available with brand box ?"/>
-
-                    <RadioGroup
-                        android:id="@+id/is_all_parts_available"
-                        style="@style/RadioGroupStyle">
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="YES" />
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="NO" />
-                    </RadioGroup>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="4. Is the reason of return varified ?"/>
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:id="@+id/actual_reason"
-                        android:textStyle="normal"
-                        android:textSize="16sp"
-                        android:layout_marginLeft="30dp"
-                        android:text="" />
-
-                    <RadioGroup
-                        android:id="@+id/is_correct_issue_category"
-                        style="@style/RadioGroupStyle">
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="YES" />
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="NO" />
-                    </RadioGroup>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="5. Is the product clean/not used ?"/>
-
-                    <RadioGroup
-                        android:id="@+id/is_product_clean"
-                        style="@style/RadioGroupStyle">
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="YES" />
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="NO" />
-                    </RadioGroup>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="6. Is the product damaged ?"/>
-
-                    <RadioGroup
-                        android:id="@+id/is_product_damaged"
-                        style="@style/RadioGroupStyle">
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="YES" />
-
-                        <RadioButton
-                            style="@style/RadioButtonStyle"
-                            android:text="NO" />
-                    </RadioGroup>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="7. Remarks"/>
-
-                    <EditText
-                        android:id="@+id/remarks"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="30dp"/>
-
-                </LinearLayout>
-                <View style="@style/ListDividerStyle" />
-
-                <LinearLayout
-                    style="@style/QCLayoutStyle">
-
-                    <TextView
-                        style="@style/InputStyleNoMargin"
-                        android:text="8. Image"
+                        android:text="Image"
                         android:maxLines="2"/>
 
                     <LinearLayout

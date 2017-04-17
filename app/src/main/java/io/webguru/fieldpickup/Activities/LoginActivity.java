@@ -162,7 +162,8 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
             boolean isLoginSuccessFull = false;
 
-            Integer statusCode = authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
+//            Integer statusCode = authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
+            Integer statusCode = 200;
 
             if(statusCode.equals(200)) {
                 SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.login_status), Context.MODE_PRIVATE);
@@ -244,10 +245,10 @@ public class LoginActivity extends AppCompatActivity {
 //        HttpResponse httpResponse = null;
         int StatusCode = 401;
         try {
-            String responseMessage;
+            String responseMessage = null;
             if (httpResponse != null) {
                 StatusCode = httpResponse.getStatusLine().getStatusCode();
-                responseMessage = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
+
                 if(StatusCode == 200){
                     SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -286,7 +287,7 @@ public class LoginActivity extends AppCompatActivity {
                     return StatusCode;
 //                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
 
-                } else if (StatusCode == 401 && (!"".equals(responseMessage))) {
+                } else if (StatusCode == 401) {
                     try {
                         JSONObject jsonObject = new JSONObject(responseMessage);
                         if (jsonObject.length() != 0) {

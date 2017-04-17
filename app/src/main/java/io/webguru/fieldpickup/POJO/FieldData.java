@@ -1,6 +1,7 @@
 package io.webguru.fieldpickup.POJO;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by yatin on 21/01/17.
@@ -8,83 +9,23 @@ import java.io.Serializable;
 
 public class FieldData implements Serializable{
     private Long id;
-    private String isSameProduct;
-    private int quantity;
-    private String isAllPartsAvailable;
-    private String isIssueCategoryCorrect;
-    private String isProductClean;
     private String agentRemarks;
     private Long docketId;
     private int productId;
     private String rescheduleDate;
     private String status;
-    private String isDamaged;
     private Integer isQcCleared;
+    private List<QcQuestionDetails> qcQuestionDetails;
 
-    public FieldData(String isSameProduct, int quantity, String isAllPartsAvailable, String isIssueCategoryCorrect,
-                     String isProductClean, String agentRemarks, Long docketId, String isDamaged,
-                     Integer isQcCleared, int productId) {
-        this.isSameProduct = isSameProduct;
-        this.quantity = quantity;
-        this.isAllPartsAvailable = isAllPartsAvailable;
-        this.isIssueCategoryCorrect = isIssueCategoryCorrect;
-        this.isProductClean = isProductClean;
+    public FieldData(String agentRemarks, Long docketId, Integer isQcCleared, int productId, List<QcQuestionDetails> qcQuestionDetails) {
         this.agentRemarks = agentRemarks;
         this.docketId = docketId;
-        this.isDamaged = isDamaged;
         this.isQcCleared = isQcCleared;
         this.productId = productId;
+        this.qcQuestionDetails = qcQuestionDetails;
     }
 
     public FieldData() {
-    }
-
-    public String getIsSameProduct() {
-        return isSameProduct;
-    }
-
-    public void setIsSameProduct(String sameProduct) {
-        isSameProduct = sameProduct;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getIsAllPartsAvailable() {
-        return isAllPartsAvailable;
-    }
-
-    public void setIsAllPartsAvailable(String allPartsAvailable) {
-        isAllPartsAvailable = allPartsAvailable;
-    }
-
-    public String getIsIssueCategoryCorrect() {
-        return isIssueCategoryCorrect;
-    }
-
-    public void setIsIssueCategoryCorrect(String issueCategoryCorrect) {
-        isIssueCategoryCorrect = issueCategoryCorrect;
-    }
-
-    public String getIsProductClean() {
-        return isProductClean;
-    }
-
-    public void setIsProductClean(String productDirty) {
-        isProductClean = productDirty;
-    }
-
-    public String getAgentRemarks() {
-        return agentRemarks;
-    }
-
-    public void setAgentRemarks(String agentRemarks) {
-        this.agentRemarks = agentRemarks;
     }
 
     public Long getId() {
@@ -95,12 +36,28 @@ public class FieldData implements Serializable{
         this.id = id;
     }
 
+    public String getAgentRemarks() {
+        return agentRemarks;
+    }
+
+    public void setAgentRemarks(String agentRemarks) {
+        this.agentRemarks = agentRemarks;
+    }
+
     public Long getDocketId() {
         return docketId;
     }
 
     public void setDocketId(Long docketId) {
         this.docketId = docketId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public String getRescheduleDate() {
@@ -119,14 +76,6 @@ public class FieldData implements Serializable{
         this.status = status;
     }
 
-    public String getIsDamaged() {
-        return isDamaged;
-    }
-
-    public void setIsDamaged(String isDamaged) {
-        this.isDamaged = isDamaged;
-    }
-
     public Integer getIsQcCleared() {
         return isQcCleared;
     }
@@ -135,29 +84,26 @@ public class FieldData implements Serializable{
         this.isQcCleared = isQcCleared;
     }
 
-    public int getProductId() {
-        return productId;
+    public List<QcQuestionDetails> getQcQuestionDetails() {
+        return qcQuestionDetails;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setQcQuestionDetails(List<QcQuestionDetails> qcQuestionDetails) {
+        this.qcQuestionDetails = qcQuestionDetails;
     }
+
 
     @Override
     public String toString() {
-        return "{" +
+        return "FieldData{" +
                 "id=" + id +
-                ", isSameProduct='" + isSameProduct + '\'' +
-                ", quantity=" + quantity +
-                ", isAllPartsAvailable='" + isAllPartsAvailable + '\'' +
-                ", isIssueCategoryCorrect='" + isIssueCategoryCorrect + '\'' +
-                ", isProductClean='" + isProductClean + '\'' +
                 ", agentRemarks='" + agentRemarks + '\'' +
                 ", docketId=" + docketId +
+                ", productId=" + productId +
                 ", rescheduleDate='" + rescheduleDate + '\'' +
                 ", status='" + status + '\'' +
-                ", isDamaged='" + isDamaged + '\'' +
-                ", isQcCleared='" + isQcCleared + '\'' +
+                ", isQcCleared=" + isQcCleared +
+                ", qcQuestionDetails=" + qcQuestionDetails +
                 '}';
     }
 }

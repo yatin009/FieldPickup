@@ -144,14 +144,8 @@ public class DocketDetailsActivity extends AppCompatActivity {
                 TextView is_damaged_details = (TextView) view.findViewById(R.id.is_damaged_details);
                 TextView is_qc_cleared_details = (TextView) view.findViewById(R.id.is_qc_cleared_details);
 
-                is_same_product_details.setText(fieldData.getIsSameProduct());
-                quantity_details.setText(fieldData.getQuantity() + "");
-                is_all_parts_available_details.setText(fieldData.getIsAllPartsAvailable());
-                is_correct_issue_category_details.setText(fieldData.getIsIssueCategoryCorrect());
-                is_dirty_details.setText(fieldData.getIsProductClean());
                 remarks_details.setText(fieldData.getAgentRemarks());
                 status.setText(fieldData.getStatus());
-                is_damaged_details.setText(fieldData.getIsDamaged() == null ? "NA" : fieldData.getIsDamaged());
                 String qc = "NA";
                 if (fieldData.getIsQcCleared() == null) {
                     qc = "NA";

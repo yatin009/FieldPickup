@@ -24,6 +24,9 @@ public class QcQuestionDTO implements Serializable {
     @JsonProperty(value = "question_id")
     private Integer questionId;
 
+    @JsonProperty(value = "question_data_type")
+    private String questionDataType;
+
     public String getQuestion() {
         return question;
     }
@@ -62,6 +65,14 @@ public class QcQuestionDTO implements Serializable {
 
     public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
+    }
+
+    public String getQuestionDataType() {
+        return questionDataType;
+    }
+
+    public void setQuestionDataType(String questionDataType) {
+        this.questionDataType = questionDataType;
     }
 
     public QcQuestionDTO() {

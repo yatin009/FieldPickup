@@ -160,11 +160,6 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
                 String status = selectedStatus.equals("Customer Not Available") ? "Customer Not Available" : "NA";
                 fieldData.setStatus(status);
             }
-            fieldData.setIsAllPartsAvailable("NA");
-            fieldData.setIsIssueCategoryCorrect("NA");
-            fieldData.setIsProductClean("NA");
-            fieldData.setIsSameProduct("NA");
-            fieldData.setQuantity(0);
             try {
                 fieldDataDataSource = new FieldDataDataSource(this);
                 fieldDataDataSource.open();
