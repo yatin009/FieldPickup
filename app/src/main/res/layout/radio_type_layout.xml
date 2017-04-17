@@ -9,7 +9,7 @@
 
         <TextView
             style="@style/InputStyleNoMargin"
-            android:text="Hello Chut Ki Raanii" />
+            android:text="Hello" />
 
         <RadioGroup
             style="@style/RadioGroupStyle">
