@@ -1,40 +1,0 @@
-
-Tsquid:UnusedPrivateMethod"1Remove this unused private "isEmailValid" method.(¼Ø–‡
-Wsquid:UnusedPrivateMethod"4Remove this unused private "isPasswordValid" method.(äÀ¾”
-?squid:S1659"*Declare "isRememberMe" on a separate line.(™œÚÛ
-Dsquid:S1068"*Remove this unused "mEmail" private field.(­Å­ƒþÿÿÿÿ
-Gsquid:S1068"-Remove this unused "mPassword" private field.(ÁÓ¿Œøÿÿÿÿ
-Asquid:S1068",Remove this unused "isSignIn" private field.(™œÚÛ
-Esquid:S1068"0Remove this unused "isRememberMe" private field.(™œÚÛ
-Œ"squid:ClassVariableVisibilityCheck"[Make mProgressDialog a static final constant or non-public and provide accessors if needed.(Þ°’Ùýÿÿÿÿ
-Gsquid:S1135"2Complete the task associated to this TODO comment.(ž¼í 
-Gsquid:S1135"2Complete the task associated to this TODO comment.(ž¼í 
-Gsquid:S1135"2Complete the task associated to this TODO comment.(Ö¾ã¯
-Gsquid:S1135"2Complete the task associated to this TODO comment.(Àó‚´
-[squid:S2142"FEither re-interrupt this method or rethrow the "InterruptedException".(ä ¹€
-isquid:S00116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûçœûÿÿÿÿ
-rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(¬Ç¦úüÿÿÿÿ
-Ysquid:UselessImportCheck"2Remove this unused import 'android.view.KeyEvent'.(ôÊÃ–úÿÿÿÿ
-esquid:UselessImportCheck">Remove this unused import 'android.content.pm.PackageManager'.(€®¥õÿÿÿÿÿ
-hsquid:UselessImportCheck"FRemove this unused import 'android.app.LoaderManager.LoaderCallbacks'.(õ³Ã…
-Ssquid:UselessImportCheck",Remove this unused import 'android.net.Uri'.(òêû‘ýÿÿÿÿ
-Xsquid:UselessImportCheck"7Remove this unused import 'android.animation.Animator'.(ÝŸéN
-`squid:UselessImportCheck"?Remove this unused import 'android.support.annotation.NonNull'.(¼Åß
-Rsquid:UselessImportCheck"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ
-`squid:UselessImportCheck">Remove this unused import 'android.provider.ContactsContract'.(üç§±
-Ysquid:UselessImportCheck"2Remove this unused import 'android.widget.Button'.(²òžýÿÿÿÿ
-Tsquid:UselessImportCheck"-Remove this unused import 'android.os.Build'.(ãÇ¤Úýÿÿÿÿ
-[squid:UselessImportCheck"9Remove this unused import 'android.annotation.TargetApi'.(¥Îì‘
-[squid:UselessImportCheck"9Remove this unused import 'android.content.CursorLoader'.(¸ìËÂ
-[squid:UselessImportCheck"4Remove this unused import 'android.database.Cursor'.(ŽÔäåúÿÿÿÿ
-Zsquid:UselessImportCheck"3Remove this unused import 'android.text.TextUtils'.(û˜½Õøÿÿÿÿ
-hsquid:UselessImportCheck"FRemove this unused import 'android.animation.AnimatorListenerAdapter'.(®ÃÙ»
-bsquid:UselessImportCheck"@Remove this unused import 'android.widget.AutoCompleteTextView'.(™å®Â
-_squid:UselessImportCheck"8Remove this unused import 'android.widget.ArrayAdapter'.( €ŠÑÿÿÿÿÿ
-Rsquid:UselessImportCheck"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ
-[squid:UselessImportCheck"4Remove this unused import 'android.widget.TextView'.(„Ë‚ˆÿÿÿÿÿ
-Zsquid:UselessImportCheck"3Remove this unused import 'android.content.Loader'.(æª™þÿÿÿÿ
-dsquid:UselessImportCheck"CRemove this unused import 'android.support.design.widget.Snackbar'.( À®p
-gsquid:UselessImportCheck"@Remove this unused import 'android.view.inputmethod.EditorInfo'.(êÔùíýÿÿÿÿ
-esquid:UselessImportCheck">Remove this unused import 'android.view.View.OnClickListener'.(„û°™ýÿÿÿÿ
-hsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(·¡ïõøÿÿÿÿ

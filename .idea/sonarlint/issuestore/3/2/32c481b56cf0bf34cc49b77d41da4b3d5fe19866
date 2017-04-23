@@ -1,12 +1,0 @@
-
-Msquid:UselessParenthesesCheck"!Remove those useless parentheses.(¡šôÄüÿÿÿÿ
-Asquid:S1068"'Remove this unused "TAG" private field.(Ù¦€şÿÿÿÿ
-dsquid:CallToDeprecatedMethod"9Remove this use of "setDrawerListener"; it is deprecated.(ø¶Âßÿÿÿÿÿ
-Dsquid:S00108")Either remove or fill this block of code.(Õ“¨Íùÿÿÿÿ
-isquid:S00116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ù¦€şÿÿÿÿ
-rsquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(¬Ç¦úüÿÿÿÿ
-qsquid:UselessImportCheck"ORemove this unused import 'android.support.design.widget.FloatingActionButton'.(„Ÿ¹¼
-Usquid:UselessImportCheck".Remove this unused import 'android.view.View'.(Ø½­äşÿÿÿÿ
-dsquid:UselessImportCheck"CRemove this unused import 'android.support.design.widget.Snackbar'.( À®p
-Tsquid:UselessImportCheck"-Remove this unused import 'android.util.Log'.(Ô¦Ø²øÿÿÿÿ
-hsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ù ®Íúÿÿÿÿ
