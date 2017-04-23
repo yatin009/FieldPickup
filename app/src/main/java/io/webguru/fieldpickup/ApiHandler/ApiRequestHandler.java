@@ -45,7 +45,7 @@ import io.webguru.fieldpickup.R;
 public class ApiRequestHandler {
 
     public static DefaultHttpClient httpClient;
-    public static String DOMAIN = "http://192.168.0.5:8081/";
+    public static String DOMAIN = "http://192.168.0.3:8081/";
 //    public static String DOMAIN = "http://staging.saplogistics.in";
 //    public static String DOMAIN = "http://saplogistics.in/";
 

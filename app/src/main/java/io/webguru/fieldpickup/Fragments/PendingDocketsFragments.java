@@ -85,7 +85,8 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
     }
 
     private void getDocketList(final boolean isRefresh){
-        dockets = GlobalFunction.getDocketList(1,context);
+        boolean isPending = true;
+        dockets = GlobalFunction.getDocketList(isPending, context);
         loadRecyclerViewElements();
         if (isRefresh) {
             swipeRefreshLayout.setRefreshing(false);

@@ -2,6 +2,7 @@ package io.webguru.fieldpickup.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -32,7 +33,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.StreamHandler;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -67,22 +71,6 @@ public class DocketUpdateActivity extends AppCompatActivity {
     private static final int CONTENT_REQUEST = 1337;
     File output = null;
 
-//    RadioGroup isSameProduct;
-//    EditText remarks;
-//    RadioGroup isAllPartsAvailable;
-//    RadioGroup isCorrectIssueCategory;
-//    RadioGroup isDirty;
-//    RadioGroup isDamaged;
-//    RadioButton isSameProductRadioButton;
-//    RadioButton isAllPartsAvailableRadioButton;
-//    RadioButton isCorrectIssueCategoryRadioButton;
-//    RadioButton isDirtyRadioButton;
-//    RadioButton isDamagedRadioButton;
-
-//    TextView prodDesc;
-//    TextView actualQuantity;
-//    TextView actualReason;
-
     private Spinner spinner;
 
     private DocketDataSource docketDataSource;
@@ -105,18 +93,6 @@ public class DocketUpdateActivity extends AppCompatActivity {
             for (int i = 0; i < product.getQuantity(); i++) {
                 quantityList.add((i + 1) + "");
             }
-//            spinner = (Spinner) findViewById(R.id.quantity);
-//            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-//                    android.R.layout.simple_spinner_item, quantityList);
-//            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            spinner.setAdapter(dataAdapter);
-
-//            prodDesc = (TextView) findViewById(R.id.prod_desc);
-//            actualQuantity = (TextView) findViewById(R.id.actual_quantity);
-//            actualReason = (TextView) findViewById(R.id.actual_reason);
-//            prodDesc.setText(product.getDescription());
-//            actualQuantity.setText("Quantity to be picked : " + product.getQuantity() + "");
-//            actualReason.setText("Reason : " + GlobalFunction.getReasonCodeMap().get(product.getReason()));
         }
 
         if (getSupportActionBar() != null) {
@@ -171,42 +147,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
 
             }
-
-//            getTextLayout(context, qcQuestionDTO, 0);
-//            getNumberSpinnerLayout(context, qcQuestionDTO, 0);
         }
-    }
-
-    private View generateSeparatorLayout() {
-        View view = new View(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.ListDividerStyle));
-        return view;
-    }
-
-    private LinearLayout generateRadioLayout(QcQuestionDTO qcQuestionDTO) {
-        LinearLayout parent = new LinearLayout(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.QCLayoutStyle));
-        TextView questionTextView = new TextView(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.InputStyleNoMargin));
-        TextView helpTextView = new TextView(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.InputStyleNoMargin));
-        RadioGroup radioGroup = new RadioGroup(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.RadioGroupStyle));
-        RadioButton radioButtonYes = new RadioButton(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.RadioButtonStyle));
-        RadioButton radioButtonNo = new RadioButton(new ContextThemeWrapper(DocketUpdateActivity.this, R.style.RadioButtonStyle));
-        LinearLayout.LayoutParams linearLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-//        TextView.Lay linearLayoutParams = new TextView.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                TextView.LayoutParams.WRAP_CONTENT);
-        linearLayoutParams.setMargins(0, 0, 0, 0);
-        questionTextView.setText(qcQuestionDTO.getQuestion());
-        helpTextView.setText("8939889743");
-        helpTextView.setTextSize(16);
-        parent.setOrientation(LinearLayout.VERTICAL);
-        parent.addView(questionTextView);
-        parent.addView(helpTextView);
-        radioButtonYes.setText("YES");
-        radioButtonNo.setText("NO");
-        radioGroup.addView(radioButtonYes);
-        radioGroup.addView(radioButtonNo);
-        radioGroup.setOrientation(RadioGroup.HORIZONTAL);
-        parent.addView(radioGroup);
-        return parent;
     }
 
 
@@ -227,9 +168,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
         }
         int id = getResources().getIdentifier("AAA", "drawable", getPackageName());
         DocketUpdateActivity.this.findViewById(id);
-        helpTextView.setId(100+index);
         RadioGroup radioGroup = (RadioGroup) childLinearLayout.getChildAt(2);
-        radioGroup.setId(200+index);
+        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        radioGroup.setId(resourceId);
         qcLayout.addView(layout,index++);
 
     }
@@ -245,7 +186,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
         TextView questionTextView = (TextView) childLinearLayout.getChildAt(0);
         questionTextView.setText(qcQuestionDTO.getQuestion());
         EditText editTextView = (EditText) childLinearLayout.getChildAt(1);
-        editTextView.setId(300+index);
+        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        editTextView.setId(resourceId);
         qcLayout.addView(layout,index++);
 
     }
@@ -277,73 +219,11 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, quantityList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-        spinner.setId(200+index);
+        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        spinner.setId(resourceId);
         qcLayout.addView(layout,index);
 
     }
-
-//public static LinearLayout getRadioLayout(Context context, QcQuestionDTO qcQuestionDTO){
-//
-//
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.template_linear_layout, null);
-//        linearLayout.setOrientation(LinearLayout.VERTICAL);
-//        linearLayout.setBackgroundColor(Color.WHITE);
-////        ViewGroup.LayoutParams params = linearLayout.getLayoutParams();
-////        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-////        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-//
-//        TextView textView = (TextView) inflater.inflate(R.layout.template_text_view, null);
-//        textView.setText(qcQuestionDTO.getQuestion());
-//        linearLayout.addView(textView);
-//
-//        RadioGroup radioGroup = (RadioGroup) inflater.inflate(R.layout.template_radio_group, null);
-//        radioGroup.setOrientation(RadioGroup.HORIZONTAL);
-//        RadioButton radioButtonYes = (RadioButton) inflater.inflate(R.layout.template_radio_button, null);
-//        radioButtonYes.setText("YES");
-//        RadioButton radioButtonNo = (RadioButton) inflater.inflate(R.layout.template_radio_button, null);
-//        radioButtonNo.setText("NO");
-//        radioGroup.addView(radioButtonYes);
-//        radioGroup.addView(radioButtonNo);
-//        linearLayout.addView(radioGroup);
-//        linearLayout.setId(index++);
-//        return linearLayout;
-//    }
-//
-
-    public static View getRadioLayout(ViewGroup viewGroup, Context context, int index, String label, int id) {
-
-        View linearLayoutViewGroup = viewGroup.getChildAt(0);
-        View textViewGroup = ((ViewGroup) linearLayoutViewGroup).getChildAt(0);
-        TextView textView = (TextView) textViewGroup;
-        textView.setText(label);
-        View radioGroupViewGroup = ((ViewGroup) linearLayoutViewGroup).getChildAt(1);
-        View radioButtonYesView = ((ViewGroup) radioGroupViewGroup).getChildAt(0);
-        View radioButtonNoView = ((ViewGroup) radioGroupViewGroup).getChildAt(1);
-        RadioButton radioButtonYes = (RadioButton) radioButtonYesView;
-        RadioButton radioButtonNo = (RadioButton) radioButtonNoView;
-        radioButtonYes.setText("YES");
-        radioButtonNo.setText("NO");
-        return viewGroup;
-    }
-
-
-//    public static LinearLayout getTextLayout(Context context, int index, String text, int id, String type){
-//        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.template_linear_layout, null);
-//        TextView textView = (TextView) inflater.inflate(R.layout.template_text_view, null);
-//        textView.setText(index + ". " +text);
-//        linearLayout.addView(textView);
-//        EditText editText = (EditText) inflater.inflate(R.layout.template_edit_text, null);
-//        if(type.equals("NUMBER")) {
-//            editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-//        } else {
-//            editText.setInputType(InputType.TYPE_CLASS_TEXT);
-//        }
-//        linearLayout.addView(editText);
-//        linearLayout.setId(id);
-//        return linearLayout;
-//    }
 
     @OnClick(R.id.capturedImage1)
     public void openImage1() {
@@ -461,24 +341,6 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     @OnClick(R.id.update_docket)
     public void updateDocket() {
-//        isSameProduct = (RadioGroup) findViewById(R.id.is_same_product);
-//        isSameProduct = (RadioGroup) findViewById(R.id.is_same_product);
-//        isSameProduct = (RadioGroup) findViewById(R.id.is_same_product);
-//        String quantity = String.valueOf(((Spinner) findViewById(R.id.quantity)).getSelectedItem());
-//        remarks = (EditText) findViewById(R.id.remarks);
-//        isAllPartsAvailable = (RadioGroup) findViewById(R.id.is_all_parts_available);
-//        isCorrectIssueCategory = (RadioGroup) findViewById(R.id.is_correct_issue_category);
-//        isDirty = (RadioGroup) findViewById(R.id.is_product_clean);
-//        isDamaged = (RadioGroup) findViewById(R.id.is_product_damaged);
-//
-//        isSameProductRadioButton = (RadioButton) findViewById(isSameProduct.getCheckedRadioButtonId());
-//
-//        isAllPartsAvailableRadioButton = (RadioButton) findViewById(isAllPartsAvailable.getCheckedRadioButtonId());
-//
-//        isCorrectIssueCategoryRadioButton = (RadioButton) findViewById(isCorrectIssueCategory.getCheckedRadioButtonId());
-//
-//        isDirtyRadioButton = (RadioButton) findViewById(isDirty.getCheckedRadioButtonId());
-//        isDamagedRadioButton = (RadioButton) findViewById(isDamaged.getCheckedRadioButtonId());
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -486,28 +348,29 @@ public class DocketUpdateActivity extends AppCompatActivity {
         }
 
         if (docket != null) {
+            Map<Integer, String> answerMap = new HashMap<>();
+            List<QcQuestionDTO> qcQuestionDTOs = docket.getProducts().get(Integer.parseInt(step) - 1).getQcQuestions();
+            for (QcQuestionDTO qcQuestionDTO : qcQuestionDTOs) {
+                if(validateCapturedData(qcQuestionDTO, answerMap)){
+                    Toast.makeText(this, "Set value for \"" + qcQuestionDTO.getQuestion() + "\"", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
-//            String isSameProduct = isSameProductRadioButton != null ? isSameProductRadioButton.getText().toString() : null;
-//            int qunt = !quantity.equals("Select Quantity") ? Integer.parseInt(quantity) : 0;
-//            String isAllPartsAvailable = isAllPartsAvailableRadioButton != null ? isAllPartsAvailableRadioButton.getText().toString() : null;
-//            String isCorrectIssueCategory = isCorrectIssueCategoryRadioButton != null ? isCorrectIssueCategoryRadioButton.getText().toString() : null;
-//            String isDirty = isDirtyRadioButton != null ? isDirtyRadioButton.getText().toString() : null;
-//            String isDamaged = isDamagedRadioButton != null ? isDamagedRadioButton.getText().toString() : null;
-//            String remarksByFe = remarks != null ? remarks.getText().toString() : null;
-//            boolean isAnyError = validateCapturedData(isSameProduct, qunt, isAllPartsAvailable, isCorrectIssueCategory, isDirty, remarksByFe, isDamaged);
-//            if (isAnyError) {
-//                return;
-//            }
-
+            }
+            for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
+                qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
+            }
+            product.setStatus("Picked Up");
 //            FieldData fieldData = new FieldData(remarksByFe, docket.getId(), null, product.getId(), null);
 //            fieldData.setStatus("Package Picked");
-//
+
 //            product.setFieldData(fieldData);
             docket.getProducts().set(Integer.parseInt(step) - 1, product);
 
             if (Integer.parseInt(step) == docket.getProducts().size()) { //final Product
                 //TODO add products field data in DB
                 try {
+                    docket.setIsPending(0);
                     docketDataSource = new DocketDataSource(this);
                     docketDataSource.open();
                     docketDataSource.updateDocket(docket);
@@ -536,48 +399,38 @@ public class DocketUpdateActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean validateCapturedData(String isSameProduct, int quantity, String isAllPartsAvailable, String isCorrectIssueCategory,
-                                         String isDirty, String remarksByFe, String isDamaged) {
+    private boolean validateCapturedData(QcQuestionDTO qcQuestionDTO, Map<Integer, String> answerMap) {
         boolean isAnyError = false;
-
-        ImageView imageView1 = (ImageView) findViewById(R.id.capturedImage1);
-        ImageView imageView2 = (ImageView) findViewById(R.id.capturedImage2);
-        ImageView imageView3 = (ImageView) findViewById(R.id.capturedImage3);
-        boolean isImage1Captured = (imageView1.getDrawable() != null);
-        boolean isImage2Captured = (imageView2.getDrawable() != null);
-        boolean isImage3Captured = (imageView3.getDrawable() != null);
-
-
-        if (isSameProduct == null || isSameProduct.equals("")) {
-            Toast.makeText(this, "Set value for  \"1. Same product received ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (quantity == 0) {
-            Toast.makeText(this, "Set value for  \"2. What are the number of item picked up ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (isAllPartsAvailable == null || isAllPartsAvailable.equals("")) {
-            Toast.makeText(this, "Set value for  \"3. Are all accessories/parts available with brand box ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (isCorrectIssueCategory == null || isCorrectIssueCategory.equals("")) {
-            Toast.makeText(this, "Set value for  \"4. Is the reason of return varified ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (isDirty == null || isDirty.equals("")) {
-            Toast.makeText(this, "Set value for  \"5. Is the product clean/not used ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (isDamaged == null || isDamaged.equals("")) {
-            Toast.makeText(this, "Set value for  \"6. Is the product damaged ?\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (remarksByFe == null || remarksByFe.equals("")) {
-            Toast.makeText(this, "Set value for  \"7. Remarks\"", Toast.LENGTH_LONG).show();
-            isAnyError = true;
-        } else if (!isImage1Captured) {
-//            Toast.makeText(this, "Capture Image 1", Toast.LENGTH_LONG).show();
-//            isAnyError = true;
-        } else if (!isImage2Captured) {
-//            Toast.makeText(this, "Capture Image 2", Toast.LENGTH_LONG).show();
-//            isAnyError = true;
-        } else if (!isImage3Captured) {
-//            Toast.makeText(this, "Capture Image 3", Toast.LENGTH_LONG).show();
-//            isAnyError = true;
+        String str = null;
+        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
+            RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
+            RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+            String radioButtonValue = radioButton != null ? radioButton.getText().toString() : null;
+            if(radioButtonValue == null || radioButtonValue.equals("")){
+                isAnyError = true;
+            }
+            answerMap.put(qcQuestionDTO.getQuestionId(),radioButtonValue);
+        } else {
+            try {
+                Integer.parseInt(qcQuestionDTO.getExpectedAnswer());
+                str = qcQuestionDTO.getQuestion().toLowerCase();
+                if(str.contains("qty") || str.contains("quantity")){
+                    String quantity = String.valueOf(((Spinner) findViewById(resourceId)).getSelectedItem());
+                    int qunt = !quantity.equals("Select Value") ? Integer.parseInt(quantity) : 0;
+                    if(qunt == 0){
+                        isAnyError = true;
+                    }
+                    answerMap.put(qcQuestionDTO.getQuestionId(),qunt+"");
+                }
+            } catch (Exception e){
+                EditText editText = (EditText) findViewById(resourceId);
+                String editTextValue = editText != null ? editText.getText().toString() : null;
+                if(editTextValue == null || editTextValue.equals("")){
+                    isAnyError = true;
+                }
+                answerMap.put(qcQuestionDTO.getQuestionId(),editTextValue);
+            }
         }
         return isAnyError;
     }

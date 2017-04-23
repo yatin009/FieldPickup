@@ -26,6 +26,7 @@ public class Docket implements Serializable {
     private String orderNumber;
     private ArrayList<Product> products;
 
+
     public Docket(long id, Integer isPending, Integer isSynced, String awbNumber, String customerAddress, String customerContact, String customerName, String pincode, String orderNumber, ArrayList<Product> products) {
         this.id = id;
         this.isPending = isPending;

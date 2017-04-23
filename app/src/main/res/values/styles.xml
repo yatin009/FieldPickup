@@ -90,7 +90,7 @@
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
         <item name="android:textColor">#444444</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:layout_weight">.75</item>
+        <item name="android:layout_weight">.70</item>
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingLeft">10dp</item>
 
@@ -99,7 +99,7 @@
     <style name="SubLabelStyleNoMargin" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">.25</item>
+        <item name="android:layout_weight">.30</item>
         <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Medium</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/monsoon</item>

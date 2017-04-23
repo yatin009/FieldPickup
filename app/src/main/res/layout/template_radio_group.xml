@@ -20,7 +20,6 @@
             android:textStyle="normal" />
 
         <RadioGroup
-            android:id="@+id/is_same_product"
             style="@style/RadioGroupStyle">
 
             <RadioButton

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/QCLayoutStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/LabelStyleNoMargin"
+            android:text="QUestion" />
+
+        <TextView
+            android:id="@+id/is_same_product_details"
+            style="@style/SubLabelStyleNoMargin"
+            android:text="NA" />
+
+    </LinearLayout>
+    <View style="@style/ListDividerStyle" />
+</LinearLayout>

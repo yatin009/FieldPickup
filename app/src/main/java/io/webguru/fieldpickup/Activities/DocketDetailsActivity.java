@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,11 +22,13 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.Inflater;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.webguru.fieldpickup.ApiHandler.dto.QcQuestionDTO;
 import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.GlobalFunction;
@@ -52,10 +55,6 @@ public class DocketDetailsActivity extends AppCompatActivity {
     TextView contactNumber;
     TextView address;
     TextView pincode;
-    TextView orderNumber;
-
-
-
 
     private LinearLayout capturedDetailsLayout;
 
@@ -88,25 +87,59 @@ public class DocketDetailsActivity extends AppCompatActivity {
             address = (TextView) findViewById(R.id.address);
             pincode = (TextView) findViewById(R.id.pincode);
 
-            orderNumber = (TextView) findViewById(R.id.order_number);
-
             if(docket.isPending() == 1){
                 capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
                 capturedDetailsLayout.setVisibility(LinearLayout.GONE);
             } else {
                 ((LinearLayout) this.findViewById(R.id.update_button_layout)).setVisibility(LinearLayout.GONE);
+                renderQuestionDetails(docket);
             }
             customerName.setText(docket.getCustomerName());
             contactNumber.setText(docket.getCustomerContact());
             address.setText(docket.getCustomerAddress());
             pincode.setText(docket.getPincode());
             inflateProductLayoutInfo();
-            orderNumber.setText(docket.getOrderNumber());
 
             inflateFieldData();
             getSupportActionBar().setTitle(docket.getAwbNumber());
 
         }
+    }
+
+    private void renderQuestionDetails(Docket docket) {
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.details_layout);
+        List<Product> productList = docket.getProducts();
+        for(Product product : productList){
+            TextView textView = new TextView(this);
+            textView.setText("Product : " + product.getDescription());
+            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(20,50,20,30);
+            textView.setLayoutParams(params);
+            textView.setTextSize(15);
+            linearLayout.addView(textView);
+            for(QcQuestionDTO qcQuestionDTO : product.getQcQuestions()){
+                linearLayout.addView(renderQuestionDetailsView(qcQuestionDTO));
+            }
+        }
+
+    }
+
+    private LinearLayout renderQuestionDetailsView(QcQuestionDTO qcQuestionDTO) {
+
+        LinearLayout layout = null;
+        LinearLayout childLinearLayout = null;
+        TextView childTextView1 = null;
+        TextView childTextView2 = null;
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layout = (LinearLayout) inflater.inflate(R.layout.template_question_details, null);
+        childLinearLayout = (LinearLayout) layout.getChildAt(0);
+        childTextView1 = (TextView) childLinearLayout.getChildAt(0);
+        childTextView2 = (TextView) childLinearLayout.getChildAt(1);
+        childTextView1.setText(qcQuestionDTO.getQuestion());
+        childTextView2.setText(qcQuestionDTO.getAnswer());
+        return layout;
     }
 
     private void inflateProductLayoutInfo(){

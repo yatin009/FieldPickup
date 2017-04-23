@@ -162,8 +162,8 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
             boolean isLoginSuccessFull = false;
 
-//            Integer statusCode = authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
-            Integer statusCode = 200;
+            Integer statusCode = authenticateUserOnServer(mUsername,mPassword,LoginActivity.this);
+//            Integer statusCode = 200;
 
             if(statusCode.equals(200)) {
                 SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.login_status), Context.MODE_PRIVATE);

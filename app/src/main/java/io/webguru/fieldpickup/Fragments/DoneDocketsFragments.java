@@ -44,6 +44,8 @@ public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout
         // Required empty public constructor
     }
 
+    private Context context;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_done_dockets_fragments, container, false);
         ButterKnife.bind(this, view);
+        this.context = view.getContext();
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.circlePVRim),
 
@@ -82,7 +85,8 @@ public class DoneDocketsFragments extends Fragment implements SwipeRefreshLayout
     }
 
     private void getDocketList(final boolean isRefresh){
-        dockets = GlobalFunction.getDoneDocketList();
+        boolean isPending = false;
+        dockets = GlobalFunction.getDocketList(isPending, context);
         loadRecyclerViewElements();
         if (isRefresh) {
             swipeRefreshLayout.setRefreshing(false);

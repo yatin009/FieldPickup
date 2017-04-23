@@ -96,13 +96,20 @@ public class GlobalFunction {
         return r.nextInt(High-Low) + Low;
     }
 
-    public static ArrayList<Docket> getDoneDocketList() {
+    public static ArrayList<Docket> getDocketList(boolean isPending, Context context) {
         ArrayList<Docket> dockets = new ArrayList<>();
+        openDocketDatabaseConnection(context);
         List<Docket> docketList = docketDataSource.getAllDockets();
         if (docketList != null && !docketList.isEmpty()) {
             for (Docket docket : docketList) {
-                if (docket.isPending() == 0) {
-                    dockets.add(docket);
+                if(isPending){
+                    if (docket.isPending() == 1) {
+                        dockets.add(docket);
+                    }
+                } else {
+                    if (docket.isPending() == 0) {
+                        dockets.add(docket);
+                    }
                 }
             }
         }

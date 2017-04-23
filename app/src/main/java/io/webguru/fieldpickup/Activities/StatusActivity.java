@@ -131,7 +131,7 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
 
     @OnClick(R.id.status_proceed)
     public void updateStatus() {
-        FieldData fieldData;
+//        FieldData fieldData;
         EditText remarks;
         TextView date;
         if (selectedStatus != null && selectedStatus.equals("Ready To Pick")) {
@@ -140,30 +140,30 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             startActivity(intent);
             finish();
         } else if (selectedStatus != null && !selectedStatus.equals("Tap To Select")) {
-            fieldData = new FieldData();
-            fieldData.setDocketId(docket.getId());
+//            fieldData = new FieldData();
+//            fieldData.setDocketId(docket.getId());
             remarks = (EditText) findViewById(R.id.fail_remarks);
             if (remarks == null || remarks.getText().toString().equals("")) {
                 Toast.makeText(this, "Enter Remarks", Toast.LENGTH_LONG).show();
                 return;
             } else {
-                fieldData.setAgentRemarks(remarks.getText().toString());
+//                fieldData.setAgentRemarks(remarks.getText().toString());
             }
             if (selectedStatus.equals("Reschedule Pickup")) {
                 date = (TextView) findViewById(R.id.reschedule_date);
-                fieldData.setStatus("Rescheduled to " + date.getText().toString());
+//                fieldData.setStatus("Rescheduled to " + date.getText().toString());
             } else if (selectedStatus.equals("Cancelled")) {
-                fieldData.setStatus("Pickup Cancelled");
-                fieldData.setRescheduleDate("NA");
+//                fieldData.setStatus("Pickup Cancelled");
+//                fieldData.setRescheduleDate("NA");
             } else {
-                fieldData.setRescheduleDate("NA");
+//                fieldData.setRescheduleDate("NA");
                 String status = selectedStatus.equals("Customer Not Available") ? "Customer Not Available" : "NA";
-                fieldData.setStatus(status);
+//                fieldData.setStatus(status);
             }
             try {
-                fieldDataDataSource = new FieldDataDataSource(this);
-                fieldDataDataSource.open();
-                fieldDataDataSource.insertFieldData(fieldData);
+//                fieldDataDataSource = new FieldDataDataSource(this);
+//                fieldDataDataSource.open();
+//                fieldDataDataSource.insertFieldData(fieldData);
                 docketDataSource = new DocketDataSource(this);
                 docketDataSource.open();
                 docketDataSource.markDocketAsDone(docket.getId());

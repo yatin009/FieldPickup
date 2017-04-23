@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="AAA" type="id"></item>
+    <item name="question_1" type="id"></item>
+    <item name="question_2" type="id"></item>
+    <item name="question_3" type="id"></item>
+    <item name="question_4" type="id"></item>
+    <item name="question_5" type="id"></item>
+    <item name="question_6" type="id"></item>
+    <item name="question_7" type="id"></item>
+    <item name="question_8" type="id"></item>
+    <item name="question_9" type="id"></item>
+    <item name="question_10" type="id"></item>
+    <item name="question_11" type="id"></item>
+    <item name="question_12" type="id"></item>
+    <item name="question_13" type="id"></item>
+    <item name="question_14" type="id"></item>
+    <item name="question_15" type="id"></item>
+    <item name="question_16" type="id"></item>
+    <item name="question_17" type="id"></item>
+    <item name="question_18" type="id"></item>
+    <item name="question_19" type="id"></item>
+    <item name="question_20" type="id"></item>
 </resources>
