@@ -113,20 +113,24 @@ public class DocketDetailsActivity extends AppCompatActivity {
         for(Product product : productList){
             TextView textView = new TextView(this);
             textView.setText("Product : " + product.getDescription());
-            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) textView.getLayoutParams();
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(20,50,20,30);
             textView.setLayoutParams(params);
             textView.setTextSize(15);
             linearLayout.addView(textView);
             for(QcQuestionDTO qcQuestionDTO : product.getQcQuestions()){
-                linearLayout.addView(renderQuestionDetailsView(qcQuestionDTO));
+                linearLayout.addView(renderQuestionDetailsView(qcQuestionDTO, product.getDescription()));
             }
+
+            String productDescription = product.getDescription();
+            productDescription = productDescription.replaceAll(" ","_");
+            linearLayout.addView(renderImageView(docket.getAwbNumber(), productDescription));
+
         }
 
     }
 
-    private LinearLayout renderQuestionDetailsView(QcQuestionDTO qcQuestionDTO) {
+    private LinearLayout renderQuestionDetailsView(QcQuestionDTO qcQuestionDTO, String productDescription) {
 
         LinearLayout layout = null;
         LinearLayout childLinearLayout = null;
@@ -139,6 +143,57 @@ public class DocketDetailsActivity extends AppCompatActivity {
         childTextView2 = (TextView) childLinearLayout.getChildAt(1);
         childTextView1.setText(qcQuestionDTO.getQuestion());
         childTextView2.setText(qcQuestionDTO.getAnswer());
+        return layout;
+    }
+
+    private LinearLayout renderImageView(final String awbNumber, final String productDescription) {
+
+        final String imageName = awbNumber + "_" + productDescription;
+        LinearLayout layout = null;
+        LinearLayout childLinearLayout = null;
+        ImageView childImageView1 = null;
+        ImageView childImageView2 = null;
+        ImageView childImageView3 = null;
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layout = (LinearLayout) inflater.inflate(R.layout.template_image_layout, null);
+        childLinearLayout = (LinearLayout) layout.getChildAt(0);
+        childImageView1 = (ImageView) childLinearLayout.getChildAt(0);
+        childImageView2 = (ImageView) childLinearLayout.getChildAt(1);
+        childImageView3 = (ImageView) childLinearLayout.getChildAt(2);
+        childImageView1.setImageDrawable(null);
+        childImageView1.setImageURI(getImageUri(imageName + "_1.jpeg"));
+        childImageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v instanceof ImageView)
+                {
+                    openImage("1", awbNumber, imageName + "_1.jpeg");
+                }
+            }
+        });
+        childImageView2.setImageDrawable(null);
+        childImageView2.setImageURI(getImageUri(imageName + "_2.jpeg"));
+        childImageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v instanceof ImageView)
+                {
+                    openImage("2", awbNumber, imageName + "_2.jpeg");
+                }
+            }
+        });
+        childImageView3.setImageDrawable(null);
+        childImageView3.setImageURI(getImageUri(imageName + "_3.jpeg"));
+        childImageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(v instanceof ImageView)
+                {
+                    openImage("3", awbNumber, imageName + "_3.jpeg");
+                }
+            }
+        });
+
         return layout;
     }
 
@@ -251,11 +306,11 @@ public class DocketDetailsActivity extends AppCompatActivity {
 //    }
 
 
-    private void openImage(String id){
+    private void openImage(String imageId, String awbNumber, String imageName){
         Intent intent = new Intent(this, ImageViewActivity.class);
-        intent.putExtra("imageName", docket.getAwbNumber()+ "_" + id + ".jpeg");
-        intent.putExtra("awbNumber", docket.getAwbNumber());
-        intent.putExtra("imageNumber", id);
+        intent.putExtra("imageName", imageName);
+        intent.putExtra("awbNumber", awbNumber);
+        intent.putExtra("imageNumber", imageId);
         intent.putExtra("source", "DETAILS");
         startActivity(intent);
     }
