@@ -29,6 +29,7 @@ public class ApiHandler {
         HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/rest/pickup/get_login_data", null, null, context);
         String responseMessage = null;
         LoginDataDTO loginDataDTO = null;
+        GlobalFunction.checkForImageLocation();
         if(httpResponse != null && httpResponse.getStatusLine().getStatusCode() == 200) {
             try {
                 responseMessage = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");

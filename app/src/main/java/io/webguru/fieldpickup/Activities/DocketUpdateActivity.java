@@ -30,8 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -256,7 +259,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
     private void openImage(String id) {
 
         Intent intent = new Intent(this, ImageViewActivity.class);
-        intent.putExtra("imageName", docket.getAwbNumber() + "_" + id + ".jpeg");
+        String productDescription = product.getDescription();
+        productDescription = productDescription.replaceAll(" ","_");
+        intent.putExtra("imageName", docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
         intent.putExtra("awbNumber", docket.getAwbNumber());
         intent.putExtra("imageNumber", id);
         intent.putExtra("source", "UPDATE");
@@ -289,7 +294,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
             String path = checkForImageLocation();
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File dir = Environment.getExternalStoragePublicDirectory(path);
-            output = new File(dir, docket.getAwbNumber() + "_" + imageId + ".jpeg");
+            String productDescription = product.getDescription();
+            productDescription = productDescription.replaceAll(" ","_");
+            output = new File(dir, docket.getAwbNumber() + "_" + productDescription + "_" + imageId + ".jpeg");
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
             cameraIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Uri.fromFile(output));
             startActivityForResult(cameraIntent, CONTENT_REQUEST);
@@ -322,7 +329,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 Bundle bundle = getIntent().getExtras();
                 if (bundle != null) {
                     docket = (Docket) bundle.get("Docket");
-                    File f = Environment.getExternalStoragePublicDirectory(checkForImageLocation() + "/" + docket.getAwbNumber() + "_" + id + ".jpeg");
+                    String productDescription = product.getDescription();
+                    productDescription = productDescription.replaceAll(" ","_");
+                    File f = Environment.getExternalStoragePublicDirectory(checkForImageLocation() + "/" + docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
                     FileOutputStream fo = null;
                     try {
                         f.createNewFile();
@@ -357,14 +366,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 }
 
             }
+            if(validateImages()){
+                return;
+            }
             for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
                 qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
             }
-            product.setStatus("Picked Up");
-//            FieldData fieldData = new FieldData(remarksByFe, docket.getId(), null, product.getId(), null);
-//            fieldData.setStatus("Package Picked");
-
-//            product.setFieldData(fieldData);
             docket.getProducts().set(Integer.parseInt(step) - 1, product);
 
             if (Integer.parseInt(step) == docket.getProducts().size()) { //final Product
@@ -374,6 +381,13 @@ public class DocketUpdateActivity extends AppCompatActivity {
                     docketDataSource = new DocketDataSource(this);
                     docketDataSource.open();
                     docketDataSource.updateDocket(docket);
+                    for(Product product : docket.getProducts()) {
+                        String productDescription = product.getDescription();
+                        productDescription = productDescription.replaceAll(" ","_");
+                        for(int id=1; id<=3; id++) {
+                            moveImageFromTempToPicked(docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
+                        }
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -397,6 +411,27 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
         }
         finish();
+    }
+
+    private boolean validateImages() {
+        boolean isAnyError = false;
+        ImageView imageView1 = (ImageView) findViewById(R.id.capturedImage1);
+        ImageView imageView2 = (ImageView) findViewById(R.id.capturedImage2);
+        ImageView imageView3 = (ImageView) findViewById(R.id.capturedImage3);
+        boolean isImage1Captured = (imageView1.getDrawable() != null);
+        boolean isImage2Captured = (imageView2.getDrawable() != null);
+        boolean isImage3Captured = (imageView3.getDrawable() != null);
+        if (!isImage1Captured) {
+            Toast.makeText(this, "Capture Image 1", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        } else if (!isImage2Captured) {
+            Toast.makeText(this, "Capture Image 2", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        } else if (!isImage3Captured) {
+            Toast.makeText(this, "Capture Image 3", Toast.LENGTH_LONG).show();
+            isAnyError = true;
+        }
+        return isAnyError;
     }
 
     private boolean validateCapturedData(QcQuestionDTO qcQuestionDTO, Map<Integer, String> answerMap) {
@@ -437,18 +472,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     public static String checkForImageLocation() {
 
-        String path = "Field Pickup";
-        File dir = new File(path);
-        if (!dir.exists()) {
-            try {
-                dir.mkdir();
-            } catch (SecurityException e) {
-                e.printStackTrace();
-            }
-        }
-
-//        path = "Field Pickup/Picked";
-//        dir = new File(path);
+//        String path = "Field Pickup";
+//        File dir = new File(path);
 //        if (!dir.exists()) {
 //            try {
 //                dir.mkdir();
@@ -456,18 +481,61 @@ public class DocketUpdateActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
+//
+//
+//
+//
+//        String path2 = "Field Pickup/Temp";
+//        File dir2 = new File(dir,path2);
+//        if (!dir2.exists()) {
+//            try {
+//                dir2.mkdir();
+//            } catch (SecurityException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        String path3 = "Field Pickup/Picked";
+//        File dir3 = new File(dir,path3);
+//        if (!dir3.exists()) {
+//            try {
+//                dir3.mkdir();
+//            } catch (SecurityException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
 
-        String path2 = "Field Pickup/Temp";
-        File dir2 = new File(path2);
-        if (!dir2.exists()) {
-            try {
-                dir2.mkdir();
-            } catch (SecurityException e) {
-                e.printStackTrace();
+
+
+        return "Field Pickup/Temp";
+    }
+
+    private void moveImageFromTempToPicked(String fileName){
+        InputStream inStream = null;
+        OutputStream outStream = null;
+
+        try{
+            File afile =new File("Field Pickup/Temp/" + fileName);
+            File bfile =new File("Field Pickup/Picked/" + fileName);
+
+            inStream = new FileInputStream(afile);
+            outStream = new FileOutputStream(bfile);
+
+            byte[] buffer = new byte[1024];
+
+            int length;
+            while ((length = inStream.read(buffer)) > 0){
+                outStream.write(buffer, 0, length);
             }
+            inStream.close();
+            outStream.close();
+            afile.delete();
+
+        }catch(IOException e){
+            e.printStackTrace();
         }
-        return path2;
+
     }
 
 
