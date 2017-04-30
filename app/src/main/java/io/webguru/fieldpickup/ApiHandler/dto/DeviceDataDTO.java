@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.Product;
 
 /**
@@ -20,9 +21,25 @@ public class DeviceDataDTO {
     private String address;
     private ArrayList<Product> products;
     private String pinCode;
+    private String feIMEICode;
+    private String isQualityCheckCleared;
+    private String status;
+    private String statusDescription;
+
 
     public DeviceDataDTO() {
     }
+
+    public DeviceDataDTO(Docket docket) {
+        this.docketNumber = docket.getAwbNumber();
+        this.customerName = docket.getCustomerName();
+        this.contactNumber = docket.getCustomerContact();
+        this.address = docket.getCustomerAddress();
+        this.pinCode = docket.getPincode();
+        this.products = docket.getProducts();
+    }
+
+
 
     public DeviceDataDTO(String docketNumber, String customerName, String contactNumber, String address, ArrayList<Product> products, String pinCode) {
         this.docketNumber = docketNumber;
@@ -81,5 +98,37 @@ public class DeviceDataDTO {
 
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
+    }
+
+    public String getFeIMEICode() {
+        return feIMEICode;
+    }
+
+    public void setFeIMEICode(String feIMEICode) {
+        this.feIMEICode = feIMEICode;
+    }
+
+    public String getIsQualityCheckCleared() {
+        return isQualityCheckCleared;
+    }
+
+    public void setIsQualityCheckCleared(String isQualityCheckCleared) {
+        this.isQualityCheckCleared = isQualityCheckCleared;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusDescription() {
+        return statusDescription;
+    }
+
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
     }
 }

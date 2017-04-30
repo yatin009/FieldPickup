@@ -27,18 +27,19 @@
 
     <RelativeLayout
         android:id="@+id/qc_failed"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <ImageView android:src="@drawable/qc_fail"
-            android:layout_marginTop="120dp"
-            android:layout_marginBottom="20dp"
-
+        <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/qc_fail" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,6 +76,27 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" />
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <EditText android:src="@drawable/qc_fail"
+            android:id="@+id/qc_fail_remarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="20sp"
+            android:textStyle="normal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/LoginBox"

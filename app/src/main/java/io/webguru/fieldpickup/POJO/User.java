@@ -25,6 +25,8 @@ public class User {
 
     private String mobileNumber;
 
+    private String imeiNumber;
+
     public Long getId() {
         return id;
     }
@@ -105,6 +107,14 @@ public class User {
         this.mobileNumber = mobileNumber;
     }
 
+    public String getImeiNumber() {
+        return imeiNumber;
+    }
+
+    public void setImeiNumber(String imeiNumber) {
+        this.imeiNumber = imeiNumber;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -118,6 +128,7 @@ public class User {
                 ", cityId=" + cityId +
                 ", hubId=" + hubId +
                 ", mobileNumber='" + mobileNumber + '\'' +
+                ", imeiNumber='" + imeiNumber + '\'' +
                 '}';
     }
 }

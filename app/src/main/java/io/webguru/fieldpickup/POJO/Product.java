@@ -1,5 +1,7 @@
 package io.webguru.fieldpickup.POJO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,7 +12,8 @@ import io.webguru.fieldpickup.ApiHandler.dto.QcQuestionDTO;
  */
 
 public class Product implements Serializable{
-    private int id;
+//    private int id;
+    @JsonIgnore
     private FieldData fieldData;
     private String description;
     private String reason;
@@ -21,8 +24,8 @@ public class Product implements Serializable{
     private String image3;
     private List<QcQuestionDTO> qcQuestions;
 
-    public Product(int id, FieldData fieldData, String description, String reason, Integer quantity, String productId, List<QcQuestionDTO> qcQuestions) {
-        this.id = id;
+    public Product( FieldData fieldData, String description, String reason, Integer quantity, String productId, List<QcQuestionDTO> qcQuestions) {
+//        this.id = id;
         this.fieldData = fieldData;
         this.description = description;
         this.reason = reason;
@@ -34,13 +37,13 @@ public class Product implements Serializable{
     public Product() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public FieldData getFieldData() {
         return fieldData;

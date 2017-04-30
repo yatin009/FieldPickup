@@ -130,26 +130,27 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 return;
             }
             helpText = null;
-            if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
-
-                if(qcQuestionDTO.getQuestion().contains("description")){
-                    helpText = product.getDescription();
-                }
-                getRadioLayout(context, qcQuestionDTO, helpText,index);
-            } else {
-                try {
-                    Integer.parseInt(qcQuestionDTO.getExpectedAnswer());
-                    str = qcQuestionDTO.getQuestion().toLowerCase();
-                    if(str.contains("qty") || str.contains("quantity")){
-                        helpText = "Quantity to be picked : " + qcQuestionDTO.getExpectedAnswer();
-                    }
-                    getNumberSpinnerLayout(context, qcQuestionDTO, helpText, index);
-                } catch (Exception e){
-                    getTextLayout(context, qcQuestionDTO, index);
-                }
-
-
-            }
+            getRadioLayout(context, qcQuestionDTO, helpText,index);
+//            if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
+//
+//                if(qcQuestionDTO.getQuestion().contains("description")){
+//                    helpText = product.getDescription();
+//                }
+//                getRadioLayout(context, qcQuestionDTO, helpText,index);
+//            } else {
+//                try {
+//                    Integer.parseInt(qcQuestionDTO.getExpectedAnswer());
+//                    str = qcQuestionDTO.getQuestion().toLowerCase();
+//                    if(str.contains("qty") || str.contains("quantity")){
+//                        helpText = "Quantity to be picked : " + qcQuestionDTO.getExpectedAnswer();
+//                    }
+//                    getNumberSpinnerLayout(context, qcQuestionDTO, helpText, index);
+//                } catch (Exception e){
+//                    getTextLayout(context, qcQuestionDTO, index);
+//                }
+//
+//
+//            }
         }
     }
 
@@ -373,36 +374,16 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
             }
             docket.getProducts().set(Integer.parseInt(step) - 1, product);
+            String isQCCleared = checkIsQcCheckCleared(docket);
 
-            if (Integer.parseInt(step) == docket.getProducts().size()) { //final Product
-                //TODO add products field data in DB
-                try {
-                    docket.setIsPending(0);
-                    docketDataSource = new DocketDataSource(this);
-                    docketDataSource.open();
-                    docketDataSource.updateDocket(docket);
-                    for(Product product : docket.getProducts()) {
-                        String productDescription = product.getDescription();
-                        productDescription = productDescription.replaceAll(" ","_");
-                        for(int id=1; id<=3; id++) {
-                            moveImageFromTempToPicked(docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
-                        }
-                    }
+            Intent intent = new Intent(this, QcResultActivity.class);
+            intent.putExtra("Docket", docket);
+            intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
+            intent.putExtra("Step", step);
+            intent.putExtra("isQCPassed", isQCCleared);
+            startActivity(intent);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (docketDataSource != null) {
-                        docketDataSource.close();
-                    }
-                }
-            } else {
-                Intent intent = new Intent(this, DocketUpdateActivity.class);
-                intent.putExtra("Docket", docket);
-                intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
-                intent.putExtra("Step", (Integer.parseInt(step) + 1) + "");
-                startActivity(intent);
-            }
+
 //            Intent intent = new Intent(this, ReviewActivity.class);
 //            intent.putExtra("Docket", docket);
 //            intent.putExtra("FieldData", fieldData);
@@ -411,6 +392,20 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
         }
         finish();
+    }
+
+    private String checkIsQcCheckCleared(Docket docket) {
+        for(Product product : docket.getProducts()){
+            for(QcQuestionDTO qcQuestionDTO : product.getQcQuestions()){
+                if(qcQuestionDTO.getIsMandatory() != null && qcQuestionDTO.getIsMandatory().equalsIgnoreCase("yes")){
+                    if(!qcQuestionDTO.getAnswer().equalsIgnoreCase(qcQuestionDTO.getExpectedAnswer())){
+                        return "no";
+                    }
+                }
+            }
+        }
+
+        return "yes";
     }
 
     private boolean validateImages() {
@@ -438,41 +433,52 @@ public class DocketUpdateActivity extends AppCompatActivity {
         boolean isAnyError = false;
         String str = null;
         int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
-        if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
-            RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
-            RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
-            String radioButtonValue = radioButton != null ? radioButton.getText().toString() : null;
-            if(radioButtonValue == null || radioButtonValue.equals("")){
-                isAnyError = true;
-            }
-            answerMap.put(qcQuestionDTO.getQuestionId(),radioButtonValue);
+
+        RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
+        RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+        String radioButtonValue = radioButton != null ? radioButton.getText().toString() : null;
+        if(radioButtonValue == null || radioButtonValue.equals("")){
+            isAnyError = true;
         } else {
-            try {
-                Integer.parseInt(qcQuestionDTO.getExpectedAnswer());
-                str = qcQuestionDTO.getQuestion().toLowerCase();
-                if(str.contains("qty") || str.contains("quantity")){
-                    String quantity = String.valueOf(((Spinner) findViewById(resourceId)).getSelectedItem());
-                    int qunt = !quantity.equals("Select Value") ? Integer.parseInt(quantity) : 0;
-                    if(qunt == 0){
-                        isAnyError = true;
-                    }
-                    answerMap.put(qcQuestionDTO.getQuestionId(),qunt+"");
-                }
-            } catch (Exception e){
-                EditText editText = (EditText) findViewById(resourceId);
-                String editTextValue = editText != null ? editText.getText().toString() : null;
-                if(editTextValue == null || editTextValue.equals("")){
-                    isAnyError = true;
-                }
-                answerMap.put(qcQuestionDTO.getQuestionId(),editTextValue);
-            }
+            radioButtonValue = radioButtonValue.toLowerCase();
         }
+        answerMap.put(qcQuestionDTO.getQuestionId(),radioButtonValue);
+
+//        if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
+//            RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
+//            RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+//            String radioButtonValue = radioButton != null ? radioButton.getText().toString() : null;
+//            if(radioButtonValue == null || radioButtonValue.equals("")){
+//                isAnyError = true;
+//            }
+//            answerMap.put(qcQuestionDTO.getQuestionId(),radioButtonValue);
+//        } else {
+//            try {
+//                Integer.parseInt(qcQuestionDTO.getExpectedAnswer());
+//                str = qcQuestionDTO.getQuestion().toLowerCase();
+//                if(str.contains("qty") || str.contains("quantity")){
+//                    String quantity = String.valueOf(((Spinner) findViewById(resourceId)).getSelectedItem());
+//                    int qunt = !quantity.equals("Select Value") ? Integer.parseInt(quantity) : 0;
+//                    if(qunt == 0){
+//                        isAnyError = true;
+//                    }
+//                    answerMap.put(qcQuestionDTO.getQuestionId(),qunt+"");
+//                }
+//            } catch (Exception e){
+//                EditText editText = (EditText) findViewById(resourceId);
+//                String editTextValue = editText != null ? editText.getText().toString() : null;
+//                if(editTextValue == null || editTextValue.equals("")){
+//                    isAnyError = true;
+//                }
+//                answerMap.put(qcQuestionDTO.getQuestionId(),editTextValue);
+//            }
+//        }
         return isAnyError;
     }
 
     public static String checkForImageLocation() {
 
-//        String path = "Field Pickup";
+//        String path = Environment.getExternalStorageDirectory()  + "/Field Pickup";
 //        File dir = new File(path);
 //        if (!dir.exists()) {
 //            try {
@@ -481,11 +487,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //        }
-//
-//
-//
-//
-//        String path2 = "Field Pickup/Temp";
+
+        String path2 = "Field Pickup/Temp";
 //        File dir2 = new File(dir,path2);
 //        if (!dir2.exists()) {
 //            try {
@@ -495,7 +498,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 //            }
 //        }
 //
-//        String path3 = "Field Pickup/Picked";
+//        String path3 = Environment.getExternalStorageDirectory()  + "/Field Pickup/Picked";
 //        File dir3 = new File(dir,path3);
 //        if (!dir3.exists()) {
 //            try {
@@ -505,10 +508,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 //            }
 //        }
 
-
-
-
-        return "Field Pickup/Temp";
+        return path2;
     }
 
     private void moveImageFromTempToPicked(String fileName){
@@ -516,8 +516,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
         OutputStream outStream = null;
 
         try{
-            File afile =new File("Field Pickup/Temp/" + fileName);
-            File bfile =new File("Field Pickup/Picked/" + fileName);
+            File afile =new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Temp/" + fileName);
+            File bfile =new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Picked/" + fileName);
 
             inStream = new FileInputStream(afile);
             outStream = new FileOutputStream(bfile);

@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -47,6 +48,8 @@ import butterknife.OnClick;
 import io.webguru.fieldpickup.ApiHandler.ApiHandler;
 import io.webguru.fieldpickup.ApiHandler.ApiRequestHandler;
 import io.webguru.fieldpickup.ApiHandler.dto.LoginDataDTO;
+import io.webguru.fieldpickup.Database.UserDataSource;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.POJO.User;
 import io.webguru.fieldpickup.R;
 
@@ -69,6 +72,10 @@ public class LoginActivity extends AppCompatActivity {
     Context context;
 
 
+
+    private static UserDataSource userDataSource;
+
+
     private TextView userDisplayNameView;
     private TextView userDisplayEmailView;
 
@@ -80,11 +87,13 @@ public class LoginActivity extends AppCompatActivity {
     String passwordValue;
     public ProgressDialog mProgressDialog;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         checkPermissions();
         context = this;
+        GlobalFunction.context = context;
         Log.d(TAG,"checkLoginStatus() >>>> "+checkLoginStatus());
         if(checkLoginStatus()) {
             redirectToMainActivity();
@@ -92,6 +101,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+
+
         parentLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -142,6 +154,14 @@ public class LoginActivity extends AppCompatActivity {
         //TODO: Replace this with your own logic
         return password.length() >= 4;
     }
+
+//    public void reAttemptLogin(){
+//        Context context = LoginActivity.this;
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(context.getString(R.string.login_status), Context.MODE_PRIVATE);
+//        String USER_LOGIN = sharedPreferences.getString(context.getString(R.string.CURRENT_USER_LOGIN), null);
+//        String USER_PASSWORD = sharedPreferences.getString(context.getString(R.string.CURRENT_USER_PASSWORD), null);
+//        new UserLoginTask(USER_LOGIN, USER_PASSWORD).execute();
+//    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -281,6 +301,17 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor1 = sharedPreferences1.edit();
                     editor1.putString(context.getString(R.string.DISPLAY_USER_NAME), user.getFirstName() + " " + user.getLastName());
                     editor1.putString(context.getString(R.string.DISPLAY_USER_EMAIL), user.getEmail());
+                    editor1.putString(context.getString(R.string.CURRENT_USER_ID), user.getLogin());
+                    editor1.putString(context.getString(R.string.CURRENT_USER_LOGIN), user.getLogin());
+                    editor1.putString(context.getString(R.string.CURRENT_USER_PASSWORD), password);
+
+
+//                    user.setImeiNumber(imei);
+                    userDataSource = new UserDataSource(context);
+                    userDataSource.open();
+                    userDataSource.insertUser(user);
+                    userDataSource.close();
+
                     editor1.commit();
 //                    ApiHandler.getLoginData(context);
 

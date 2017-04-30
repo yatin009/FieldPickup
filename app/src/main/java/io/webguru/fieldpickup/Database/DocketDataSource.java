@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class DocketDataSource {
 
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
+    private String TAG = "DOCKET DATA SOURCE ";
 
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
             MySQLiteHelper.COLUMN_DOCKET_NUMBER,
@@ -31,6 +33,9 @@ public class DocketDataSource {
             MySQLiteHelper.COLUMN_PINCODE,
             MySQLiteHelper.COLUMN_ORDER_NUMBER,
             MySQLiteHelper.COLUMN_IS_SYNCED,
+            MySQLiteHelper.COLUMN_STATUS,
+            MySQLiteHelper.COLUMN_STATUS_DESCRIPTION,
+            MySQLiteHelper.COLUMN_IS_QC_CLEARED
     };
 
     public DocketDataSource(Context context) {
@@ -46,7 +51,8 @@ public class DocketDataSource {
     }
 
     public Docket createDocket(String docketNumber, String customerName, String contact_number, String address,
-                               String products, Integer isPending, String pincode, String orderNumber) {
+                               String products, Integer isPending, String pincode, String orderNumber,
+                               String status, String statusDescription, String isQcCheckCleared) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_DOCKET_NUMBER, docketNumber);
         values.put(MySQLiteHelper.COLUMN_CUSTOMER_NAME, customerName);
@@ -57,6 +63,9 @@ public class DocketDataSource {
         values.put(MySQLiteHelper.COLUMN_PINCODE, pincode);
         values.put(MySQLiteHelper.COLUMN_ORDER_NUMBER, orderNumber);
         values.put(MySQLiteHelper.COLUMN_IS_SYNCED, 0);
+        values.put(MySQLiteHelper.COLUMN_STATUS, status);
+        values.put(MySQLiteHelper.COLUMN_STATUS_DESCRIPTION, statusDescription);
+        values.put(MySQLiteHelper.COLUMN_IS_QC_CLEARED, isQcCheckCleared);
 
         long insertId = database.insert(MySQLiteHelper.TABLE_DOCKETS, null,
                 values);
@@ -83,6 +92,12 @@ public class DocketDataSource {
         }
         cursor.close();
         return dockets;
+    }
+
+    public void emptyTable() {
+        Log.d(TAG,"emptyTable() >>>> ");
+        database.delete(MySQLiteHelper.TABLE_DOCKETS, null, null);
+//        database.rawQuery("delete from dockets", new String[] {});
     }
 
     public Docket getDocket(Long docketId) {
@@ -119,6 +134,9 @@ public class DocketDataSource {
         ContentValues cv = new ContentValues();
         cv.put(MySQLiteHelper.COLUMN_PRODUCTS, docket.getProductsStringJson());
         cv.put(MySQLiteHelper.COLUMN_IS_PENDING, 0);
+        cv.put(MySQLiteHelper.COLUMN_STATUS, docket.getStatus());
+        cv.put(MySQLiteHelper.COLUMN_STATUS_DESCRIPTION, docket.getStatusDescription());
+        cv.put(MySQLiteHelper.COLUMN_IS_QC_CLEARED, docket.getIsQcCheckCleared());
         database.update(MySQLiteHelper.TABLE_DOCKETS, cv, MySQLiteHelper.COLUMN_ID + "= ?", new String[] {docket.getId()+""});
     }
 
@@ -159,6 +177,9 @@ public class DocketDataSource {
         docket.setPincode(cursor.getString(7));
         docket.setOrderNumber(cursor.getString(8));
         docket.setIsSynced(cursor.getInt(9));
+        docket.setStatus(cursor.getString(10));
+        docket.setStatusDescription(cursor.getString(11));
+        docket.setIsQcCheckCleared(cursor.getString(12));
         return docket;
     }
 

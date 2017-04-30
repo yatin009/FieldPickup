@@ -2,6 +2,7 @@ package io.webguru.fieldpickup.ApiHandler;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
 import android.util.Log;
 
 import org.apache.http.HttpEntity;
@@ -10,12 +11,19 @@ import org.apache.http.HttpResponseFactory;
 import org.apache.http.HttpStatus;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+//import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -25,29 +33,29 @@ import org.apache.http.message.BasicStatusLine;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
+import io.webguru.fieldpickup.Activities.LoginActivity;
+import io.webguru.fieldpickup.AndroidMultiPartEntity;
+import io.webguru.fieldpickup.GlobalFunction;
 import io.webguru.fieldpickup.R;
 
 /**
  * Created by mahto on 9/2/17.
  */
-
+@SuppressWarnings("deprecation")
 public class ApiRequestHandler {
 
     public static DefaultHttpClient httpClient;
-    public static String DOMAIN = "http://192.168.0.3:8081/";
-//    public static String DOMAIN = "http://staging.saplogistics.in";
-//    public static String DOMAIN = "http://saplogistics.in/";
+    private  static String DOMAIN = GlobalFunction.DOMAIN;
 
     public static HttpResponse makeServiceCall(String url, List<NameValuePair> formData, String requestBody, Context context) {
         HttpResponse httpResponse = null;
@@ -64,6 +72,23 @@ public class ApiRequestHandler {
             HttpConnectionParams.setConnectionTimeout(httpParameters, 60 * 1000);
             HttpConnectionParams.setSoTimeout(httpParameters, 120 * 1000);
 
+            if(url.contains("rest/device/sync")){
+                HttpPost httpPost = new HttpPost(url);
+                httpPost.setHeader("Accept-Encoding", "gzip");
+                httpPost.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
+                File file = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/backup.zip");
+                AndroidMultiPartEntity reqEntity = new AndroidMultiPartEntity(
+                        new AndroidMultiPartEntity.ProgressListener() {
+                            @Override
+                            public void transferred(long num) {
+//                            sendBroadcastMessage("sending ... " + (int) ((num / (float) totalSize) * 100) + "%");
+                            }
+                        });
+                FileBody bin1 = new FileBody(file);
+                reqEntity.addPart("file", bin1);
+                httpPost.setEntity(reqEntity);
+                httpResponse = httpClient.execute(httpPost);
+            } else
             if (formData != null || requestBody != null) {
                 HttpPost httpPost = new HttpPost(url);
                 httpPost.setHeader("Accept", "application/json");
@@ -107,7 +132,5 @@ public class ApiRequestHandler {
         }
         return null;
     }
-
-
 
 }

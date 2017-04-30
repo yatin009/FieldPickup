@@ -24,6 +24,9 @@ public class Docket implements Serializable {
     private String customerName;
     private String pincode;
     private String orderNumber;
+    private String status;
+    private String statusDescription;
+    private String isQcCheckCleared;
     private ArrayList<Product> products;
 
 
@@ -52,6 +55,8 @@ public class Docket implements Serializable {
         this.customerName = deviceDataDTO.getCustomerName();
         this.pincode = deviceDataDTO.getPinCode();
         this.orderNumber = null;
+        this.status = null;
+        this.statusDescription = null;
         this.products = deviceDataDTO.getProducts();
     }
 
@@ -148,6 +153,30 @@ public class Docket implements Serializable {
         this.products = products;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatusDescription() {
+        return statusDescription;
+    }
+
+    public void setStatusDescription(String statusDescription) {
+        this.statusDescription = statusDescription;
+    }
+
+    public String getIsQcCheckCleared() {
+        return isQcCheckCleared;
+    }
+
+    public void setIsQcCheckCleared(String isQcCheckCleared) {
+        this.isQcCheckCleared = isQcCheckCleared;
+    }
+
     public void setProducts(String products) {
         Type collectionType = new TypeToken<Collection<Product>>(){}.getType();
         this.products = new Gson().fromJson(products, collectionType);
@@ -165,6 +194,8 @@ public class Docket implements Serializable {
                 ", customerName='" + customerName + '\'' +
                 ", pincode='" + pincode + '\'' +
                 ", orderNumber='" + orderNumber + '\'' +
+                ", status='" + status + '\'' +
+                ", statusDescription='" + statusDescription + '\'' +
                 '}';
     }
 }

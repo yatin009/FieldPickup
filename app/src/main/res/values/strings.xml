@@ -16,6 +16,9 @@
 
     <string name="DISPLAY_USER_NAME">DISPLAY_USER_NAME</string>
     <string name="DISPLAY_USER_EMAIL">DISPLAY_USER_EMAIL</string>
+    <string name="CURRENT_USER_ID">CURRENT_USER_ID</string>
+    <string name="CURRENT_USER_LOGIN">CURRENT_USER_LOGIN</string>
+    <string name="CURRENT_USER_PASSWORD">CURRENT_USER_PASSWORD</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

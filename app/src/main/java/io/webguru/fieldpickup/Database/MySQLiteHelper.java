@@ -22,9 +22,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IS_SYNCED = "is_synced";
     public static final String COLUMN_PINCODE = "pincode";
     public static final String COLUMN_ORDER_NUMBER= "order_number";
+    public static final String COLUMN_STATUS= "status";
+    public static final String COLUMN_STATUS_DESCRIPTION= "status_description";
+    public static final String COLUMN_IS_QC_CLEARED= "is_qc_cleared";
 
     private static final String DATABASE_NAME = "field_pickup";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 4;
 
     // Database creation sql statement
     private static final String CREATE_TABLE_DOCKET = "create table "
@@ -38,14 +41,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             + COLUMN_IS_PENDING + " integer not null,"
             + COLUMN_PINCODE + " text,"
             + COLUMN_ORDER_NUMBER + " text,"
-            + COLUMN_IS_SYNCED + " integer not null"
+            + COLUMN_IS_SYNCED + " integer not null,"
+            + COLUMN_STATUS + " text,"
+            + COLUMN_STATUS_DESCRIPTION + " text,"
+            + COLUMN_IS_QC_CLEARED + " text"
             + ");";
+
+
+
+    public static final String TABLE_USER = "user";
+    public static final String COLUMN_USER_DETAILS = "user_details";
+
+    private static final String CREATE_TABLE_USER = "create table "
+            + TABLE_USER + "( " + COLUMN_ID
+            + " integer primary key autoincrement, "
+            + COLUMN_USER_DETAILS + " text"
+            + ");";
+
 
     public static final String TABLE_FIELD_DATA = "field_data";
     public static final String COLUMN_DOCKET_ID = "docket_id";
     public static final String COLUMN_PRODUCT_ID = "product_id";
     public static final String COLUMN_FIELD_DATA_JSON = "field_data_json";
-
 
     private static final String CREATE_TABLE_FIELD_DATA = "create table "
             + TABLE_FIELD_DATA + "( " + COLUMN_ID
@@ -62,7 +79,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_TABLE_DOCKET);
-        database.execSQL(CREATE_TABLE_FIELD_DATA);
+        database.execSQL(CREATE_TABLE_USER);
+//        database.execSQL(CREATE_TABLE_FIELD_DATA);
 
     }
 
@@ -72,7 +90,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_DOCKETS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FIELD_DATA);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         onCreate(db);
     }
 

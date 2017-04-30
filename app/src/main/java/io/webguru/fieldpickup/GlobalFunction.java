@@ -37,6 +37,9 @@ public class GlobalFunction {
     private static DocketDataSource docketDataSource;
     private static FieldDataDataSource fieldDataDataSource;
 
+    public static String DOMAIN = "http://192.168.0.3:8081/";
+    public static Context context;
+
 
     private static void openDocketDatabaseConnection(Context context) {
         if (docketDataSource == null) {
@@ -62,7 +65,7 @@ public class GlobalFunction {
                                        String product, String pincode) {
 
         openDocketDatabaseConnection(context);
-        return docketDataSource.createDocket(docketNumber, customerName, contactNumber, address, product, 1, pincode, null);
+        return docketDataSource.createDocket(docketNumber, customerName, contactNumber, address, product, 1, pincode, null,"Not Updated Yet", "Not Updated Yet","no");
     }
 
     public static ArrayList<Docket> createDocketIntoDB(ArrayList<Docket> dockets, Context context) {
@@ -80,21 +83,12 @@ public class GlobalFunction {
                     docket1 = insertDocket(context, docket.getAwbNumber(), docket.getCustomerName(), docket.getCustomerContact(), docket.getCustomerAddress(),
                             new Gson().toJson(docket.getProducts()), docket.getPincode());
                     docketArrayList.add(docket1);
-                } else {
-                    docketArrayList.add(docketMap.get(docket.getAwbNumber()));
                 }
             }
         }
         return docketArrayList;
     }
 
-
-    static int getProductId() {
-        Random r = new Random();
-        int Low = 1;
-        int High = 1000;
-        return r.nextInt(High - Low) + Low;
-    }
 
     public static ArrayList<Docket> getDocketList(boolean isPending, Context context) {
         ArrayList<Docket> dockets = new ArrayList<>();

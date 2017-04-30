@@ -25,7 +25,7 @@ import io.webguru.fieldpickup.POJO.Docket;
 
 public class ApiHandler {
 
-    public static LoginDataDTO getLoginData(Context context){
+    public static int getLoginData(Context context){
         HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/rest/pickup/get_login_data", null, null, context);
         String responseMessage = null;
         LoginDataDTO loginDataDTO = null;
@@ -50,8 +50,8 @@ public class ApiHandler {
             for(DeviceDataDTO deviceDataDTO : loginDataDTO.getDeviceDataList()){
                 dockets.add(new Docket(deviceDataDTO));
             }
-            GlobalFunction.createDocketIntoDB(dockets,context);
+            dockets = GlobalFunction.createDocketIntoDB(dockets,context);
         }
-        return loginDataDTO;
+        return dockets == null ? 0 : dockets.size();
     }
 }
