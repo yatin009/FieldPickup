@@ -16,6 +16,7 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -124,13 +127,13 @@ public class DocketUpdateActivity extends AppCompatActivity {
         String helpText = null;
         String str = null;
         List<QcQuestionDTO> qcQuestionDTOs = docket.getProducts().get(Integer.parseInt(step) - 1).getQcQuestions();
-        for (int i = qcQuestionDTOs.size(); i>0; i--) {
-            QcQuestionDTO qcQuestionDTO = qcQuestionDTOs.get(i-1);
+        for (int i = qcQuestionDTOs.size(); i > 0; i--) {
+            QcQuestionDTO qcQuestionDTO = qcQuestionDTOs.get(i - 1);
             if (qcQuestionDTO == null) {
                 return;
             }
             helpText = null;
-            getRadioLayout(context, qcQuestionDTO, helpText,index);
+            getRadioLayout(context, qcQuestionDTO, helpText, index);
 //            if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
 //
 //                if(qcQuestionDTO.getQuestion().contains("description")){
@@ -165,7 +168,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
         TextView questionTextView = (TextView) childLinearLayout.getChildAt(0);
         questionTextView.setText(qcQuestionDTO.getQuestion());
         TextView helpTextView = (TextView) childLinearLayout.getChildAt(1);
-        if(helpText != null) {
+        if (helpText != null) {
             helpTextView.setText(helpText);
         } else {
             helpTextView.setVisibility(View.GONE);
@@ -173,9 +176,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
         int id = getResources().getIdentifier("AAA", "drawable", getPackageName());
         DocketUpdateActivity.this.findViewById(id);
         RadioGroup radioGroup = (RadioGroup) childLinearLayout.getChildAt(2);
-        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        int resourceId = this.getResources().getIdentifier("question_" + qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
         radioGroup.setId(resourceId);
-        qcLayout.addView(layout,index++);
+        qcLayout.addView(layout, index++);
 
     }
 
@@ -190,9 +193,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
         TextView questionTextView = (TextView) childLinearLayout.getChildAt(0);
         questionTextView.setText(qcQuestionDTO.getQuestion());
         EditText editTextView = (EditText) childLinearLayout.getChildAt(1);
-        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        int resourceId = this.getResources().getIdentifier("question_" + qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
         editTextView.setId(resourceId);
-        qcLayout.addView(layout,index++);
+        qcLayout.addView(layout, index++);
 
     }
 
@@ -207,12 +210,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
         TextView questionTextView = (TextView) childLinearLayout.getChildAt(0);
         questionTextView.setText(qcQuestionDTO.getQuestion());
         TextView helpTextView = (TextView) childLinearLayout.getChildAt(1);
-        if(helpText != null) {
+        if (helpText != null) {
             helpTextView.setText(helpText);
         } else {
             helpTextView.setVisibility(View.GONE);
         }
-        helpTextView.setId(100+index);
+        helpTextView.setId(100 + index);
         Spinner spinner = (Spinner) childLinearLayout.getChildAt(2);
         List<String> quantityList = new ArrayList<>();
         quantityList.add("Select Value");
@@ -223,9 +226,9 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, quantityList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        int resourceId = this.getResources().getIdentifier("question_" + qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
         spinner.setId(resourceId);
-        qcLayout.addView(layout,index);
+        qcLayout.addView(layout, index);
 
     }
 
@@ -261,7 +264,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, ImageViewActivity.class);
         String productDescription = product.getDescription();
-        productDescription = productDescription.replaceAll(" ","_");
+        productDescription = productDescription.replaceAll(" ", "_");
         intent.putExtra("imageName", docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
         intent.putExtra("awbNumber", docket.getAwbNumber());
         intent.putExtra("imageNumber", id);
@@ -296,7 +299,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File dir = Environment.getExternalStoragePublicDirectory(path);
             String productDescription = product.getDescription();
-            productDescription = productDescription.replaceAll(" ","_");
+            productDescription = productDescription.replaceAll(" ", "_");
             output = new File(dir, docket.getAwbNumber() + "_" + productDescription + "_" + imageId + ".jpeg");
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
             cameraIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, Uri.fromFile(output));
@@ -331,7 +334,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 if (bundle != null) {
                     docket = (Docket) bundle.get("Docket");
                     String productDescription = product.getDescription();
-                    productDescription = productDescription.replaceAll(" ","_");
+                    productDescription = productDescription.replaceAll(" ", "_");
                     File f = Environment.getExternalStoragePublicDirectory(checkForImageLocation() + "/" + docket.getAwbNumber() + "_" + productDescription + "_" + id + ".jpeg");
                     FileOutputStream fo = null;
                     try {
@@ -361,24 +364,24 @@ public class DocketUpdateActivity extends AppCompatActivity {
             Map<Integer, String> answerMap = new HashMap<>();
             List<QcQuestionDTO> qcQuestionDTOs = docket.getProducts().get(Integer.parseInt(step) - 1).getQcQuestions();
             for (QcQuestionDTO qcQuestionDTO : qcQuestionDTOs) {
-                if(validateCapturedData(qcQuestionDTO, answerMap)){
+                if (validateCapturedData(qcQuestionDTO, answerMap)) {
                     Toast.makeText(this, "Set value for \"" + qcQuestionDTO.getQuestion() + "\"", Toast.LENGTH_LONG).show();
                     return;
                 }
 
             }
-            if(validateImages()){
+            if (validateImages()) {
                 return;
             }
             for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
                 qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
             }
             docket.getProducts().set(Integer.parseInt(step) - 1, product);
-            String isQCCleared = checkIsQcCheckCleared(docket);
+            String isQCCleared = checkIsQcCheckCleared(product);
 
             Intent intent = new Intent(this, QcResultActivity.class);
             intent.putExtra("Docket", docket);
-            intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
+            intent.putExtra("Product", product);
             intent.putExtra("Step", step);
             intent.putExtra("isQCPassed", isQCCleared);
             startActivity(intent);
@@ -394,13 +397,12 @@ public class DocketUpdateActivity extends AppCompatActivity {
         finish();
     }
 
-    private String checkIsQcCheckCleared(Docket docket) {
-        for(Product product : docket.getProducts()){
-            for(QcQuestionDTO qcQuestionDTO : product.getQcQuestions()){
-                if(qcQuestionDTO.getIsMandatory() != null && qcQuestionDTO.getIsMandatory().equalsIgnoreCase("yes")){
-                    if(!qcQuestionDTO.getAnswer().equalsIgnoreCase(qcQuestionDTO.getExpectedAnswer())){
-                        return "no";
-                    }
+    private String checkIsQcCheckCleared(Product product) {
+        for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
+            Log.e("", new Gson().toJson(qcQuestionDTO));
+            if (qcQuestionDTO.getIsMandatory() != null && qcQuestionDTO.getIsMandatory().equalsIgnoreCase("yes")) {
+                if (!qcQuestionDTO.getAnswer().equalsIgnoreCase(qcQuestionDTO.getExpectedAnswer())) {
+                    return "no";
                 }
             }
         }
@@ -432,17 +434,17 @@ public class DocketUpdateActivity extends AppCompatActivity {
     private boolean validateCapturedData(QcQuestionDTO qcQuestionDTO, Map<Integer, String> answerMap) {
         boolean isAnyError = false;
         String str = null;
-        int resourceId = this.getResources().getIdentifier("question_"+qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
+        int resourceId = this.getResources().getIdentifier("question_" + qcQuestionDTO.getQuestionId(), "id", this.getPackageName());
 
         RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
         RadioButton radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
         String radioButtonValue = radioButton != null ? radioButton.getText().toString() : null;
-        if(radioButtonValue == null || radioButtonValue.equals("")){
+        if (radioButtonValue == null || radioButtonValue.equals("")) {
             isAnyError = true;
         } else {
             radioButtonValue = radioButtonValue.toLowerCase();
         }
-        answerMap.put(qcQuestionDTO.getQuestionId(),radioButtonValue);
+        answerMap.put(qcQuestionDTO.getQuestionId(), radioButtonValue);
 
 //        if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
 //            RadioGroup radioGroup = (RadioGroup) findViewById(resourceId);
@@ -511,13 +513,13 @@ public class DocketUpdateActivity extends AppCompatActivity {
         return path2;
     }
 
-    private void moveImageFromTempToPicked(String fileName){
+    private void moveImageFromTempToPicked(String fileName) {
         InputStream inStream = null;
         OutputStream outStream = null;
 
-        try{
-            File afile =new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Temp/" + fileName);
-            File bfile =new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Picked/" + fileName);
+        try {
+            File afile = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Temp/" + fileName);
+            File bfile = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Picked/" + fileName);
 
             inStream = new FileInputStream(afile);
             outStream = new FileOutputStream(bfile);
@@ -525,14 +527,14 @@ public class DocketUpdateActivity extends AppCompatActivity {
             byte[] buffer = new byte[1024];
 
             int length;
-            while ((length = inStream.read(buffer)) > 0){
+            while ((length = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, length);
             }
             inStream.close();
             outStream.close();
             afile.delete();
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -1,9 +1,12 @@
 package io.webguru.fieldpickup.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Map;
@@ -52,9 +55,8 @@ public class QcResultActivity extends AppCompatActivity {
             qcFailLayout = (RelativeLayout) findViewById(R.id.qc_failed);
             qcMessageLayout = (TextView) findViewById(R.id.qc_message);
 
-
-
             if(isQCPassed.equalsIgnoreCase("yes")){
+                ((RelativeLayout) findViewById(R.id.qc_failed_layout)).setVisibility(RelativeLayout.GONE);
                 qcPassLayout.setVisibility(RelativeLayout.VISIBLE);
                 qcFailLayout.setVisibility(RelativeLayout.GONE);
                 qcMessageLayout.setText("Shipment is cleared for pickup");
@@ -75,6 +77,16 @@ public class QcResultActivity extends AppCompatActivity {
 
     @OnClick(R.id.proceed)
     public void proceed() {
+
+        if(isQCPassed.equalsIgnoreCase("no")) {
+            EditText editText = (EditText) findViewById(R.id.qc_fail_remarks);
+            if (editText == null || editText.getText() == null || editText.getText().toString().equals("")) {
+                Toast.makeText(this, "Enter QC Fail Remarks", Toast.LENGTH_LONG).show();
+                return;
+            }
+            Product product = docket.getProducts().get(Integer.parseInt(step)-1);
+            product.setRemarks(editText.getText().toString());
+        }
 
         if (Integer.parseInt(step) == docket.getProducts().size()) { //final Product
             //TODO add products field data in DB
@@ -112,12 +124,11 @@ public class QcResultActivity extends AppCompatActivity {
                 }
             }
         } else {
-
-//                Intent intent = new Intent(this, DocketUpdateActivity.class);
-//                intent.putExtra("Docket", docket);
-//                intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
-//                intent.putExtra("Step", (Integer.parseInt(step) + 1) + "");
-//                startActivity(intent);
+                Intent intent = new Intent(this, DocketUpdateActivity.class);
+                intent.putExtra("Docket", docket);
+                intent.putExtra("Product", docket.getProducts().get(Integer.parseInt(step)));
+                intent.putExtra("Step", (Integer.parseInt(step) + 1) + "");
+                startActivity(intent);
         }
         finish();
     }

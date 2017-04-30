@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity
 
             docketDataSource = new DocketDataSource(context);
             docketDataSource.open();
-//            docketDataSource.emptyTable();
+            docketDataSource.emptyTable();
             docketDataSource.close();
 
             File file = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Backup");

@@ -22,6 +22,7 @@ public class Product implements Serializable{
     private String image1;
     private String image2;
     private String image3;
+    private String remarks;
     private List<QcQuestionDTO> qcQuestions;
 
     public Product( FieldData fieldData, String description, String reason, Integer quantity, String productId, List<QcQuestionDTO> qcQuestions) {
@@ -117,4 +118,11 @@ public class Product implements Serializable{
         this.image3 = image3;
     }
 
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 }

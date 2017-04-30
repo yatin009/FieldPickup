@@ -38,7 +38,7 @@
             android:layout_gravity="center_horizontal"
 
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="80dp"
             android:src="@drawable/qc_fail" />
     </RelativeLayout>
 
@@ -79,6 +79,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/qc_failed_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
             android:textSize="20sp"
             android:textStyle="normal"
             android:gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp" />
     </RelativeLayout>
