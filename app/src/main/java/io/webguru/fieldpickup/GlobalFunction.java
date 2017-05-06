@@ -1,6 +1,7 @@
 package io.webguru.fieldpickup;
 
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -37,8 +38,12 @@ public class GlobalFunction {
     private static DocketDataSource docketDataSource;
     private static FieldDataDataSource fieldDataDataSource;
 
-    public static String DOMAIN = "http://192.168.0.3:8081/";
+    public static String DOMAIN = "http://192.168.0.2:8081/";
+//    public static String DOMAIN = "http://staging.saplogistics.in/";
+//    public static String DOMAIN = "http://saplogistics.in/";
     public static Context context;
+    public static Intent intent;
+    public static ProgressDialog mProgressDialog;
 
 
     private static void openDocketDatabaseConnection(Context context) {
@@ -117,7 +122,7 @@ public class GlobalFunction {
     }
 
 
-    public static void showNotification(Context context, Intent intent, String message) {
+    public static void showNotification(Intent intent, String message) {
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MainActivity.class);
@@ -126,7 +131,7 @@ public class GlobalFunction {
                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT
                         | PendingIntent.FLAG_ONE_SHOT);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.ic_stat_shopping_cart)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.sap_logo_round))
                 .setContentTitle("SAP Pickup")

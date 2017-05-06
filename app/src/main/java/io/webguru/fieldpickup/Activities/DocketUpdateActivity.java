@@ -401,7 +401,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
         for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
             Log.e("", new Gson().toJson(qcQuestionDTO));
             if (qcQuestionDTO.getIsMandatory() != null && qcQuestionDTO.getIsMandatory().equalsIgnoreCase("yes")) {
-                if (!qcQuestionDTO.getAnswer().equalsIgnoreCase(qcQuestionDTO.getExpectedAnswer())) {
+                if (qcQuestionDTO.getAnswer() == null || qcQuestionDTO.getAnswer().equalsIgnoreCase("no")) {
                     return "no";
                 }
             }

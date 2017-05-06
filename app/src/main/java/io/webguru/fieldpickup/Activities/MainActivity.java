@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         intent = getIntent();
         context = this;
+        GlobalFunction.context = context;
+        GlobalFunction.intent = intent;
         if (!checkLoginStatus()) {
             redirectToLoginActivity();
             return;
@@ -272,6 +274,7 @@ public class MainActivity extends AppCompatActivity
 
 
 //        }, 2000);
+
         new FetchDataService().execute();
 
     }

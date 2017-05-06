@@ -1,5 +1,6 @@
 package io.webguru.fieldpickup.ApiHandler;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -36,13 +37,13 @@ public class ApiHandler {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 loginDataDTO = objectMapper.readValue(responseMessage, new TypeReference<LoginDataDTO>(){});
+                int count = (loginDataDTO != null && loginDataDTO.getDeviceDataList() != null) ? loginDataDTO.getDeviceDataList().size() : 0;
+                GlobalFunction.showNotification(GlobalFunction.intent,  count +" New Dockets Found");
 
             } catch (Exception e) {
                 e.printStackTrace();
-//                Toast.makeText(context, "ERROR CODE : 100", Toast.LENGTH_LONG).show();
             }
         } else {
-//            Toast.makeText(context, "No pickup request found for you", Toast.LENGTH_LONG).show();
         }
         ArrayList<Docket> dockets = new ArrayList<>();
         if(loginDataDTO != null && !loginDataDTO.getDeviceDataList().isEmpty()){
