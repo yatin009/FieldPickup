@@ -283,46 +283,46 @@ public class ReviewActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean getQcResult(Integer reasonCode, Docket docket, FieldData fieldData){
-        Map<Integer,Map<String,String>> qcMatrix = GlobalFunction.getQcMatrix();
-        if(qcMatrix.containsKey(reasonCode)){
-            Map<String,String> valueMap = qcMatrix.get(reasonCode);
-
-            if(valueMap.get("Product Description").equals("YES")){
-//                if(fieldData.getIsSameProduct().equals("NO")){
-//                    return false;
-//                }
-            }
-            if(valueMap.get("Quantity").equals("YES")){
-                //          TODO ADD MULTIPLE PRODUCT LOGIC
-//                if(!docket.getQuantity().equals(fieldData.getQuantity())){
-//                    return false;
-//                }
-            }
-            if(valueMap.get("Accessories in brand box").equals("YES")){
-//                if(fieldData.getIsAllPartsAvailable().equals("NO")){
-//                    return false;
-//                }
-            }
-            if(valueMap.get("Reason").equals("YES")){
-//                if(fieldData.getIsIssueCategoryCorrect().equals("NO")){
-//                    return false;
-//                }
-            }
-            if(valueMap.get("Clean/Not Used").equals("YES")){
-//                if(fieldData.getIsProductClean().equals("NO")){
-//                    return false;
-//                }
-            }
-            if(valueMap.get("Is Damaged").equals("YES")){
-//                if(fieldData.getIsDamaged().equals("YES")){
-//                    return false;
-//                }
-            }
-
-        }
-        return true;
-    }
+//    private boolean getQcResult(Integer reasonCode, Docket docket, FieldData fieldData){
+//        Map<Integer,Map<String,String>> qcMatrix = GlobalFunction.getQcMatrix();
+//        if(qcMatrix.containsKey(reasonCode)){
+//            Map<String,String> valueMap = qcMatrix.get(reasonCode);
+//
+//            if(valueMap.get("Product Description").equals("YES")){
+////                if(fieldData.getIsSameProduct().equals("NO")){
+////                    return false;
+////                }
+//            }
+//            if(valueMap.get("Quantity").equals("YES")){
+//                //          TODO ADD MULTIPLE PRODUCT LOGIC
+////                if(!docket.getQuantity().equals(fieldData.getQuantity())){
+////                    return false;
+////                }
+//            }
+//            if(valueMap.get("Accessories in brand box").equals("YES")){
+////                if(fieldData.getIsAllPartsAvailable().equals("NO")){
+////                    return false;
+////                }
+//            }
+//            if(valueMap.get("Reason").equals("YES")){
+////                if(fieldData.getIsIssueCategoryCorrect().equals("NO")){
+////                    return false;
+////                }
+//            }
+//            if(valueMap.get("Clean/Not Used").equals("YES")){
+////                if(fieldData.getIsProductClean().equals("NO")){
+////                    return false;
+////                }
+//            }
+//            if(valueMap.get("Is Damaged").equals("YES")){
+////                if(fieldData.getIsDamaged().equals("YES")){
+////                    return false;
+////                }
+//            }
+//
+//        }
+//        return true;
+//    }
 
     @OnClick(R.id.capturedImage1)
     public void openImage1() {

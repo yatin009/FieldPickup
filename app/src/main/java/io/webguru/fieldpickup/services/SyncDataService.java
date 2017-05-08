@@ -1,7 +1,10 @@
 package io.webguru.fieldpickup.services;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,9 +20,13 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.File;
 
+import io.webguru.fieldpickup.Activities.MainActivity;
 import io.webguru.fieldpickup.AndroidMultiPartEntity;
 import io.webguru.fieldpickup.ApiHandler.ApiRequestHandler;
+import io.webguru.fieldpickup.Database.DocketDataSource;
+import io.webguru.fieldpickup.Fragments.BlankFragment;
 import io.webguru.fieldpickup.GlobalFunction;
+import io.webguru.fieldpickup.POJO.Tab;
 
 /**
  * Created by panchanandmahto on 26/04/17.
@@ -31,67 +38,54 @@ public class SyncDataService extends AsyncTask<String, Void, Boolean> {
 
     public static String DOMAIN = null;
 
+    private int statusCode = 0;
+
+    DocketDataSource docketDataSource;
+
+    private ProgressDialog dialog = new ProgressDialog(GlobalFunction.context);
+
+    @Override
+    protected void onPreExecute() {
+        this.dialog.setMessage("Please wait... Data is syncing with server...");
+        this.dialog.show();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+    }
 
     @Override
     protected Boolean doInBackground(String... params) {
 
         DOMAIN = GlobalFunction.DOMAIN;
-        ApiRequestHandler.makeServiceCall("app/rest/device/sync", null,null,null);
-//        doFileUpload(params[0]);
+        HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/rest/device/sync", null, null, null);
+        statusCode = httpResponse.getStatusLine().getStatusCode();
         return true;
     }
 
     @Override
     protected void onPostExecute(final Boolean success) {
-
-    }
-
-    public static String doFileUpload(String zipFile) {
-        Log.i("SyncChanges", "Inside doFileUpload >>>>>");
-        String response = "500,Failed";
-        try {
-            if (httpClient == null) {
-                httpClient = new DefaultHttpClient();
-                httpClient.setCookieStore(new BasicCookieStore());
-            }
-            httpClient.setHttpRequestRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
-            HttpParams httpParameters = httpClient.getParams();
-            HttpConnectionParams.setConnectionTimeout(httpParameters, 60 * 1000);
-            HttpConnectionParams.setSoTimeout(httpParameters, 120 * 1000);
-
-            HttpPost httpPost = new HttpPost(DOMAIN + "app/rest/device/sync");
-            httpPost.setHeader("Accept-Encoding", "gzip");
-            httpPost.setHeader(HTTP.CONN_DIRECTIVE, HTTP.CONN_KEEP_ALIVE);
-            File file = new File(zipFile);
-            //MultipartEntity reqEntity = new MultipartEntity();
-            AndroidMultiPartEntity reqEntity = new AndroidMultiPartEntity(
-                    new AndroidMultiPartEntity.ProgressListener() {
-                        @Override
-                        public void transferred(long num) {
-//                            sendBroadcastMessage("sending ... " + (int) ((num / (float) totalSize) * 100) + "%");
-                        }
-                    });
-            FileBody bin1 = new FileBody(file);
-            reqEntity.addPart("file", bin1);
-            httpPost.setEntity(reqEntity);
-            long totalSize = reqEntity.getContentLength();
-            HttpResponse httpResponse = httpClient.execute(httpPost);
-            String responseMessage = EntityUtils.toString(httpResponse.getEntity(), "UTF-8");
-            int status_code = httpResponse.getStatusLine().getStatusCode();
-            Log.i("SyncChanges", "status_code >>>> " + status_code);
-            if (status_code == 200) {
-                HttpEntity httpEntity = httpResponse.getEntity();
-                response = status_code + "," + EntityUtils.toString(httpEntity);
-            } if(status_code ==401){
-                response = status_code + ", Failed to authenticate User";
-            } else {
-                response = status_code + ", Failed to sync update";
-            }
-        } catch (Exception e) {
-            Log.i("SyncChanges", "Inside catch of doFileUpload >>>>>");
-            e.printStackTrace();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
         }
-        return response;
+
+        if (statusCode == 200) {
+            GlobalFunction.openDocketDatabaseConnection(GlobalFunction.context);
+            docketDataSource = GlobalFunction.docketDataSource;
+            docketDataSource.open();
+            docketDataSource.markDocketsAsSynced(MainActivity.docketIdsToSync);
+            Tab tab = BlankFragment.getTab("Done");
+            if (tab != null) {
+                Fragment faFragment = tab.getFragment();
+                faFragment.onStart();
+            }
+            Toast.makeText(GlobalFunction.context, "Synced Successfully", Toast.LENGTH_LONG).show();
+        } else {
+            if(statusCode == 401){
+                Toast.makeText(GlobalFunction.context, "Try to Re-Login", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(GlobalFunction.context, "Failed to Sync", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
 
 }

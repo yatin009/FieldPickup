@@ -81,7 +81,7 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
             public void run() {
                 getDocketList(false);
             }
-        }, 2000);
+        }, 100);
     }
 
     private void getDocketList(final boolean isRefresh){
@@ -107,7 +107,7 @@ public class PendingDocketsFragments extends Fragment implements SwipeRefreshLay
             public void run() {
                 getDocketList(true);
             }
-        }, 2000);
+        }, 100);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.webguru.fieldpickup.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatButton;
@@ -133,6 +135,13 @@ public class DocketUpdateActivity extends AppCompatActivity {
                 return;
             }
             helpText = null;
+            if(qcQuestionDTO.getQuestion().toLowerCase().contains("description")){
+                helpText = "Description : " + product.getDescription();
+            } else if(qcQuestionDTO.getQuestion().toLowerCase().contains("quantity") || qcQuestionDTO.getQuestion().toLowerCase().contains("qty")){
+                helpText = "Quantity to be picked : " + product.getQuantity();
+            } else if(qcQuestionDTO.getQuestion().toLowerCase().contains("reason")){
+                helpText = "Reason : " + GlobalFunction.getReasonCodeMap().get(product.getReason());
+            }
             getRadioLayout(context, qcQuestionDTO, helpText, index);
 //            if(qcQuestionDTO.getExpectedAnswer().contains("yes") || qcQuestionDTO.getExpectedAnswer().contains("no")){
 //
@@ -361,7 +370,7 @@ public class DocketUpdateActivity extends AppCompatActivity {
         }
 
         if (docket != null) {
-            Map<Integer, String> answerMap = new HashMap<>();
+            final Map<Integer, String> answerMap = new HashMap<>();
             List<QcQuestionDTO> qcQuestionDTOs = docket.getProducts().get(Integer.parseInt(step) - 1).getQcQuestions();
             for (QcQuestionDTO qcQuestionDTO : qcQuestionDTOs) {
                 if (validateCapturedData(qcQuestionDTO, answerMap)) {
@@ -373,27 +382,35 @@ public class DocketUpdateActivity extends AppCompatActivity {
             if (validateImages()) {
                 return;
             }
-            for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
-                qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
-            }
-            docket.getProducts().set(Integer.parseInt(step) - 1, product);
-            String isQCCleared = checkIsQcCheckCleared(product);
 
-            Intent intent = new Intent(this, QcResultActivity.class);
-            intent.putExtra("Docket", docket);
-            intent.putExtra("Product", product);
-            intent.putExtra("Step", step);
-            intent.putExtra("isQCPassed", isQCCleared);
-            startActivity(intent);
+            new AlertDialog.Builder(this)
+                    .setTitle("Update Confirmation")
+                    .setMessage("Do you really want to proceed?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-
-//            Intent intent = new Intent(this, ReviewActivity.class);
-//            intent.putExtra("Docket", docket);
-//            intent.putExtra("FieldData", fieldData);
-//            startActivity(intent);
-
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            update(answerMap);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
 
         }
+
+    }
+
+    private void update(Map<Integer, String> answerMap) {
+        for (QcQuestionDTO qcQuestionDTO : product.getQcQuestions()) {
+            qcQuestionDTO.setAnswer(answerMap.get(qcQuestionDTO.getQuestionId()));
+        }
+        docket.getProducts().set(Integer.parseInt(step) - 1, product);
+        String isQCCleared = checkIsQcCheckCleared(product);
+
+        Intent intent = new Intent(this, QcResultActivity.class);
+        intent.putExtra("Docket", docket);
+        intent.putExtra("Product", product);
+        intent.putExtra("Step", step);
+        intent.putExtra("isQCPassed", isQCCleared);
+        startActivity(intent);
         finish();
     }
 

@@ -8,6 +8,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:fitsSystemWindows="true"
+    android:layout_gravity="center_vertical"
     tools:context="io.webguru.fieldpickup.Activities.QcResultActivity">
 
     <RelativeLayout
@@ -90,6 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
+            android:hint="Enter Remarks"
             android:textSize="20sp"
             android:textStyle="normal"
             android:gravity="center"

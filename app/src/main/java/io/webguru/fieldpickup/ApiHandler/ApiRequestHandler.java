@@ -120,6 +120,15 @@ public class ApiRequestHandler {
             if (entity.getContentEncoding() != null && (entity.getContentEncoding().toString().equalsIgnoreCase("gzip") || entity.getContentEncoding().toString().contains("gzip"))) {
                 httpResponse.setEntity(new GzipDecompressingEntity(httpResponse.getEntity()));
             }
+
+            if(httpResponse.getStatusLine().getStatusCode() == 401){
+                int statusCode = LoginActivity.reLogin();
+                if(statusCode == 200){
+                    httpResponse = makeServiceCall(url, formData, requestBody, context);
+                } else if( statusCode == 0){
+                    return null;
+                }
+            }
             return (httpResponse);
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,5 +141,7 @@ public class ApiRequestHandler {
         }
         return null;
     }
+
+
 
 }

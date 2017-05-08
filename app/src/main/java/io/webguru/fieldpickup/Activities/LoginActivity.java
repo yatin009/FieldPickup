@@ -55,11 +55,9 @@ import io.webguru.fieldpickup.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    // UI references.
     @Bind(R.id.parent_layout)
     LinearLayout parentLayout;
-//    @Bind(R.id.signup_layout)
-//    RelativeLayout signUpLayout;
+
     @Bind(R.id.editTextUsername)
     EditText username;
 
@@ -71,13 +69,10 @@ public class LoginActivity extends AppCompatActivity {
 
     Context context;
 
+    private static int loginAttemptCount = 0;
 
 
     private static UserDataSource userDataSource;
-
-
-    private TextView userDisplayNameView;
-    private TextView userDisplayEmailView;
 
     int REQUEST_PERMISSIONS;
 
@@ -238,7 +233,7 @@ public class LoginActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) +
                 ContextCompat.checkSelfPermission(LoginActivity.this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(LoginActivity.this,
-                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
                     REQUEST_PERMISSIONS);
         }
     }
@@ -293,6 +288,9 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString(context.getString(R.string.DISPLAY_USER_EMAIL), "default@saptransport.net");
                     editor.commit();
                     HttpResponse httpResponse1 = ApiRequestHandler.makeServiceCall("app/account", null, null, context);
+                    if(httpResponse1 == null){
+                        return 401;
+                    }
                     responseMessage = EntityUtils.toString(httpResponse1.getEntity(), "UTF-8");
                     Log.i("Response------ ",responseMessage);
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -305,36 +303,33 @@ public class LoginActivity extends AppCompatActivity {
                     editor1.putString(context.getString(R.string.CURRENT_USER_LOGIN), user.getLogin());
                     editor1.putString(context.getString(R.string.CURRENT_USER_PASSWORD), password);
 
-
-//                    user.setImeiNumber(imei);
                     userDataSource = new UserDataSource(context);
                     userDataSource.open();
+                    user.setPassword(password);
+                    userDataSource.emptyTable();
                     userDataSource.insertUser(user);
                     userDataSource.close();
 
                     editor1.commit();
-//                    ApiHandler.getLoginData(context);
-
                     return StatusCode;
-//                    responseMessage = EntityUtils.toString(httpResponse1.getEntity());
 
                 } else if (StatusCode == 401) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(responseMessage);
-                        if (jsonObject.length() != 0) {
-                            if (jsonObject.has("message")) {
-                                if (jsonObject.getString("message").equalsIgnoreCase("Wrong credentials! Try again."))
-                                    StatusCode = 401;
-                                else if (jsonObject.getString("message").equalsIgnoreCase("User already logged-in. Logout first and try again."))
-                                    StatusCode = 1201;
-                                else if (jsonObject.getString("message").equalsIgnoreCase("User locked! Try after 15 minutes."))
-                                    StatusCode = 1203;
-                                return StatusCode;
-                            }
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        JSONObject jsonObject = new JSONObject(responseMessage);
+//                        if (jsonObject.length() != 0) {
+//                            if (jsonObject.has("message")) {
+//                                if (jsonObject.getString("message").equalsIgnoreCase("Wrong credentials! Try again."))
+//                                    StatusCode = 401;
+//                                else if (jsonObject.getString("message").equalsIgnoreCase("User already logged-in. Logout first and try again."))
+//                                    StatusCode = 1201;
+//                                else if (jsonObject.getString("message").equalsIgnoreCase("User locked! Try after 15 minutes."))
+//                                    StatusCode = 1203;
+//                                return StatusCode;
+//                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                 }
             }
 
@@ -343,6 +338,23 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return StatusCode;
+    }
+
+    public static int reLogin() throws IOException {
+
+        if(loginAttemptCount >= 3){
+            loginAttemptCount = 0;
+            return 0;
+        }
+        userDataSource = new UserDataSource(GlobalFunction.context);
+        userDataSource.open();
+        User user = userDataSource.getUserDetails();
+        int statusCode = 0;
+        if(user != null) {
+            statusCode = authenticateUserOnServer(user.getLogin(), user.getPassword(), GlobalFunction.context);
+        }
+        userDataSource.close();
+        return statusCode;
     }
 
 }

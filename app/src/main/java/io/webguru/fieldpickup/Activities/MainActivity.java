@@ -2,6 +2,7 @@ package io.webguru.fieldpickup.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity
     private TextView userDisplayEmailView;
 
     private static DocketDataSource docketDataSource;
+
+
+    public static List<Long> docketIdsToSync = new ArrayList<Long>();
 
     Intent intent;
 
@@ -154,7 +159,6 @@ public class MainActivity extends AppCompatActivity
         String imei = tm.getDeviceId();
 
         if (docketList != null && !docketList.isEmpty()) {
-            List<Long> docketIdsToSync = new ArrayList<Long>();
             List<Docket> docketsToBeSync = new ArrayList<Docket>();
             List<DeviceDataDTO> deviceDataDTOList = new ArrayList<DeviceDataDTO>();
             DeviceDataDTO deviceDataDTO = null;
@@ -169,6 +173,11 @@ public class MainActivity extends AppCompatActivity
                     deviceDataDTO.setIsQualityCheckCleared(docket.getIsQcCheckCleared());
                     deviceDataDTOList.add(deviceDataDTO);
                 }
+            }
+
+            if(docketsToBeSync.isEmpty()){
+                Toast.makeText(MainActivity.this, "No pending docket found to sync", Toast.LENGTH_LONG).show();
+                return;
             }
 
             String json = null;
@@ -231,12 +240,10 @@ public class MainActivity extends AppCompatActivity
 
             if (isToSyncToServer) {
                 try {
+                    GlobalFunction.context = MainActivity.this;
                     String JSESSION_ID = sharedPreferences.getString(context.getString(R.string.JSESSION_ID), null);
                     new SyncDataService().execute(destination, JSESSION_ID, USER_ID);
 
-                    if (!docketIdsToSync.isEmpty()) {
-                            docketDataSource.markDocketsAsSynced(docketIdsToSync);
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -249,31 +256,11 @@ public class MainActivity extends AppCompatActivity
             Fragment faFragment = tab.getFragment();
             faFragment.onStart();
         }
-        Toast.makeText(MainActivity.this, "Synced Successfully", Toast.LENGTH_LONG).show();
     }
 
 
     private void fetchUpdatesFromServer() {
-//        new Handler().postDelayed(new Runnable() {
-//            public void run() {
-//                if (mProgressDialog != null) {
-//                    mProgressDialog.dismiss();
-//                }
-//
-//                int newDockets = ApiHandler.getLoginData(GlobalFunction.context);
-//
-//                docketDataSource = new DocketDataSource(context);
-//                docketDataSource.open();
-//                List<Docket> docketList = docketDataSource.getAllDockets();
-//                docketDataSource.close();
-//                if(newDockets > 0) {
-//                    GlobalFunction.showNotification(MainActivity.this, intent, newDockets + " New Dockets Found");
-//                    Toast.makeText(MainActivity.this, "Fetched Successfully", Toast.LENGTH_LONG).show();
-//                }
-//            }
-
-
-//        }, 2000);
+        GlobalFunction.intent = new Intent(this, MainActivity.class);
 
         new FetchDataService().execute();
 
@@ -365,18 +352,40 @@ public class MainActivity extends AppCompatActivity
 //            showProgressDialog("Fetching Updates From Server…");
             fetchUpdatesFromServer();
         } else if (id == R.id.nav_logout) {
-            SharedPreferences sharedPref = (MainActivity.this).getSharedPreferences(getString(R.string.login_status), Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("isLogged", false);
-            editor.apply();
-            syncUpdatesToServer(false);
 
-            docketDataSource = new DocketDataSource(context);
-            docketDataSource.open();
-            docketDataSource.emptyTable();
-            docketDataSource.close();
+            new AlertDialog.Builder(this)
+                    .setTitle("Log Out Confirmation")
+                    .setMessage("Do you really want to log out?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-            File file = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Backup");
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            logout();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void logout() {
+
+        SharedPreferences sharedPref = (MainActivity.this).getSharedPreferences(getString(R.string.login_status), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        editor.putBoolean("isLogged", false);
+        editor.apply();
+        syncUpdatesToServer(false);
+
+        docketDataSource = new DocketDataSource(context);
+        docketDataSource.open();
+        docketDataSource.emptyTable();
+        docketDataSource.close();
+
+//            File file = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Backup");
 //            if(file.exists()){
 //                String[]entries = file.list();
 //                for(String s: entries){
@@ -395,13 +404,9 @@ public class MainActivity extends AppCompatActivity
 //                }
 //            }
 
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-            startActivity(intent);
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.addFlags((Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        startActivity(intent);
     }
 
     public void showProgressDialog(String message) {

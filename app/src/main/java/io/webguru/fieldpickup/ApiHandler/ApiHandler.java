@@ -37,8 +37,6 @@ public class ApiHandler {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 loginDataDTO = objectMapper.readValue(responseMessage, new TypeReference<LoginDataDTO>(){});
-                int count = (loginDataDTO != null && loginDataDTO.getDeviceDataList() != null) ? loginDataDTO.getDeviceDataList().size() : 0;
-                GlobalFunction.showNotification(GlobalFunction.intent,  count +" New Dockets Found");
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -52,6 +50,9 @@ public class ApiHandler {
                 dockets.add(new Docket(deviceDataDTO));
             }
             dockets = GlobalFunction.createDocketIntoDB(dockets,context);
+            if(dockets != null && !dockets.isEmpty()) {
+                GlobalFunction.showNotification(GlobalFunction.intent, dockets.size() + " New Dockets Found");
+            }
         }
         return dockets == null ? 0 : dockets.size();
     }
