@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         checkPermissions();
         context = this;
         GlobalFunction.context = context;
+        GlobalFunction.intent = new Intent(LoginActivity.this, MainActivity.class);
         Log.d(TAG,"checkLoginStatus() >>>> "+checkLoginStatus());
         if(checkLoginStatus()) {
             redirectToMainActivity();

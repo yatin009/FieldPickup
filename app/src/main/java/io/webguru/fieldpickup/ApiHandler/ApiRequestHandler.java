@@ -137,6 +137,11 @@ public class ApiRequestHandler {
                 HttpResponseFactory factory = new DefaultHttpResponseFactory();
                 httpResponse = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_GATEWAY_TIMEOUT, null), null);
                 return httpResponse;
+            } else if(e.getMessage() != null && e.getMessage().contains("refused")){
+
+                HttpResponseFactory factory = new DefaultHttpResponseFactory();
+                httpResponse = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_SERVICE_UNAVAILABLE, null), null);
+                return httpResponse;
             }
         }
         return null;

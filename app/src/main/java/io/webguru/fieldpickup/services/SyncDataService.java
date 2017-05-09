@@ -57,6 +57,10 @@ public class SyncDataService extends AsyncTask<String, Void, Boolean> {
 
         DOMAIN = GlobalFunction.DOMAIN;
         HttpResponse httpResponse = ApiRequestHandler.makeServiceCall("app/rest/device/sync", null, null, null);
+        if(httpResponse == null){
+            statusCode = 0;
+            return true;
+        }
         statusCode = httpResponse.getStatusLine().getStatusCode();
         return true;
     }
@@ -81,6 +85,8 @@ public class SyncDataService extends AsyncTask<String, Void, Boolean> {
         } else {
             if(statusCode == 401){
                 Toast.makeText(GlobalFunction.context, "Try to Re-Login", Toast.LENGTH_LONG).show();
+            } else if(statusCode == 503){
+                Toast.makeText(GlobalFunction.context, "No Internet Connection", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(GlobalFunction.context, "Failed to Sync", Toast.LENGTH_LONG).show();
             }

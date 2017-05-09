@@ -55,6 +55,9 @@ public class DocketDetailsActivity extends AppCompatActivity {
     TextView contactNumber;
     TextView address;
     TextView pincode;
+    TextView pickupStatus;
+    TextView statusDescription;
+    TextView isQcPassed;
 
     private LinearLayout capturedDetailsLayout;
 
@@ -86,6 +89,9 @@ public class DocketDetailsActivity extends AppCompatActivity {
             contactNumber = (TextView) findViewById(R.id.contact_number);
             address = (TextView) findViewById(R.id.address);
             pincode = (TextView) findViewById(R.id.pincode);
+            pickupStatus = (TextView) findViewById(R.id.pickup_status);
+            statusDescription = (TextView) findViewById(R.id.status_description);
+            isQcPassed = (TextView) findViewById(R.id.is_qc_passed);
 
             if(docket.isPending() == 1){
                 capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
@@ -98,6 +104,10 @@ public class DocketDetailsActivity extends AppCompatActivity {
             contactNumber.setText(docket.getCustomerContact());
             address.setText(docket.getCustomerAddress());
             pincode.setText(docket.getPincode());
+            pickupStatus.setText(docket.getStatus());
+            statusDescription.setText(docket.getStatusDescription());
+            isQcPassed.setText(docket.getIsQcCheckCleared());
+
             inflateProductLayoutInfo();
 
             inflateFieldData();
@@ -142,7 +152,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
         childTextView1 = (TextView) childLinearLayout.getChildAt(0);
         childTextView2 = (TextView) childLinearLayout.getChildAt(1);
         childTextView1.setText(qcQuestionDTO.getQuestion());
-        childTextView2.setText(qcQuestionDTO.getAnswer());
+        childTextView2.setText(qcQuestionDTO.getAnswer() != null ? qcQuestionDTO.getAnswer() : "NA");
         return layout;
     }
 
