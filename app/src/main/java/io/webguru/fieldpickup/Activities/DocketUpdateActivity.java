@@ -305,7 +305,8 @@ public class DocketUpdateActivity extends AppCompatActivity {
         if (bundle != null) {
             docket = (Docket) bundle.get("Docket");
             String path = checkForImageLocation();
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File dir = Environment.getExternalStoragePublicDirectory(path);
             String productDescription = product.getDescription();
             productDescription = productDescription.replaceAll(" ", "_");
@@ -497,35 +498,23 @@ public class DocketUpdateActivity extends AppCompatActivity {
 
     public static String checkForImageLocation() {
 
-//        String path = Environment.getExternalStorageDirectory()  + "/Field Pickup";
-//        File dir = new File(path);
-//        if (!dir.exists()) {
-//            try {
-//                dir.mkdir();
-//            } catch (SecurityException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        File direct = new File(Environment.getExternalStorageDirectory() + "/Field Pickup");
+        if (!direct.exists()) {
+            direct.mkdirs();
+        }
+
+
+        String tempDirPath = "Temp";
+        File tempDir = new File(direct, tempDirPath);
+        if (!tempDir.exists()) {
+            try {
+                tempDir.mkdirs();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
+        }
 
         String path2 = "Field Pickup/Temp";
-//        File dir2 = new File(dir,path2);
-//        if (!dir2.exists()) {
-//            try {
-//                dir2.mkdir();
-//            } catch (SecurityException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        String path3 = Environment.getExternalStorageDirectory()  + "/Field Pickup/Picked";
-//        File dir3 = new File(dir,path3);
-//        if (!dir3.exists()) {
-//            try {
-//                dir3.mkdir();
-//            } catch (SecurityException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         return path2;
     }

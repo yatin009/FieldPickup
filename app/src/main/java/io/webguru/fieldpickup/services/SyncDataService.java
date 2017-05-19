@@ -46,7 +46,7 @@ public class SyncDataService extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        this.dialog.setMessage("Please wait... Data is syncing with server...");
+        this.dialog.setMessage("Please wait... Syncing data with server...");
         this.dialog.show();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);

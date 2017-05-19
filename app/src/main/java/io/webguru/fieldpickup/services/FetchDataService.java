@@ -34,7 +34,7 @@ public class FetchDataService extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPreExecute() {
-        this.dialog.setMessage("Please wait... Data is fetching from server... ");
+        this.dialog.setMessage("Please wait... Fetching data from server... ");
         this.dialog.show();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);

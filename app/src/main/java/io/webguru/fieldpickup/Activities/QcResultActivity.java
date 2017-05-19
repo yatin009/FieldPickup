@@ -111,8 +111,14 @@ public class QcResultActivity extends AppCompatActivity {
                 docket.setIsPending(0);
                 docketDataSource = new DocketDataSource(this);
                 docketDataSource.open();
-                docket.setStatus("Picked");
-                docket.setStatusDescription("Packet Successfully Picked");
+                if(isQCPassed.equalsIgnoreCase("yes")){
+                    docket.setStatus("Picked");
+                    docket.setStatusDescription("Packet Successfully Picked");
+                } else {
+                    docket.setStatus("Not Picked");
+                    docket.setStatusDescription("Failed to clear quality check.");
+                }
+
 
                 docket.setIsQcCheckCleared(isQCPassed);
                 docketDataSource.updateDocket(docket);
