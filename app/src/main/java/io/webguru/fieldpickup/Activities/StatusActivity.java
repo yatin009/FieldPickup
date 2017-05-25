@@ -140,6 +140,7 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             finish();
         } else if (selectedStatus != null && !selectedStatus.equals("Tap To Select")) {
             String  statusDescription = null;
+            String  status = null;
             remarks = (EditText) findViewById(R.id.fail_remarks);
             if (remarks == null || remarks.getText().toString().equals("")) {
                 Toast.makeText(this, "Enter Remarks", Toast.LENGTH_LONG).show();
@@ -150,15 +151,18 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             if (selectedStatus.equals("Reschedule Pickup")) {
                 date = (TextView) findViewById(R.id.reschedule_date);
                 statusDescription = "Pickup is rescheduled to " + date.getText();
+                status = "Rescheduled";
             } else if (selectedStatus.equals("Cancelled")) {
+                status = "Cancelled";
                 statusDescription = "Pickup is cancelled by customer";
             } else {
+                status = selectedStatus.equals("Customer Not Available") ? "Customer Not Available" : "NA";
                 statusDescription = selectedStatus.equals("Customer Not Available") ? "Customer Not Available" : "NA";
             }
             try {
                 docketDataSource = new DocketDataSource(this);
                 docketDataSource.open();
-                docket.setStatus("Failed To Pick");
+                docket.setStatus(status);
                 docket.setStatusDescription(statusDescription);
                 docket.setIsPending(0);
                 docket.setIsQcCheckCleared("no");

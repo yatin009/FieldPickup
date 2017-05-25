@@ -15,6 +15,7 @@ import io.webguru.fieldpickup.POJO.Product;
  */
 public class DeviceDataDTO {
 
+    private String orderNumber;
     private String docketNumber;
     private String customerName;
     private String contactNumber;
@@ -37,6 +38,7 @@ public class DeviceDataDTO {
         this.address = docket.getCustomerAddress();
         this.pinCode = docket.getPincode();
         this.products = docket.getProducts();
+        this.orderNumber = docket.getOrderNumber();
     }
 
 
@@ -130,5 +132,13 @@ public class DeviceDataDTO {
 
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
+    }
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
     }
 }

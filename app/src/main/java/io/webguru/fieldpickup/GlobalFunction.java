@@ -12,6 +12,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContentResolverCompat;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.Streams;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import io.webguru.fieldpickup.Activities.MainActivity;
 import io.webguru.fieldpickup.Database.DocketDataSource;
@@ -38,9 +40,9 @@ public class GlobalFunction {
     public static DocketDataSource docketDataSource;
     private static FieldDataDataSource fieldDataDataSource;
 
-//    public static String DOMAIN = "http://192.168.43.158:8081/";
+    public static String DOMAIN = "http://192.168.43.158:8081/";
 //    public static String DOMAIN = "http://staging.saplogistics.in/";
-    public static String DOMAIN = "http://saplogistics.in/";
+//    public static String DOMAIN = "http://saplogistics.in/";
     public static Context context;
     public static Intent intent;
     public static ProgressDialog mProgressDialog;
@@ -67,10 +69,10 @@ public class GlobalFunction {
     }
 
     private static Docket insertDocket(Context context, String docketNumber, String customerName, String contactNumber, String address,
-                                       String product, String pincode) {
+                                       String product, String pincode, String orderNumber) {
 
         openDocketDatabaseConnection(context);
-        return docketDataSource.createDocket(docketNumber, customerName, contactNumber, address, product, 1, pincode, null,"Not Updated Yet", "Not Updated Yet","no");
+        return docketDataSource.createDocket(docketNumber, customerName, contactNumber, address, product, 1, pincode, orderNumber,"Not Updated Yet", "Not Updated Yet","no");
     }
 
     public static ArrayList<Docket> createDocketIntoDB(ArrayList<Docket> dockets, Context context) {
@@ -86,7 +88,7 @@ public class GlobalFunction {
             for (Docket docket : dockets) {
                 if (!docketMap.containsKey(docket.getAwbNumber())) {
                     docket1 = insertDocket(context, docket.getAwbNumber(), docket.getCustomerName(), docket.getCustomerContact(), docket.getCustomerAddress(),
-                            new Gson().toJson(docket.getProducts()), docket.getPincode());
+                            new Gson().toJson(docket.getProducts()), docket.getPincode(), docket.getOrderNumber());
                     docketArrayList.add(docket1);
                 }
             }

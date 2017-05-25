@@ -54,7 +54,7 @@ public class Docket implements Serializable {
         this.customerContact = deviceDataDTO.getContactNumber();
         this.customerName = deviceDataDTO.getCustomerName();
         this.pincode = deviceDataDTO.getPinCode();
-        this.orderNumber = null;
+        this.orderNumber = deviceDataDTO.getOrderNumber();
         this.status = null;
         this.statusDescription = null;
         this.products = deviceDataDTO.getProducts();

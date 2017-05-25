@@ -58,6 +58,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
     TextView pickupStatus;
     TextView statusDescription;
     TextView isQcPassed;
+    TextView orderNumber;
 
     private LinearLayout capturedDetailsLayout;
 
@@ -92,6 +93,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
             pickupStatus = (TextView) findViewById(R.id.pickup_status);
             statusDescription = (TextView) findViewById(R.id.status_description);
             isQcPassed = (TextView) findViewById(R.id.is_qc_passed);
+            orderNumber = (TextView) findViewById(R.id.order_number);
 
             if(docket.isPending() == 1){
                 capturedDetailsLayout = (LinearLayout)this.findViewById(R.id.captured_details_layout);
@@ -107,6 +109,7 @@ public class DocketDetailsActivity extends AppCompatActivity {
             pickupStatus.setText(docket.getStatus());
             statusDescription.setText(docket.getStatusDescription());
             isQcPassed.setText(docket.getIsQcCheckCleared());
+            orderNumber.setText(docket.getOrderNumber());
 
             inflateProductLayoutInfo();
 
