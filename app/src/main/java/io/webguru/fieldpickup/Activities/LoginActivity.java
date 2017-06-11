@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -38,6 +39,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,6 +190,22 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
                 isLoginSuccessFull = true;
                 ApiHandler.getLoginData(LoginActivity.this);
+                File backupFolder = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Backup");
+                if(backupFolder.exists()){
+                    String[]entries = backupFolder.list();
+                    for(String s: entries){
+                        File currentFile = new File(backupFolder.getPath(),s);
+                        currentFile.delete();
+                    }
+                }
+                File tempFolder = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/Temp");
+                if(tempFolder.exists()){
+                    String[]entries = tempFolder.list();
+                    for(String s: entries){
+                        File currentFile = new File(tempFolder.getPath(),s);
+                        currentFile.delete();
+                    }
+                }
             }
             // TODO: register the new account here.
             return isLoginSuccessFull;

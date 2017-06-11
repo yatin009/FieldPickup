@@ -122,6 +122,7 @@ public class QcResultActivity extends AppCompatActivity {
 
                 docket.setIsQcCheckCleared(isQCPassed);
                 docketDataSource.updateDocket(docket);
+                MainActivity.getInstance().syncUpdatesToServer(true);
 
             } catch (Exception e) {
                 e.printStackTrace();

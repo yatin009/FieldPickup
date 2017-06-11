@@ -40,9 +40,9 @@ public class GlobalFunction {
     public static DocketDataSource docketDataSource;
     private static FieldDataDataSource fieldDataDataSource;
 
-    public static String DOMAIN = "http://192.168.43.158:8081/";
+//    public static String DOMAIN = "http://192.168.0.3:8081/";
 //    public static String DOMAIN = "http://staging.saplogistics.in/";
-//    public static String DOMAIN = "http://saplogistics.in/";
+    public static String DOMAIN = "http://saplogistics.in/";
     public static Context context;
     public static Intent intent;
     public static ProgressDialog mProgressDialog;

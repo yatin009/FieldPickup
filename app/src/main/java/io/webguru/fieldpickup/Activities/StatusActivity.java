@@ -167,6 +167,7 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
                 docket.setIsPending(0);
                 docket.setIsQcCheckCleared("no");
                 docketDataSource.updateDocket(docket);
+                MainActivity.getInstance().syncUpdatesToServer(true);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity
 
     Context context;
 
+    static MainActivity mainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity
             redirectToLoginActivity();
             return;
         }
+
+        mainActivity = this;
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -107,6 +111,10 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.content_main, fragment);
         fragmentTransaction.commit();
 //        navigationView.getMenu().getItem(0).setChecked(true);
+    }
+
+    public static MainActivity getInstance(){
+        return   mainActivity;
     }
 
     @Override
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void syncUpdatesToServer(final boolean isToSyncToServer) {
+    public void syncUpdatesToServer(final boolean isToSyncToServer) {
 
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
@@ -172,6 +180,18 @@ public class MainActivity extends AppCompatActivity
                     deviceDataDTO.setStatusDescription(docket.getStatusDescription());
                     deviceDataDTO.setIsQualityCheckCleared(docket.getIsQcCheckCleared());
                     deviceDataDTOList.add(deviceDataDTO);
+                }
+            }
+            File backupZip = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/backup.zip");
+            if(backupZip.exists()){
+                backupZip.delete();
+            }
+            File backupFolder = new File(Environment.getExternalStorageDirectory() + "/Field Pickup/backup");
+            if(backupFolder.exists()){
+                String[]entries = backupFolder.list();
+                for(String s: entries){
+                    File currentFile = new File(backupFolder.getPath(),s);
+                    currentFile.delete();
                 }
             }
 
