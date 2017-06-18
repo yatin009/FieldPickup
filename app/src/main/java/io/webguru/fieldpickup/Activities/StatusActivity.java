@@ -24,6 +24,7 @@ import io.webguru.fieldpickup.Database.DocketDataSource;
 import io.webguru.fieldpickup.Database.FieldDataDataSource;
 import io.webguru.fieldpickup.POJO.Docket;
 import io.webguru.fieldpickup.POJO.FieldData;
+import io.webguru.fieldpickup.POJO.Product;
 import io.webguru.fieldpickup.R;
 
 /**
@@ -162,6 +163,11 @@ public class StatusActivity extends AppCompatActivity implements AdapterView.OnI
             try {
                 docketDataSource = new DocketDataSource(this);
                 docketDataSource.open();
+                if(status.equals("Customer Not Available") || status.equals("NA") || status.equals("Cancelled") || status.equals("Rescheduled")){
+                    for(Product product : docket.getProducts()){
+                        product.setRemarks(remarks.getText().toString());
+                    }
+                }
                 docket.setStatus(status);
                 docket.setStatusDescription(statusDescription);
                 docket.setIsPending(0);
